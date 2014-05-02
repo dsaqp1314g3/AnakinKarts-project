@@ -1,4 +1,4 @@
-package edu.upc.eetac.dsa.dsaqp1314.AnakinKarts.api.model;
+package edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model;
 
 public class Factura {
 	String organizador=null;
