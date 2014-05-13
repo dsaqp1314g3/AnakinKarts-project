@@ -1,13 +1,16 @@
 package edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model;
 
+import java.util.List;
+
 public class Evento {
 	
 	int eventoid=0;
 	int numpersonas=0;
 	String fecha=null;
-	String pista=null;
+	int pista=0;
 	int mejorvuelta=0;
 	String ganador=null;
+	List<String> jugadores=null;
 	
 	
 
@@ -23,10 +26,10 @@ public class Evento {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	public String getPista() {
+	public int getPista() {
 		return pista;
 	}
-	public void setPista(String pista) {
+	public void setPista(int pista) {
 		this.pista = pista;
 	}
 	public int getEventoid() {
@@ -47,6 +50,15 @@ public class Evento {
 	public void setGanador(String ganador) {
 		this.ganador = ganador;
 	}
-
+	public List<String> getJugadores() {
+		return jugadores;
+	}
+	public void setJugadores(List<String> jugadores) {
+		this.jugadores = jugadores;
+	}
+	public void addJugadores(String jugador){
+		jugadores.add(jugador);
+	}
+	
 
 }
