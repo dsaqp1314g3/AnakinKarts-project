@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -78,7 +79,25 @@ public class EventoResource {
 		
 		Evento evento=getEventoFromDatabase(eventoid);
 		
-		return null;
+		//Creamos un String para poder hascerleuna funcion de hash
+		String funcion= evento.getEventoid()+evento.getFecha();
+		
+		// Calculate the ETag on last modified date of user resource
+		EntityTag eTag = new EntityTag(Long.toString(funcion.hashCode()));
+		
+		//Comparamos el eTag creado con el que viene de la peticiOn HTTP
+		Response.ResponseBuilder rb = request.evaluatePreconditions(eTag);// comparamos
+				
+		System.out.println("Ya hemos hecho el eTag");
+		if (rb != null) {// Si el resultado no es nulo, significa que no ha sido modificado el contenido ( o es la 1º vez )
+				return rb.cacheControl(cc).tag(eTag).build();
+		}
+		
+		// Si es nulo construimos la respuesta de cero.
+		rb = Response.ok(evento).cacheControl(cc).tag(eTag);
+		System.out.println("Ya hemos hmirado el cache2");
+				
+		return rb.build();
 	}
 
 	private Evento getEventoFromDatabase(String eventoid) {
