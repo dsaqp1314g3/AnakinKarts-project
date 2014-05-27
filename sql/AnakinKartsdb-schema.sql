@@ -4,6 +4,7 @@ create database anakinkartsdb;
 use anakinkartsdb;
 
 create table users (
+	userpass varchar(20) not null,
 	email	varchar(40) not null ,
 	username varchar(40) not null primary key,
 	name	varchar(20) not null,
