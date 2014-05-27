@@ -1,6 +1,9 @@
 package edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class Evento {
 	
@@ -10,7 +13,7 @@ public class Evento {
 	int pista=0;
 	int mejorvuelta=0;
 	String ganador=null;
-	List<String> jugadores=null;
+	List<String> jugadores=new ArrayList<String>();
 	
 	
 

@@ -11,7 +11,7 @@
         </init-param>
         <init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api</param-value>
+			<param-value>edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.AnakinKartsApplication</param-value>
 		</init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -89,25 +89,6 @@
 	</web-resource-collection>
 </security-constraint>
 
-<security-constraint>
-	<web-resource-collection>
-		<web-resource-name>Eventos</web-resource-name>
-			<url-pattern>/events/*</url-pattern>			
-				<http-method>POST</http-method>
-				<http-method>PUT</http-method>
-				<http-method>DELETE</http-method>
-	</web-resource-collection>
-		<auth-constraint>
-			<role-name>registered</role-name>
-		</auth-constraint>
-</security-constraint>
 
-<security-constraint>
-	<web-resource-collection>
-		<web-resource-name>Eventos</web-resource-name>
-		<url-pattern>/events/*</url-pattern>
-		<http-method>GET</http-method>		
-	</web-resource-collection> 
-</security-constraint>
     
 </web-app>

@@ -3,5 +3,17 @@
     	<Resource name="jdbc/anakinkartsdb" auth="Container" type="javax.sql.DataSource"
 		maxActive="10" maxIdle="5" username="root" password="root"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/beeterdb?autoReconnect=true" />
+		url="jdbc:mysql://localhost:3306/anakinkartsdb?autoReconnect=true" />
+    	
+    	
+    	<Resource name="jdbc/realmdb" auth="Container" type="javax.sql.DataSource"
+		maxActive="10" maxIdle="5" username="realm" password="realm"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/realmdb?autoReconnect=true" />
+ 
+		
+		<Realm className="org.apache.catalina.realm.DataSourceRealm"
+		dataSourceName="jdbc/realmdb" localDataSource="true" digest="MD5"
+		userTable="users" userNameCol="username" userCredCol="userpass"
+		userRoleTable="user_roles" roleNameCol="rolename" />
 </Context>

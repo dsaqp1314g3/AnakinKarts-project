@@ -43,6 +43,7 @@ create table relacion (
     
 username varchar(40) not null,
 eventoid int,
+statinv varchar(20) not null,
 
 	foreign key(username) references users(username), 
 	foreign key(eventoid) references evento(eventoid) 

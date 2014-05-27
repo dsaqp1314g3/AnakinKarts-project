@@ -27,6 +27,7 @@ import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
 
 @Path("/events")
 public class EventoResource {
+	
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 	@Context
 	private SecurityContext security;// Variable
@@ -74,16 +75,21 @@ public class EventoResource {
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO)
 	public Response getEvento (@PathParam("eventoid") String eventoid, @Context Request request){
 		
+		System.out.println("Estamos dentro del metodo getEvento");
+		
 		// Create CacheControl
 		CacheControl cc = new CacheControl();	
 		
 		Evento evento=getEventoFromDatabase(eventoid);
+		System.out.println("Evento recogido");
 		
 		//Creamos un String para poder hascerleuna funcion de hash
 		String funcion= evento.getEventoid()+evento.getFecha();
+		System.out.println("String cogido");
 		
 		// Calculate the ETag on last modified date of user resource
 		EntityTag eTag = new EntityTag(Long.toString(funcion.hashCode()));
+		System.out.println("Hash creado");
 		
 		//Comparamos el eTag creado con el que viene de la peticiOn HTTP
 		Response.ResponseBuilder rb = request.evaluatePreconditions(eTag);// comparamos
@@ -92,7 +98,7 @@ public class EventoResource {
 		if (rb != null) {// Si el resultado no es nulo, significa que no ha sido modificado el contenido ( o es la 1º vez )
 				return rb.cacheControl(cc).tag(eTag).build();
 		}
-		
+				
 		// Si es nulo construimos la respuesta de cero.
 		rb = Response.ok(evento).cacheControl(cc).tag(eTag);
 		System.out.println("Ya hemos hmirado el cache2");
@@ -102,6 +108,7 @@ public class EventoResource {
 
 	private Evento getEventoFromDatabase(String eventoid) {
 		
+		System.out.println("Dentro del getEvenoFromDataBase");
 		Evento evento=new Evento();
 		
 		Connection conn = null;
@@ -112,26 +119,48 @@ public class EventoResource {
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
 		
+		System.out.println("Connexion Base Datos establecida");
 		PreparedStatement stmt = null;
-		
+		PreparedStatement stmt2 = null;
 		try{
 			
+			//stmt= conn.prepareStatement(buildGetOnlyEvent());
 			stmt= conn.prepareStatement(buildGetEventogByIdQuery());
+			System.out.println("Query escrita");
 			stmt.setInt(1,Integer.valueOf(eventoid));
+			System.out.println("Query completa: "+stmt);
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()){
+			System.out.println("Query ejecutada");
+			if(rs.next()){
+				System.out.println("Cogiendo datos");
 				evento.setEventoid(rs.getInt("eventoid"));
 				evento.setNumpersonas(rs.getInt("participantes"));
 				evento.setFecha(rs.getString("fecha"));
 				evento.setPista(rs.getInt("pista"));
 				evento.setGanador(rs.getString("ganador"));
 				evento.setMejorvuelta(rs.getInt("mejorvuelta"));
+				System.out.println("Evento cogido");
 				while(rs.next()){
+					System.out.println("Mirando jugadores");
 					User user= new User();				
 					user.setUsername(rs.getString("username"));
+					System.out.println("Jugador visto: "+user.getUsername());
 					evento.addJugadores(user.getUsername());
+					System.out.println("Jugador metido");
 				}
 			}
+			/*stmt2= conn.prepareStatement(buildGetOnlyPlayers());
+			System.out.println("Query escrita");
+			stmt2.setInt(1,Integer.valueOf(eventoid));
+			System.out.println("Query completa: "+stmt);
+			ResultSet rs2 = stmt2.executeQuery();
+			System.out.println("Query ejecutada");
+			while(rs2.next()){
+				String username=rs.getString("username");
+				evento.addJugadores(username);
+				System.out.println("Jugador metido en el evento");
+			}
+			*/
 			
 		}catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
@@ -146,6 +175,15 @@ public class EventoResource {
 		}
 		return evento;
 	}
+
+	/*private String buildGetOnlyPlayers() {
+		return "select * from relacion where eventoid = ? ;";
+	}
+
+	private String buildGetOnlyEvent() {
+		return "select * from evento where eventoid = ? ;";
+	}*/
+	
 
 	private String buildGetEventogByIdQuery() {
 		
