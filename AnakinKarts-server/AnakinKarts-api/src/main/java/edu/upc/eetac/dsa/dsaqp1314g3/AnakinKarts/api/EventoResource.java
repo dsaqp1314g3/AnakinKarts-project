@@ -44,7 +44,7 @@ public class EventoResource {
 			throw new ServerErrorException("Could not connect to the database",
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
-		
+		System.out.println("conectados a la base de datos");
 		PreparedStatement stmt=null;
 		try{
 			stmt=conn.prepareStatement(builGetEventsQuery());
