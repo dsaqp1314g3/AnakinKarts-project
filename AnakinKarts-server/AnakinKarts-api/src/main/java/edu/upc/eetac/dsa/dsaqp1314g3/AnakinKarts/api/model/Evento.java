@@ -3,8 +3,6 @@ package edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class Evento {
 	
 	int eventoid=0;

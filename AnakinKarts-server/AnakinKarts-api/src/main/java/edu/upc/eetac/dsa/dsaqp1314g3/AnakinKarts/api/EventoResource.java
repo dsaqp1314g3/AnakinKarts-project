@@ -34,44 +34,6 @@ public class EventoResource {
 	@Context
 	private SecurityContext security;// Variable
 	
-	@GET//INCOMPLETA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
-	public EventoCollection getEventos(){//SIN PAGINAR
-		EventoCollection eventos= new EventoCollection();
-		
-		Connection conn = null;
-		try {
-			conn = ds.getConnection();// Conectamos con la base de datos
-		} catch (SQLException e) {
-			throw new ServerErrorException("Could not connect to the database",
-					Response.Status.SERVICE_UNAVAILABLE);
-		}
-		
-		PreparedStatement stmt=null;
-		try{
-			stmt=conn.prepareStatement(builGetEventsQuery());
-			
-			
-		}catch (SQLException e) {
-			throw new ServerErrorException(e.getMessage(),
-					Response.Status.INTERNAL_SERVER_ERROR);
-		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-				conn.close();
-			} catch (SQLException e) {
-			}
-		}
-		
-		return eventos;
-	}
-
-	private String builGetEventsQuery() {
-		
-		return null;
-	}
-	
 	@GET//Finalizado
 	@Path("/{eventoid}")
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO)

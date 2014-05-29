@@ -16,7 +16,7 @@ public class DataSourceUsers {
 			try {
 				envContext = new InitialContext();
 				Context initContext = (Context) envContext.lookup("java:/comp/env");
-				dataSource = (DataSource) initContext.lookup("jdbc/realmdb");//Cambiar el nobre de la base de datos, por la nuestra. Añadirlo en el src->main->webapp-META-INF->context
+				dataSource = (DataSource) initContext.lookup("jdbc/anakinkartsdb");//Cambiar el nobre de la base de datos, por la nuestra. Añadirlo en el src->main->webapp-META-INF->context
 			} catch (NamingException e1) {
 				e1.printStackTrace();
 			}

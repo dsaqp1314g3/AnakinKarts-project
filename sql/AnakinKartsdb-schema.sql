@@ -4,6 +4,7 @@ create database anakinkartsdb;
 use anakinkartsdb;
 
 create table users (
+	userpass varchar(20) not null,
 	email	varchar(40) not null ,
 	username varchar(40) not null primary key,
 	name	varchar(20) not null,
@@ -43,9 +44,7 @@ create table relacion (
     
 username varchar(40) not null,
 eventoid int,
-statinv varchar(20) not null,
-
-	foreign key(username) references users(username), 
-	foreign key(eventoid) references evento(eventoid) 
+foreign key(username) references users(username), 
+foreign key(eventoid) references evento(eventoid) 
 );
 
