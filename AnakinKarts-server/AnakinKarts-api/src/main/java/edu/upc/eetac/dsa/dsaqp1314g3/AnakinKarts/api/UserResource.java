@@ -4,77 +4,39 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-<<<<<<< HEAD
-=======
 import java.sql.Statement;
->>>>>>> refs/remotes/origin/master
 
 import javax.sql.DataSource;
-<<<<<<< HEAD
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
-=======
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.GET;
->>>>>>> refs/remotes/origin/master
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-<<<<<<< HEAD
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.ServerErrorException;
-=======
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.ServerErrorException;
-import javax.ws.rs.core.CacheControl;
->>>>>>> refs/remotes/origin/master
 import javax.ws.rs.core.Context;
-<<<<<<< HEAD
-=======
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.Request;
->>>>>>> refs/remotes/origin/master
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-
-import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.*;
-=======
-import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
-import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Evento;
-import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollection;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
-import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.UserCollection;
-import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.DataSourceUsers;
->>>>>>> refs/remotes/origin/master
 
 @Path("/users")
 public class UserResource {
-	
-private DataSource ds = DataSourceSPA.getInstance().getDataSource();
-	
+
+	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
+
 	@Context
 	private SecurityContext security;// Variable
-	//sqluser login
-	//@Consumes(MediaType.ANAKINKARTS_API_USER)
+
+	// sqluser login
+	// @Consumes(MediaType.ANAKINKARTS_API_USER)
 	@GET
-	@Path ("/login")
-	public User Login (@QueryParam ("user") String user, @QueryParam ("pass") String pass){
-		
-		
+	@Path("/login")
+	public User Login(@QueryParam("user") String user,
+			@QueryParam("pass") String pass) {
+
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();// Conectamos con la base de datos
@@ -84,40 +46,32 @@ private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 		}
 
 		PreparedStatement stmt = null;
-		
+
 		try {
 			stmt = conn.prepareStatement(buildLoginQuery());
 			stmt.setString(1, user);
 			stmt.setString(2, pass);
 			ResultSet rs = stmt.executeQuery();
 			boolean confirm = false;
-			
+
 			if (rs.next()) {
-				
+
 				User usuario = new User();
-				//not necessary(?)
+				// not necessary(?)
 				usuario.setUsername(rs.getString("username"));
 				usuario.setUserpass(rs.getString("userpass"));
 				String username = usuario.getUsername();
 				String userpass = usuario.getUserpass();
-				if (user == username && pass == userpass)
-				{
-				
-				confirm = true;
+				if (user == username && pass == userpass) {
+
+					confirm = true;
 				}
-				
-			
-				
+
 			} else {
 				throw new NotFoundException("you are not registered");
 			}
-			
-			
-			
-			
 
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
 					Response.Status.INTERNAL_SERVER_ERROR);
 		} finally {
@@ -131,42 +85,36 @@ private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 
 		return null;
 	}
-		private String buildLoginQuery()
-		{
-			return "select username, userpass from users where username = ? and userpass = ?";
-		}
-		
-	}
-	
 
-	
-	
+	private String buildLoginQuery() {
+		return "select username, userpass from users where username = ? and userpass = ?";
+	}
 
 	@POST
 	@Path("/register")
 	@Consumes(MediaType.ANAKINKARTS_API_USER)
 	@Produces(MediaType.ANAKINKARTS_API_USER)
 	public User createUser(User user) {
-		
+
 		System.out.println("hemos llegado aquiiiiiiiiiiiii");
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
 		} catch (SQLException e) {
 			System.out.println(e);
-			throw new ServerErrorException("Could not connect to the database" + e,
-					Response.Status.SERVICE_UNAVAILABLE);
+			throw new ServerErrorException("Could not connect to the database"
+					+ e, Response.Status.SERVICE_UNAVAILABLE);
 		}
 		System.out.println("hemos llegado aqui1");
 		PreparedStatement stmt = null;
 
-		try{
-			String sql= buildInsertUser();
-			stmt=conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+		try {
+			String sql = buildInsertUser();
+			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, user.getName());
 			stmt.setString(2, user.getUsername());
-			//stmt.setString(3, user.getUserpass());
+			// stmt.setString(3, user.getUserpass());
 			stmt.setString(3, user.getEmail());
 			stmt.setInt(4, user.getNphone());
 			stmt.setString(5, user.getCiudad());
@@ -176,16 +124,14 @@ private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 			stmt.setInt(9, user.getPiso());
 			stmt.setInt(10, user.getNumpuerta());
 			System.out.println("hemos llegado aqui");
-			
 
 			stmt.executeUpdate();
 			ResultSet rs = stmt.getGeneratedKeys();
 			if (rs.next()) {
-				
+
 			} else {
 				throw new BadRequestException("Can't create a User");
 			}
-
 
 		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
@@ -206,11 +152,5 @@ private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 	private String buildInsertUser() {
 		return "insert into users (email,username,name,phone,ciudad,calle,numero,piso,puerta,cp ) values(?,?,?,?,?,?,?,?,?,?); ";
 	}
-		
-	
-	
-	
-	
-			
-}
 
+}
