@@ -35,6 +35,7 @@ public class EventoResource {
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
 	public EventoCollection getEventos(){//SIN PAGINAR
 		EventoCollection eventos= new EventoCollection();
+		System.out.println("hemos llegado aquiiiiiiiiiiiii");
 		
 		Connection conn = null;
 		try {
@@ -102,6 +103,8 @@ public class EventoResource {
 
 	private Evento getEventoFromDatabase(String eventoid) {
 		
+		System.out.println("hemos llegado aquiiiiiiiiiiiii");
+		
 		Evento evento=new Evento();
 		
 		Connection conn = null;
@@ -111,7 +114,7 @@ public class EventoResource {
 			throw new ServerErrorException("Could not connect to the database",
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
-		
+		System.out.println("Ya hemos hmirado el cache2");
 		PreparedStatement stmt = null;
 		
 		try{
