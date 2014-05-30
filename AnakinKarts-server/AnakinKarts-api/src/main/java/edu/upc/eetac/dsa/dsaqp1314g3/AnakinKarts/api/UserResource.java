@@ -4,18 +4,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.sql.DataSource;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import com.mysql.jdbc.Statement;
 
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 
@@ -73,13 +80,18 @@ public class UserResource {
 			stmt.setString(1, user.getEmail());
 			stmt.setString(2, user.getName());
 			stmt.setInt(3, phone);
-			stmt.setString(4, user.getCiudad());
-			stmt.setString(5, user.getCalle());
-			stmt.setInt(6, portal);
-			stmt.setInt(7, piso);
-			stmt.setInt(8, puerta);
-			stmt.setInt(9, cp);
-			stmt.setString(10, username);
+			stmt.setInt(4, phone);
+			stmt.setString(5, user.getCiudad());
+			stmt.setString(6, user.getCalle());
+			stmt.setInt(7, portal);
+			stmt.setInt(8, portal);
+			stmt.setInt(9, piso);
+			stmt.setInt(10, piso);
+			stmt.setInt(11, puerta);
+			stmt.setInt(12, puerta);
+			stmt.setInt(13, cp);
+			stmt.setInt(14, cp);
+			stmt.setString(15, username);
 			//stmt.setString(10, security.getUserPrincipal().getName());
 			System.out.println("Query completa");
 			int row = stmt.executeUpdate();
@@ -155,18 +167,9 @@ public class UserResource {
 	}
 
 	private String buildUpdateUser() {
-		return "update users set email=ifnull(?, email), name=ifnull(?, name), phone=ifnull(?, phone), ciudad=ifnull(?, ciudad), calle=ifnull(?, calle), numero=ifnull(?, numero), piso=ifnull(?, piso), puerta=ifnull(?, puerta), cp=ifnull(?, cp) where username=?;";
+		return "update users set email=ifnull(?, email), name=ifnull(?, name), phone=if(?<>0, ?, phone), ciudad=ifnull(?, ciudad), calle=ifnull(?, calle), numero=if(?<>0, ?, numero), piso=if(?<>0, ?, piso), puerta=if(?<>0, ?, puerta), cp=if(?<>0, ?, cp) where username=?;";
+	}
 
-@Path("/users")
-public class UserResource {
-
-	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
-
-	@Context
-	private SecurityContext security;// Variable
-
-	// sqluser login
-	// @Consumes(MediaType.ANAKINKARTS_API_USER)
 	@GET
 	@Path("/login")
 	public User Login(@QueryParam("user") String user,
@@ -253,7 +256,7 @@ public class UserResource {
 			stmt.setString(3, user.getEmail());
 			stmt.setInt(4, user.getNphone());
 			stmt.setString(5, user.getCiudad());
-			stmt.setString(6, user.getCp());
+			stmt.setInt(6, user.getCp());
 			stmt.setString(7, user.getCalle());
 			stmt.setInt(8, user.getNumportal());
 			stmt.setInt(9, user.getPiso());

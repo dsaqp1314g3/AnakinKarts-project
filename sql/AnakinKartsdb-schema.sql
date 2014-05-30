@@ -21,11 +21,13 @@ create table users (
 
 create table evento (
 	eventoid int not null auto_increment primary key,
+	organizador varchar(40) not null,
 	participantes int not null,
 	fecha DATE not null,
 	pista int,
 	ganador varchar(40) not null,
 	mejorvuelta int,
+	privacidad varchar(40),
 	fotos 	varchar(200),
 	foreign key(ganador) references users(username) 
 	
@@ -44,6 +46,7 @@ create table relacion (
     
 username varchar(40) not null,
 eventoid int,
+invitacion varchar(20),
 foreign key(username) references users(username), 
 foreign key(eventoid) references evento(eventoid) 
 );
