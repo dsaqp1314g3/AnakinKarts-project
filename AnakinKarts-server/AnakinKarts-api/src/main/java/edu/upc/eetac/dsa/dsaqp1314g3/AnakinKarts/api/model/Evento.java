@@ -10,9 +10,9 @@ public class Evento {
 	String fecha=null;
 	int pista=0;
 	int mejorvuelta=0;
+	String organizador=null;
 	String ganador=null;
 	List<String> jugadores=new ArrayList<String>();
-	
 	
 
 	public int getNumpersonas() {
@@ -60,6 +60,15 @@ public class Evento {
 	public void addJugadores(String jugador){
 		jugadores.add(jugador);
 	}
+	public String getOrganizador() {
+		return organizador;
+	}
+	public void setOrganizador(String organizador) {
+		this.organizador = organizador;
+	}
+
 	
+	
+
 
 }

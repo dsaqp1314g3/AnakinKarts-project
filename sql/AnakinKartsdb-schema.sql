@@ -27,7 +27,7 @@ create table evento (
 	pista int,
 	ganador varchar(40) not null,
 	mejorvuelta int,
-	privacidad varchar(40),
+	privacidad varchar(40) not null,
 	fotos 	varchar(200),
 	foreign key(ganador) references users(username) 
 	

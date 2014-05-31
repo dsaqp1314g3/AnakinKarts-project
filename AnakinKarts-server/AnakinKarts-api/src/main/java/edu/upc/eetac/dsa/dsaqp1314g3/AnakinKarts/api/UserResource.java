@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -59,18 +60,6 @@ public class UserResource {
 		
 		System.out.println("BD establecida");
 		PreparedStatement stmt = null;
-		//Pasamos a integer para poder decir que es null
-		Integer phone = pasarInteger(user.getNphone());
-		System.out.println("Phone-> Int: "+user.getNphone()+" Integer: "+ phone);
-		Integer portal = pasarInteger(user.getNumportal());
-		System.out.println("Portal-> Int: "+user.getNumportal()+" Integer: "+ portal);
-		Integer piso = pasarInteger(user.getPiso());
-		System.out.println("Piso-> Int: "+user.getPiso()+" Integer: "+ piso);
-		Integer puerta = pasarInteger(user.getNumpuerta());
-		System.out.println("Puerta-> Int: "+user.getNumpuerta()+" Integer: "+ puerta);
-		Integer cp = pasarInteger(user.getCp());
-		System.out.println("CP-> Int: "+user.getCp()+" Integer: "+ cp);
-		
 		
 		try{
 			String sql = buildUpdateUser();
@@ -79,18 +68,18 @@ public class UserResource {
 			System.out.println("Query cargada");
 			stmt.setString(1, user.getEmail());
 			stmt.setString(2, user.getName());
-			stmt.setInt(3, phone);
-			stmt.setInt(4, phone);
+			stmt.setInt(3, user.getNphone());
+			stmt.setInt(4, user.getNphone());
 			stmt.setString(5, user.getCiudad());
 			stmt.setString(6, user.getCalle());
-			stmt.setInt(7, portal);
-			stmt.setInt(8, portal);
-			stmt.setInt(9, piso);
-			stmt.setInt(10, piso);
-			stmt.setInt(11, puerta);
-			stmt.setInt(12, puerta);
-			stmt.setInt(13, cp);
-			stmt.setInt(14, cp);
+			stmt.setInt(7, user.getNumportal());
+			stmt.setInt(8, user.getNumportal());
+			stmt.setInt(9, user.getPiso());
+			stmt.setInt(10, user.getPiso());
+			stmt.setInt(11, user.getNumpuerta());
+			stmt.setInt(12, user.getNumpuerta());
+			stmt.setInt(13,user.getCp());
+			stmt.setInt(14, user.getCp());
 			stmt.setString(15, username);
 			//stmt.setString(10, security.getUserPrincipal().getName());
 			System.out.println("Query completa");
@@ -290,5 +279,57 @@ public class UserResource {
 	private String buildInsertUser() {
 		return "insert into users (email,username,name,phone,ciudad,calle,numero,piso,puerta,cp ) values(?,?,?,?,?,?,?,?,?,?); ";
 	}
+	
+	@DELETE
+	@Path("/{username}")
+	public void deleteUser(@PathParam("username") String username){
+		System.out.println("Dentro del deleteUser");
+		
+		//Hasta que se solucione lo de la seguridad
+		
+		/*if (!security.isUserInRole("admin") || !security.getUserPrincipal().getName()
+				.equals(username))
+			throw new ForbiddenException("You are not allowed to delete a user");*/
+		
+		Connection conn = null;
+		
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		
+		PreparedStatement stmt = null;
+		
+		try{
+			stmt= conn.prepareStatement(buildDeleteUser());
+			stmt.setString(1, username);
+			
+			int rows = stmt.executeUpdate();
+			if (rows == 0)
+				throw new NotFoundException("There's no user with username ="
+						+ username);
+			
+			
+			
+		}catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		
+	}
+
+	private String buildDeleteUser() {
+		return "delete from users where username=?;";
+	}
+	
 
 }

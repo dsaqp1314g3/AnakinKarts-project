@@ -13,6 +13,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
@@ -27,13 +28,116 @@ import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollection;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
 
+
 @Path("/events")
+@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
 public class EventoResource {
 	
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 	@Context
 	private SecurityContext security;// Variable
 	
+	
+	@GET
+	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
+	public EventoCollection getEventosPub (@QueryParam("length") int length, @QueryParam("after") int after){
+		
+		System.out.println("Dentro de getEventosub");
+		EventoCollection eventos = new EventoCollection();
+		
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();// Conectamos con la base de datos
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		System.out.println("BD establecida");
+		
+		PreparedStatement stmt = null;
+		try{
+			boolean updateFromLast= after >0;
+			stmt = conn.prepareStatement(buildGetEventsQuery(updateFromLast));
+			if (updateFromLast) {
+				if (length == 0) {
+					stmt.setInt(1, after);
+					stmt.setInt(2, 3);
+				} else {
+					stmt.setInt(1, after);
+					stmt.setInt(2, length);
+				}
+			} else {
+
+				if (length == 0)
+					stmt.setInt(1, 3);
+				else
+					stmt.setInt(1, length);
+			}
+			
+			System.out.println("La query es: "+ stmt);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				System.out.println("Evento cogido");
+				Evento evento = new Evento();
+				
+				evento.setEventoid(rs.getInt("eventoid"));
+				evento.setFecha(rs.getString("fecha"));
+				evento.setGanador(rs.getString("ganador"));
+				evento.setMejorvuelta(rs.getInt("mejorvuelta"));
+				evento.setNumpersonas(rs.getInt("participantes"));
+				evento.setOrganizador(rs.getString("organizador"));
+				evento.setPista(rs.getInt("pista"));
+				
+				System.out.println("Evento cogido todo");
+				
+				//Nos encargamos de ahora de los jugadores 
+				PreparedStatement stmtr = null;
+				stmtr = conn.prepareStatement(buildGetPlayersFromEvent());
+				stmtr.setInt(1, evento.getEventoid());
+				
+				ResultSet rsr = stmtr.executeQuery();
+				
+				while(rsr.next()){
+					System.out.println("Jugador recogido");
+					evento.addJugadores(rsr.getString("username"));
+					System.out.println("jugador añadido");
+				}
+				
+				eventos.addEvento(evento);
+				System.out.println("evento añadido");
+			}
+			
+			
+		}catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		
+		
+		return eventos;
+	}
+	
+	
+	private String buildGetPlayersFromEvent() {
+		return "SELECT username FROM relacion WHERE eventoid=? AND invitacion='aceptada';";
+	}
+
+
+	private String buildGetEventsQuery(boolean updateFromLast) {
+	if(updateFromLast)	
+		return "SELECT * FROM evento  WHERE privacidad='publico' AND eventoid > ?limit ?;";
+	else
+		return "SELECT * FROM evento  WHERE privacidad='publico' limit ?;";
+	}
+
+
 	@GET//Finalizado
 	@Path("/{eventoid}")
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO)
@@ -177,4 +281,7 @@ public class EventoResource {
 	private String buildDeleteEvento() {
 		return "delete from evento where eventoid=?";
 	}
+	
+	
+	
 }
