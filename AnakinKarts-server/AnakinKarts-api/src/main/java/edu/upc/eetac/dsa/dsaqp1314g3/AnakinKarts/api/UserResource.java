@@ -9,9 +9,11 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -101,7 +103,7 @@ public class UserResource {
 
 	
 	
-	
+	//Faltaría mirar si hay parametros obligatorios y opcionales
 	@POST
 	@Path("/register")
 	@Consumes(MediaType.ANAKINKARTS_API_USER)
@@ -171,6 +173,13 @@ public class UserResource {
 		return "insert into users (userpass, email, username, name, phone, ciudad, calle, numero, piso, puerta, cp ) value (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 		
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
