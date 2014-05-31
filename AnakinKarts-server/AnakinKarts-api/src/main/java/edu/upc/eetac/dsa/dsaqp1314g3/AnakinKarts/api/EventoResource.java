@@ -4,10 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.sql.DataSource;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -155,6 +161,79 @@ public class EventoResource {
 		return "select e.*,r.username from evento e, relacion r where r.eventoid=e.eventoid and r.eventoid=?;" ;
 	}
 	
+	
+	
+
+	//Faltaría mirar si hay parametros obligatorios y opcionales
+		@POST
+		@Consumes(MediaType.ANAKINKARTS_API_EVENTO)
+		@Produces(MediaType.ANAKINKARTS_API_EVENTO)
+		public Evento createEvent(Evento evento) {
+
+		
+			
+			Connection conn = null;
+			try {
+				conn = ds.getConnection();
+			} catch (SQLException e) {
+				System.out.println(e);
+				throw new ServerErrorException("Could not connect to the database"
+						+ e, Response.Status.SERVICE_UNAVAILABLE);
+			}
+			System.out.println("conectados a la base de datos");
+			PreparedStatement stmt = null;
+
+			try {
+				
+				String sql = buildInsertEvent();
+				stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+				stmt.setInt(1, evento.getNumpersonas());
+				stmt.setString(2, evento.getFecha());
+				stmt.setInt(3, evento.getPista());
+				stmt.setString(4, evento.getGanador());
+				stmt.setInt(5, evento.getMejorvuelta());
+				
+				System.out.println("hemos llegado aqui");
+
+				stmt.executeUpdate();
+				
+				System.out.println("Miramos contestacion query jajaldjfla");
+				ResultSet rs = stmt.getGeneratedKeys();
+			
+			
+				
+				if (rs.next()) {
+					System.out.println("Evento creado correctamente");
+					
+				} else {
+					throw new BadRequestException("No se ha podido crear el evento");
+				}
+				
+				
+			} catch (SQLException e) {
+				throw new ServerErrorException(e.getMessage(),
+						Response.Status.INTERNAL_SERVER_ERROR);
+			} finally {
+				try {
+					if (stmt != null)
+						stmt.close();
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			return evento;
+
+		}
+
+		private String buildInsertEvent() {
+			System.out.println("insertamos");
+			return "insert into evento (participantes, fecha, pista, ganador, mejorvuelta ) values (?, ?, ?, ?, ?) ;";
+			
+		}
+		
+		
 	
 	
 }

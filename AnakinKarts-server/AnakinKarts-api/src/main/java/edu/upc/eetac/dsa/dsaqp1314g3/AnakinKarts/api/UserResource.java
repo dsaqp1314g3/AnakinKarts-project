@@ -176,6 +176,59 @@ public class UserResource {
 	
 	
 	
+
+	//Falta poner las restricciones de quien puede borrar
+	@DELETE
+	@Path("/{username}")
+	public void deleteUser(@PathParam("username") String username){
+
+		
+
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+
+		PreparedStatement stmt=null;
+
+		try{
+			String sql = buildDeleteUser();
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setString(1, username);
+
+			int rows = stmt.executeUpdate();
+
+			if (rows == 0) {
+				throw new NotFoundException("There's no user with username="
+						+ username);
+			}
+
+			
+
+
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+
+	}
+
+	private String buildDeleteUser() {
+		return "delete from users where username=?;";
+	}
+	
+	
 	
 	
 	
