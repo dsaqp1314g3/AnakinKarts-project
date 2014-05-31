@@ -15,20 +15,22 @@ create table users (
 	piso	int,
 	puerta 	int,
 	cp int
-	
+
 );
  
 
 create table evento (
 	eventoid int not null auto_increment primary key,
+	organizador varchar(40) not null,
 	participantes int not null,
 	fecha DATE not null,
 	pista int,
 	ganador varchar(40) not null,
 	mejorvuelta int,
+	privacidad varchar(40) not null,
 	fotos 	varchar(200),
 	foreign key(ganador) references users(username) 
-	
+
 );
 
 
@@ -44,8 +46,7 @@ create table relacion (
     
 username varchar(40) not null,
 eventoid int,
-
-	foreign key(username) references users(username), 
-	foreign key(eventoid) references evento(eventoid) 
+invitacion varchar(20),
+foreign key(username) references users(username), 
+foreign key(eventoid) references evento(eventoid) 
 );
-

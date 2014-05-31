@@ -8,7 +8,7 @@ public class User {
 	String email=null;
 	int nphone=0;
 	String ciudad=null;
-	String cp=null;
+	int cp=0;
 	String calle=null;
 	int numportal=0;
 	int piso=0;
@@ -52,10 +52,10 @@ public class User {
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
 	}
-	public String getCp() {
+	public int getCp() {
 		return cp;
 	}
-	public void setCp(String cp) {
+	public void setCp(int cp) {
 		this.cp = cp;
 	}
 	public String getCalle() {
