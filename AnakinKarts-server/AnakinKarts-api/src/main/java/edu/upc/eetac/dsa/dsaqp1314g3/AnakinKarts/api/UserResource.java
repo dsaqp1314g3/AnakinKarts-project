@@ -9,6 +9,7 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -56,19 +57,20 @@ public class UserResource {
 
 			if (rs.next()) {
 
-				User usuario = new User();
-				// not necessary(?)
-				usuario.setUsername(rs.getString("username"));
-				usuario.setUserpass(rs.getString("userpass"));
-				String username = usuario.getUsername();
-				String userpass = usuario.getUserpass();
-				if (user == username && pass == userpass) {
+//				User usuario = new User();
+//				// not necessary(?)
+//				usuario.setUsername(rs.getString("username"));
+//				usuario.setUserpass(rs.getString("userpass"));
+//				String username = usuario.getUsername();
+//				String userpass = usuario.getUserpass();
+//				if (user == username && pass == userpass) {
 
 					confirm = true;
+					System.out.println("autenticat");
 				}
 
-			} else {
-				throw new NotFoundException("you are not registered");
+			 else {
+				throw new ForbiddenException("you are not registered");
 			}
 
 		} catch (SQLException e) {

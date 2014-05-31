@@ -17,11 +17,11 @@
             android:layout_height="wrap_content"
            
             android:gravity="center_vertical"
-            android:text="@string/app_name"
+            android:text="REGISTRARSE"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
         <!-- Header ends -->
-        <!-- Login form -->
+        <!--register form -->
  
         <LinearLayout
             android:layout_width="fill_parent"
@@ -58,23 +58,31 @@
                 android:layout_marginTop="5dip"
                 android:inputType="textPassword"
                 android:singleLine="true" />
+            
+            <TextView
+                android:id="@+id/lEmail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Email" />
+ 
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:inputType="textEmailAddress"
+                android:singleLine="true" />
+            
  
             <Button
-                android:id="@+id/login"
+                android:id="@+id/register1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dip"
-                android:onClick="startHomeActivity"
-                android:text="LOG IN" />
-            
- 			   <Button
-                android:id="@+id/register"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dip"
-                android:onClick="startRegisterActivity"
-                android:text="REGISTER" />
-           
+                android:onClick="signIn"
+                android:text="REGISTRARSE" />
+ 
+          
         </LinearLayout>
     </RelativeLayout>
  
