@@ -15,7 +15,7 @@ create table users (
 	piso	int,
 	puerta 	int,
 	cp int
-	
+
 );
  
 
@@ -30,7 +30,7 @@ create table evento (
 	privacidad varchar(40) not null,
 	fotos 	varchar(200),
 	foreign key(ganador) references users(username) 
-	
+
 );
 
 
@@ -50,4 +50,3 @@ invitacion varchar(20),
 foreign key(username) references users(username), 
 foreign key(eventoid) references evento(eventoid) 
 );
-

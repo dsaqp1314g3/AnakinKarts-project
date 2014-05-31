@@ -10,6 +10,7 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.ForbiddenException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -19,13 +20,18 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.ServerErrorException;
+import javax.ws.rs.ServiceUnavailableException;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.EntityTag;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import com.mysql.jdbc.Statement;
 
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
+import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.UserCollection;
 
 @Path("/users")
 public class UserResource {
@@ -159,6 +165,7 @@ public class UserResource {
 		return "update users set email=ifnull(?, email), name=ifnull(?, name), phone=if(?<>0, ?, phone), ciudad=ifnull(?, ciudad), calle=ifnull(?, calle), numero=if(?<>0, ?, numero), piso=if(?<>0, ?, piso), puerta=if(?<>0, ?, puerta), cp=if(?<>0, ?, cp) where username=?;";
 	}
 
+
 	@GET
 	@Path("/login")
 	public User Login(@QueryParam("user") String user,
@@ -217,13 +224,16 @@ public class UserResource {
 		return "select username, userpass from users where username = ? and userpass = ?";
 	}
 
+	
+	
+	//Faltaría mirar si hay parametros obligatorios y opcionales
 	@POST
 	@Path("/register")
 	@Consumes(MediaType.ANAKINKARTS_API_USER)
 	@Produces(MediaType.ANAKINKARTS_API_USER)
 	public User createUser(User user) {
 
-		System.out.println("hemos llegado aquiiiiiiiiiiiii");
+
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -232,34 +242,41 @@ public class UserResource {
 			throw new ServerErrorException("Could not connect to the database"
 					+ e, Response.Status.SERVICE_UNAVAILABLE);
 		}
-		System.out.println("hemos llegado aqui1");
+		System.out.println("conectados a la base de datos");
 		PreparedStatement stmt = null;
 
 		try {
+			
 			String sql = buildInsertUser();
 			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, user.getName());
 			stmt.setString(2, user.getUsername());
-			// stmt.setString(3, user.getUserpass());
-			stmt.setString(3, user.getEmail());
-			stmt.setInt(4, user.getNphone());
-			stmt.setString(5, user.getCiudad());
-			stmt.setInt(6, user.getCp());
-			stmt.setString(7, user.getCalle());
-			stmt.setInt(8, user.getNumportal());
-			stmt.setInt(9, user.getPiso());
-			stmt.setInt(10, user.getNumpuerta());
+
+			stmt.setString(3, user.getUserpass());
+			stmt.setString(4, user.getEmail());
+			stmt.setInt(5, user.getNphone());
+			stmt.setString(6, user.getCiudad());
+			stmt.setInt(7, user.getCp());
+			stmt.setString(8, user.getCalle());
+			stmt.setInt(9, user.getNumportal());
+			stmt.setInt(10, user.getPiso());
+			stmt.setInt(11, user.getNumpuerta());
+
 			System.out.println("hemos llegado aqui");
 
 			stmt.executeUpdate();
+			System.out.println("Miramos contestacion query jajaldjfla");
 			ResultSet rs = stmt.getGeneratedKeys();
+		
 			if (rs.next()) {
-
+				System.out.println(" se ha podido crear el usuario");
+				
 			} else {
-				throw new BadRequestException("Can't create a User");
+				
+				System.out.println("No se ha podido crear el usuario");
 			}
-
+			
 		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
 					Response.Status.INTERNAL_SERVER_ERROR);
@@ -277,43 +294,49 @@ public class UserResource {
 	}
 
 	private String buildInsertUser() {
-		return "insert into users (email,username,name,phone,ciudad,calle,numero,piso,puerta,cp ) values(?,?,?,?,?,?,?,?,?,?); ";
+
+		
+		return "insert into users (userpass, email, username, name, phone, ciudad, calle, numero, piso, puerta, cp ) value (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+		
 	}
 	
+	
+	
+
+	//Falta poner las restricciones de quien puede borrar
 	@DELETE
 	@Path("/{username}")
 	public void deleteUser(@PathParam("username") String username){
-		System.out.println("Dentro del deleteUser");
+
 		
-		//Hasta que se solucione lo de la seguridad
-		
-		/*if (!security.isUserInRole("admin") || !security.getUserPrincipal().getName()
-				.equals(username))
-			throw new ForbiddenException("You are not allowed to delete a user");*/
-		
+
 		Connection conn = null;
-		
 		try {
 			conn = ds.getConnection();
 		} catch (SQLException e) {
 			throw new ServerErrorException("Could not connect to the database",
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
-		
-		PreparedStatement stmt = null;
-		
+
+		PreparedStatement stmt=null;
+
 		try{
-			stmt= conn.prepareStatement(buildDeleteUser());
+			String sql = buildDeleteUser();
+			stmt = conn.prepareStatement(sql);
+			
 			stmt.setString(1, username);
-			
+
 			int rows = stmt.executeUpdate();
-			if (rows == 0)
-				throw new NotFoundException("There's no user with username ="
+
+			if (rows == 0) {
+				throw new NotFoundException("There's no user with username="
 						+ username);
+			}
+
 			
-			
-			
-		}catch (SQLException e) {
+
+
+		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
 					Response.Status.INTERNAL_SERVER_ERROR);
 		} finally {
@@ -324,12 +347,25 @@ public class UserResource {
 			} catch (SQLException e) {
 			}
 		}
+
+
 		
 	}
 
 	private String buildDeleteUser() {
 		return "delete from users where username=?;";
 	}
-	
 
+	
+	
+	
+	
+	
+	
+	
+	
 }
+
+
+
+	
