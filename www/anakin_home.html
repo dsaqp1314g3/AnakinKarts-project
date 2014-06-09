@@ -50,15 +50,15 @@
 		<form class="form-horizontal " role="form">
 		
 		<div class = "row">
-		  <div class="form-group-right-side">
-				<label for="inputEmail3" class="col-xs-3 col-md-offset-7  control-label" href="#d9534f" >Email:</label>
-			<div class="col-xs-3 col-md-offset-10">
-			<input type="email" class="form-control input-sm" id="inputEmail3" placeholder="Enter Email">
+			<div class="form-group-right-side">
+				<label for="inputUsernamel3" class="col-xs-3 col-md-offset-7  control-label" href="#d9534f" >Username:</label>
+				<div class="col-xs-3 col-md-offset-10">
+					<input type="email" class="form-control input-sm" id="inputUsernamel3" placeholder="Enter Username">
+				</div>
 			</div>
-		  </div>
-		 </div>
-		 
-		  <div class = "row">
+		</div>
+
+		<div class = "row">
 		  
 		  <div class="form-group-right-side">
 				<label for="inputPassword3" class="col-xs-3 col-md-offset-7 control-label" href="#d9534f ">Password:</label>
@@ -67,23 +67,23 @@
             </div>
           </div>
 		 
-		  </div>
+		</div>
 		  
-		  <div class = "row">
-		  <div class="form-group-right-side">
-			<div class="col-md-2 col-md-offset-10">
-				<div class="checkbox">
-					<label> <input type="checkbox" href="#d9534f"> Remember me </label>
-				</div>
-			</div>
-			</div>
+		<div class = "row">
 			<div class="form-group-right-side">
-				<div class=" col-md-2 col-md-offset-12">
-				<button type="submit" class="btn btn-default input-sm" href="#d9534f">Sign in</button>
+				<div class="col-md-2 col-md-offset-10">
+					<div class="checkbox">
+						<label> <input type="checkbox" href="#d9534f"> Remember me </label>
+					</div>
+				</div>			
+				<div class=" col-md-2 col-md-offset-10">
+					<button type="submit" class="btn btn-default input-sm" id="button_signin" href="#d9534f">Sign in</button>
+					<button type="submit" class="btn btn-default input-sm" id="button_register" href="#d9534f">Register</button>
+				</div>
+
 			</div>
-			</div>
+		</div>
 			
-			</div>
 	  <a class="navbar-brand" href="#d9534f"> <h1>ANAKIN KARTS <h1> </a>
 	</div>
 	
@@ -100,13 +100,13 @@
           
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active" onclick = "location='anakin_home.html'"><a href="#">Home</a></li>
-			<li ><a href="#">Eventos</a></li>
-            <li><a href="#">Alquiler</a></li>
-            <li  onclick = "location='anakin_horarios.html'"><a href="#">Horarios y tarifas</a></li>
-            <li onclick = "location='anakin_contact.html'"><a href="#contact">Contacto</a></li>
-		   </ul>
+				<ul class="nav navbar-nav">
+					<li onclick = "location='anakin_home.html'" ><a href="#">Home</a></li>
+					<li  onclick = "location='anakin_eventos.html'"><a href="#">Eventos</a></li>			
+					<li><a href="#">Alquiler</a></li>
+					<li  onclick = "location='anakin_horarios.html'"><a href="#">Horarios y tarifas</a></li>
+					<li onclick = "location='anakin_contact.html'"><a href="#contact">Contacto</a></li>
+				</ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -127,5 +127,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+	      <!-- Event and AJAX functions -->
+      <script type="text/javascript" src="home.js"></script>
   </body>
 </html>

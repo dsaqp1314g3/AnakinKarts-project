@@ -5,13 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import javax.sql.DataSource;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
-
 import javax.sql.DataSource;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
@@ -264,12 +263,11 @@ public class EventoResource {
 			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setInt(1, evento.getNumpersonas());
-			stmt.setString(2, evento.getFecha());
+			stmt.setString(2,evento.getFecha());
 			stmt.setInt(3, evento.getPista());
-			stmt.setString(4, evento.getGanador());
-			stmt.setInt(5, evento.getMejorvuelta());
+			stmt.setString(4, evento.getOrganizador());
 
-			System.out.println("hemos llegado aqui");
+			System.out.println("hemos llegado aqui: stmt"+stmt);
 
 			stmt.executeUpdate();
 
@@ -301,7 +299,7 @@ public class EventoResource {
 
 	private String buildInsertEvent() {
 		System.out.println("insertamos");
-		return "insert into evento (participantes, fecha, pista, ganador, mejorvuelta ) values (?, ?, ?, ?, ?) ;";
+		return "insert into evento (participantes, fecha, pista, organizador, privacidad ) values (?, ?, ?, ?, 'privado') ;";
 
 	}
 

@@ -23,13 +23,13 @@ create table evento (
 	eventoid int not null auto_increment primary key,
 	organizador varchar(40) not null,
 	participantes int not null,
-	fecha DATE not null,
-	pista int,
-	ganador varchar(40) not null,
+	fecha varchar(40) not null,
+	pista int not null,
+	ganador varchar(40),
 	mejorvuelta int,
 	privacidad varchar(40) not null,
 	fotos 	varchar(200),
-	foreign key(ganador) references users(username) 
+	foreign key(organizador) references users(username) 
 
 );
 
