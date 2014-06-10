@@ -349,4 +349,11 @@ public class EventoResource {
 	private String buildDeleteEvento() {
 		return "delete from evento where eventoid=?";
 	}
+	
+	
+	
+	
+	
+	
+	
 }
