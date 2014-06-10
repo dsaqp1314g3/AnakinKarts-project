@@ -35,7 +35,8 @@ import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
 
 @Path("/events")
-@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
+
+
 public class EventoResource {
 
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
@@ -346,5 +347,88 @@ public class EventoResource {
 
 	private String buildDeleteEvento() {
 		return "delete from evento where eventoid=?";
+	}
+	
+	
+	@GET
+	@Path ("/{username}/priv")
+	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
+	public EventoCollection getEventospriv(@QueryParam ("username") String username, @QueryParam("length") int length,
+			@QueryParam("after") int after) {
+		
+	EventoCollection privados = new EventoCollection();
+
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();// Conectamos con la base de datos
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+
+		PreparedStatement stmt = null;
+
+		try {
+			boolean updateFromLast = after > 0;
+			System.out.println("1");
+			stmt = conn.prepareStatement(buildGetEventroprivQuery(updateFromLast));
+			System.out.println("2");
+			if (updateFromLast) {
+				if (length == 0) {
+					stmt.setInt(1, after);
+					stmt.setInt(2, 5);
+				} else {
+					stmt.setInt(1, after);
+					stmt.setInt(2, length);
+				}
+			} else {
+
+				if (length == 0)
+					stmt.setInt(1, 5);
+				else
+					stmt.setInt(1, length);
+			}
+
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("3");
+			while (rs.next()) {
+				Evento evento = new Evento();
+
+				evento.setEventoid(rs.getInt("eventoid"));
+				evento.setFecha(rs.getString("fecha"));
+				evento.setGanador(rs.getString("ganador"));
+				evento.setMejorvuelta(rs.getInt("mejorvuelta"));
+				evento.setNumpersonas(rs.getInt("participantes"));
+				evento.setOrganizador(rs.getString("organizador"));
+				evento.setPista(rs.getInt("pista"));
+
+				
+				privados.addEvento(evento);
+
+
+			}
+			
+			
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+
+		return privados;
+	}
+
+	private String buildGetEventroprivQuery(boolean updateFromLast) {
+		
+		if (updateFromLast)
+			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado'";
+		else
+			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado'";
 	}
 }

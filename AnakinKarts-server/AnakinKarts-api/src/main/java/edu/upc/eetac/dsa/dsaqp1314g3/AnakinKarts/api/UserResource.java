@@ -174,6 +174,8 @@ public class UserResource {
 
 	@GET
 	@Path("/login")
+	@Consumes (MediaType.ANAKINKARTS_API_USER)
+	@Produces (MediaType.ANAKINKARTS_API_USER)
 	public User Login(@QueryParam("user") String user,
 			@QueryParam("pass") String pass) {
 
@@ -186,7 +188,7 @@ public class UserResource {
 		}
 
 		PreparedStatement stmt = null;
-
+		User usuario = new User();
 		try {
 			stmt = conn.prepareStatement(buildLoginQuery());
 			stmt.setString(1, user);
@@ -198,14 +200,16 @@ public class UserResource {
 
 //				User usuario = new User();
 //				// not necessary(?)
-//				usuario.setUsername(rs.getString("username"));
-//				usuario.setUserpass(rs.getString("userpass"));
+				//System.out.println(rs.getString("username"));
+				usuario.setUsername(rs.getString("username"));
+				usuario.setUserpass(rs.getString("userpass"));
 //				String username = usuario.getUsername();
 //				String userpass = usuario.getUserpass();
 //				if (user == username && pass == userpass) {
 
 					confirm = true;
 					System.out.println("autenticat");
+				
 				}
 
 			 else {
@@ -224,7 +228,7 @@ public class UserResource {
 			}
 		}
 
-		return null;
+		return usuario;
 	}
 
 	private String buildLoginQuery() {
@@ -259,7 +263,6 @@ public class UserResource {
 
 			stmt.setString(1, user.getName());
 			stmt.setString(2, user.getUsername());
-
 			stmt.setString(3, user.getUserpass());
 			stmt.setString(4, user.getEmail());
 			stmt.setInt(5, user.getNphone());
@@ -303,7 +306,7 @@ public class UserResource {
 	private String buildInsertUser() {
 
 		
-		return "insert into users (userpass, email, username, name, phone, ciudad, calle, numero, piso, puerta, cp ) value (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+		return "insert into users (name, username, userpass, email,   phone, ciudad, cp, calle, numero, piso, puerta) value (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 		
 	}
 	

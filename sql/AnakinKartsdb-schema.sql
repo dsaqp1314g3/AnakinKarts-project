@@ -9,9 +9,9 @@ create table users (
 	username varchar(40) not null primary key,
 	name	varchar(20) not null,
 	phone	int,
-	ciudad	varchar(30) not null,
-	calle	varchar(70) not null,
-	numero	int not null,
+	ciudad	varchar(30),
+	calle	varchar(70),
+	numero	int,
 	piso	int,
 	puerta 	int,
 	cp int
@@ -49,4 +49,11 @@ eventoid int,
 invitacion varchar(20),
 foreign key(username) references users(username), 
 foreign key(eventoid) references evento(eventoid) 
+);
+
+create table user_roles (
+	username			varchar(20) not null,
+	rolename 			varchar(20) not null,
+	foreign key(username) references users(username) on delete cascade,
+	primary key (username, rolename)
 );
