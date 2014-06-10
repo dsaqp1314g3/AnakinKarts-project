@@ -12,7 +12,7 @@ public class EventoCollection {
 		super();
 		eventos = new ArrayList<Evento>();
 	}
-	public List<Evento> getUsers() {
+	public List<Evento> getEventos() {
 		return eventos;
 	}
 

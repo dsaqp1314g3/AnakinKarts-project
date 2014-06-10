@@ -209,7 +209,9 @@ public class UserResource {
 
 					confirm = true;
 					System.out.println("autenticat");
+
 				
+
 				}
 
 			 else {

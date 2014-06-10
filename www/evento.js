@@ -5,6 +5,7 @@ var API_BASE_URL = "http://localhost:8080/AnakinKarts-api";
 $(document).ready(function(){//Justo al cargarse la pagina
 	console.log("HOLA, Aqui tines un evento!");
 	getEventos();
+	getEventosPriv();
 });
 
 
@@ -50,10 +51,29 @@ function getEventos(){//Aun no se puee comprobar el getEventos
 		dataType: 'json'
 	})
 	.done(function (data, status, jqxhr) {
-		console.log("Eventos Cargdos");
+		console.log("Eventos CargdosPUB");
 	})
     .fail(function (jqXHR, textStatus) {
-		console.log("Fallo al cargar eventos");
+		console.log("Fallo al cargar eventosPUB");
+	});
+	
+
+}
+
+function getEventosPriv(){//Aun no se puee comprobar el getEventos
+	var url= API_BASE_URL+'/events/ivan/priv';
+	
+	$.ajax({
+		url : url,
+		type : 'GET',
+		crossDomain : true,
+		dataType: 'json'
+	})
+	.done(function (data, status, jqxhr) {
+		console.log("Eventos CargdosPRIV");
+	})
+    .fail(function (jqXHR, textStatus) {
+		console.log("Fallo al cargar eventosPRIV");
 	});
 	
 
@@ -70,7 +90,7 @@ function createEvent(newEvent){//No Funciona el create
 		url:url,
 		type:'POST',
 		crossDomain: true,
-		dataType:'json',
+		contentType:'application/vnd.AnakinKarts.api.evento+json',		
 		data: data,
 	}).done(function(data, status, jqxhr) {
 				var info= data;

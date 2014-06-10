@@ -115,7 +115,6 @@ private class registertask extends AsyncTask <String, Void, String> {
 			(new registertask()).execute(name, username, password, email);
 			
 		}
-		
 	}
  	
  

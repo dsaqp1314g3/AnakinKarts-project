@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 public class HomeActivity extends Activity
 {
+
 	String username= null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

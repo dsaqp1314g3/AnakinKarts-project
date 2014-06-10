@@ -35,8 +35,7 @@ import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
 
 @Path("/events")
-
-
+@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
 public class EventoResource {
 
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
