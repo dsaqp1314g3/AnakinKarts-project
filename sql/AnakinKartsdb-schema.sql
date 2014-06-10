@@ -20,6 +20,7 @@ create table users (
  
 
 create table evento (
+	nombre varchar(40) not null,
 	eventoid int not null auto_increment primary key,
 	organizador varchar(40) not null,
 	participantes int not null,
@@ -33,15 +34,6 @@ create table evento (
 
 );
 
-
-create table factura (
-    
-username varchar(40) not null,
-precio int(10) not null,
-eventoid int,
-	foreign key(username) references users(username), 
-	foreign key(eventoid) references evento(eventoid) 
-);
 create table relacion (
     
 username varchar(40) not null,
@@ -57,3 +49,20 @@ create table user_roles (
 	foreign key(username) references users(username) on delete cascade,
 	primary key (username, rolename)
 );
+
+create table alquiler (
+	alquilerid int not null auto_increment primary key,
+	organizador	varchar(40) not null,
+	fecha varchar(40) not null,
+	pista int not null,
+	nplayers int not null
+);
+
+create table factura ( 
+facturaid int not null  auto_increment,
+precio double not null,
+alquilerid int not null,
+	primary key (facturaid,alquilerid),
+	foreign key(alquilerid) references alquiler(alquilerid) 
+);
+

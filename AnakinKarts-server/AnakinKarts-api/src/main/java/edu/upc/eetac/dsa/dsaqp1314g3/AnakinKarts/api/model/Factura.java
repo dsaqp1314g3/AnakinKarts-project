@@ -2,8 +2,16 @@ package edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model;
 
 public class Factura {
 	String organizador=null;
-	int eventoid=0;
-	float precio=0;
+	int alquilerid=0;
+	int facturaid=0;
+	double precio=0;
+	
+	public int getFacturaid() {
+		return facturaid;
+	}
+	public void setFacturaid(int facturaid) {
+		this.facturaid = facturaid;
+	}
 	
 	public String getOrganizador() {
 		return organizador;
@@ -11,16 +19,16 @@ public class Factura {
 	public void setOrganizador(String organizador) {
 		this.organizador = organizador;
 	}
-	public int getEventoid() {
-		return eventoid;
+	public int getAlquilerid() {
+		return alquilerid;
 	}
-	public void setEventoid(int eventoid) {
-		this.eventoid = eventoid;
+	public void setAlquilerid(int alquilerid) {
+		this.alquilerid = alquilerid;
 	}
-	public float getPrecio() {
+	public double getPrecio() {
 		return precio;
 	}
-	public void setPrecio(float precio) {
+	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
 	
