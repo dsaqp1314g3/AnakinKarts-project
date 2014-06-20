@@ -28,10 +28,10 @@ public class InvitacionResource {
 	
 	
 	@POST
-	@Path("/{username}/{idevent}/invitacion/{idinvitacion}")
+	@Path("/invitacion/{username}")
 	@Consumes(MediaType.ANAKINKARTS_API_INVITACION)
 	@Produces(MediaType.ANAKINKARTS_API_INVITACION)
-	public Invitacion Invitar(Invitacion invitacion){
+	public Invitacion Invitar(@PathParam("username") String username, Invitacion invitacion){
 		
 		Connection conn = null;
 		try {
@@ -52,10 +52,10 @@ public class InvitacionResource {
 			
 			
 			
-			stmt.setString(1, invitacion.getInvitado());
+			stmt.setString(1, username);
 			
-			stmt.setString(2, invitacion.getIdevento());
-			stmt.setString(3, invitacion.getEstado());
+			stmt.setString(2, invitacion.getNombre());
+			
 			
 
 			System.out.println("hemos llegado aqui");
@@ -91,7 +91,7 @@ public class InvitacionResource {
 	private String buildInvitar() {
 
 		
-		return "insert into relacion (username, eventoid, invitacion ) value (?, ?, ?) ";
+		return "insert into relacion (username, nombreevento, invitacion ) value (?, ?, 'pendiente') ";
 		
 	}
 	

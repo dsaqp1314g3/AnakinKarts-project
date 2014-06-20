@@ -12,6 +12,12 @@
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/bootstrap-2.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/bootstrap-2.3.2/css/docs.css">
+    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/assets/app.css">
+    
 	
 	<!-- Bootstrap theme -->
     <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -175,6 +181,7 @@
 			 <!-- COLUMNA-1  -->
 			<div class="col-md-4">
 				<h2>CREA TU EVENTO</h2>
+				
 				<p>Personaliza tu propio eventos eligiendo las personas que quieres invitar y el circuito.</p>
 				<p class="highlight2"> - Bienvenida y registro de pilotos + briefing </p>
 				<p class="highlight2">- Warm Up (sesión de 10 minutos) </p>
@@ -198,6 +205,10 @@
 								<h4 class="modal-title" id="myModalLabel">Crear un evento</h4>
 							</div>
 							<div class="modal-body">
+							<div class="input-group input-group-sm">
+									<span class="input-group-addon">Nombre del Evento</span>
+									<input type="text" class="form-control input-sm" id="nombre" placeholder="Nombre de tu evento">
+								</div>
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Organizador</span>
 									<input type="text" class="form-control input-sm" id="organizator" placeholder="Tu nombre">
@@ -210,6 +221,26 @@
 									<span class="input-group-addon">Num jugadores</span>
 									<input type="text" class="form-control input-sm" id="num_players" placeholder="1-6 players">
 								</div>
+								
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Invitar jugador 1</span>
+									<input type="text" data-role="tagsinput" class="form-control input-sm" id="invite1" placeholder="Nombre del los jugadores que queremos invitar" >
+									<span class="input-group-addon">Invitar jugador 2</span>
+									<input type="text" data-role="tagsinput" class="form-control input-sm" id="invite2" placeholder="Nombre del los jugadores que queremos invitar" >
+								</div>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Invitar jugador 3</span>
+									<input type="text" data-role="tagsinput" class="form-control input-sm" id="invite3" placeholder="Nombre del los jugadores que queremos invitar" >
+									<span class="input-group-addon">Invitar jugador 4</span>
+									<input type="text" data-role="tagsinput" class="form-control input-sm" id="invite4" placeholder="Nombre del los jugadores que queremos invitar" >
+								</div>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Invitar jugador 5</span>
+									<input type="text" data-role="tagsinput" class="form-control input-sm" id="invite5" placeholder="Nombre del los jugadores que queremos invitar" >
+									<span class="input-group-addon">Invitar jugador 6</span>
+									<input type="text" data-role="tagsinput" class="form-control input-sm" id="invite6" placeholder="Nombre del los jugadores que queremos invitar" >
+								</div>
+								
 					
 								<div class="input-group input-group-sm ">					
 									<span class="input-group-addon col-md-offset+10">Elegir pista</span> 							
@@ -254,9 +285,71 @@
 						</div>
 					</div>
 				</div>
+				
+				
+				
+					<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modificar">
+					Modificar Evento
+				</button>
+	
+				<div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">Modificar evento</h4>
+							</div>
+							<div class="modal-body">
+							<div class="input-group input-group-sm">
+									<span class="input-group-addon">Nombre del Evento</span>
+									<input type="text" class="form-control input-sm" id="nombre" placeholder="Nombre de tu evento">
+								</div>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Organizador</span>
+									<input type="text" class="form-control input-sm" id="organizator" placeholder="Quien ha organizado el evento">
+								</div>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Ganador</span>
+									<input type="text" class="form-control input-sm" id="ganador" placeholder="nombre del ganador">
+								</div>	
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Mejor Vuelta</span>
+									<input type="text" class="form-control input-sm" id="mejorvuelta" placeholder="introduce la mejor vuelta en segundos">
+								</div>
+								
+								<div class="input-group input-group-sm">
+						<span class="input-group-addon">Subir Foto</span>
+						<input name="image" type="file" id="inputFile" required="required">
+					</div>
+					<button id="uploadButton" type="submit" class="btn btn-default">Upload</button>
+					<progress style="display: none;"></progress>
+								
+								
+								
+								
+								
+																		
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+								<button type="button" class="btn btn-primary" id="button_modify">Crear</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				
+				
+				
+				
 			</div>
 			<!-- FIN COLUMNA -->
 			
+			
+			
+		
 			<!-- COLUMNA-2 -->
 			<div class="col-md-4">   
 				
@@ -342,6 +435,20 @@
 						<h2>Mis Eventos</h2>
 						<p>Estos son los eventos que has creado o bien estas apuntado para participar.</p>    
 						<p></p>
+					<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle"
+          data-toggle="dropdown">
+    Modificar Evento <span class="caret"></span>
+  </button>
+ 
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#">Despedida</a></li>
+    <li><a href="#">Fiesta</a></li>
+    <li><a href="#">Empresa</a></li>
+   
+  </ul>
+</div>
+						
 						<div class="col-sm-12">
 							<div class="panel panel-default">
 								<div class="panel-body">
