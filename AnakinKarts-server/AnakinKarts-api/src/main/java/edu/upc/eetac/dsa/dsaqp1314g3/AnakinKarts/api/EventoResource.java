@@ -42,8 +42,8 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
+
+
 
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.DataSourceSPA;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Evento;
@@ -457,23 +457,35 @@ public class EventoResource {
 	
 
 	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@PUT
-	@Path("/{eventoid}")
+	@Path("/{nombreevento}")
 	@Consumes(MediaType.ANAKINKARTS_API_EVENTO)
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO)
-	public Evento updateEvent( Evento evento){
-		//@PathParam("eventoid") String eventoid,@FormDataParam("image") InputStream image,
-		//@FormDataParam("image") FormDataContentDisposition fileDisposition,
-		System.out.println("Dentro de updateEvent");
-		//UUID uuid = writeAndConvertImage(image);
-		/*Peta aquí*/
-		/*System.out.println(" Nombre de la cabecera de seguridad: "+ security.getUserPrincipal().getName()+ " username cogido del path");
+	public Evento updateEvents(@QueryParam ("nombreevento") String nombreevento, Evento evento){
 		
-		if (security.getUserPrincipal().getName()!=username)
-			throw new ForbiddenException("You are not allowed to modify this profile.");
-		System.out.println("Eres el user indicado");*/
+		System.out.println("Dentro de updateEvents");
 		
-		User userquery = new User();
+
+		
+		
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -486,59 +498,31 @@ public class EventoResource {
 		PreparedStatement stmt = null;
 		
 		try{
-			String sql = buildUpdateEvent();
+			String sql = buildUpdateEvents();
 			System.out.println("Query escrita");
 			stmt = conn.prepareStatement(sql);
 			System.out.println("Query cargada");
-			stmt.setString(1, evento.getNombre());
 			stmt.setString(2, evento.getOrganizador());
-			stmt.setString(3, evento.getGanador());
-			stmt.setInt(4, evento.getMejorvuelta());
-			//stmt.setString(5, uuid.toString());
-			//stmt.setString(6, evento.getTitle());
+			stmt.setString(1, nombreevento);
+			stmt.setInt(3, evento.getMejorvuelta());
+			stmt.setString(4, evento.getGanador());
+			
+			
+			
+		
+			
 			System.out.println("Query completa");
+			System.out.println("La query es: " + stmt);
 			int row = stmt.executeUpdate();
+			
 			System.out.println("Query ejecutada");
 			if (row !=0 ) {
 				stmt.close();
 				System.out.println("se ha actualizado correctamente.");
 			}			
-			//System.out.println("Creando la segunda query");
-			//stmt = conn.prepareStatement(buildSelectUser());
-			//System.out.println("Query cargada");
-			//stmt.setString(1, username);
 			
-			//System.out.println("Query 2 completa");
-			//ResultSet rs = stmt.executeQuery();
-			//System.out.println("Query 2 ejecutada");
-
-			
-			//if (rs.next()) {
-				//System.out.println("Miramos contestacion query");
-
-				//userquery.setEmail(rs.getString("email"));
-					//System.out.println("Email: "+userquery.getEmail());
-				//userquery.setName(rs.getString("name"));
-					//System.out.println("Name: "+userquery.getName());
-				//userquery.setNphone(rs.getInt("phone"));
-					//System.out.println("Phone: "+userquery.getNphone());
-				//userquery.setCiudad(rs.getString("ciudad"));
-					//System.out.println("Ciudad: "+userquery.getCiudad());
-				//userquery.setCalle(rs.getString("calle"));
-					//System.out.println("Calle: "+userquery.getCalle());
-				//userquery.setPiso(rs.getInt("piso"));
-					//System.out.println("Piso: "+userquery.getPiso());
-					//userquery.setNumportal(rs.getInt("numero"));
-					//System.out.println("Numportal: "+userquery.getNumportal());
-				//userquery.setNumpuerta(rs.getInt("puerta"));
-					//System.out.println("Puerta: "+userquery.getNumpuerta());
-				//userquery.setCp(rs.getInt("cp"));
-					//System.out.println("CP: "+userquery.getCp());
-				//userquery.setUsername(rs.getString("username"));
-					//System.out.println("Username: "+username);
-			//} 
 			else {
-				throw new BadRequestException("Can't view this event");
+				throw new BadRequestException("Can't update this event");
 			}
 			
 			
@@ -556,11 +540,7 @@ public class EventoResource {
 			}
 		}
 		
-		//evento.setFilename(uuid.toString() + ".png");
-		//evento.setTitle(title);
-		//evento.setImageURL(app.getProperties().get("imgBaseURL")
-				//+ evento.getFilename());
-
+		
 		
 		
 		return evento;
@@ -569,82 +549,34 @@ public class EventoResource {
 
 	
 
-	private String buildUpdateEvent() {
-		return "update users set nombre=ifnull(?, nombre), organizador=ifnull(?, organizador), ganador=ifnull(?, ganador), mejorvuelta=if(?<>0, ?, mejorvuelta), ?,  where eventoid=?;";
-	}
-
-	
-	
-	
-	
-	@POST
-	@Consumes(MediaType.ANAKINKARTS_API_EVENTO)
-	public Evento uploadImage(@FormDataParam("title") String title,
-			@FormDataParam("image") InputStream image,
-			@FormDataParam("image") FormDataContentDisposition fileDisposition) {
-		UUID uuid = writeAndConvertImage(image);
-
-		Connection conn = null;
-		try {
-			conn = ds.getConnection();
-		} catch (SQLException e) {
-			throw new ServerErrorException("Could not connect to the database",
-					Response.Status.SERVICE_UNAVAILABLE);
-		}
-		PreparedStatement stmt = null;
-		try {
-			stmt = conn.prepareStatement("insert into evento values (?)");
-			stmt.setString(1, uuid.toString());
-			
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			throw new ServerErrorException(e.getMessage(),
-					Response.Status.INTERNAL_SERVER_ERROR);
-		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-				conn.close();
-			} catch (SQLException e) {
-			}
-		}
-		Evento imageData = new Evento();
-		imageData.setFilename(uuid.toString() + ".png");
-		
-		imageData.setImageURL(app.getProperties().get("imgBaseURL")
-				+ imageData.getFilename());
-
-		return imageData;
-	}
-
-	
-
-	private UUID writeAndConvertImage(InputStream file) {
-
-		BufferedImage image = null;
-		try {
-			image = ImageIO.read(file);
-
-		} catch (IOException e) {
-			throw new InternalServerErrorException(
-					"Something has been wrong when reading the file.");
-		}
-		UUID uuid = UUID.randomUUID();
-		String filename = uuid.toString() + ".png";
-		try {
-			ImageIO.write(
-					image,
-					"png",
-					new File(app.getProperties().get("uploadFolder") + filename));
-		} catch (IOException e) {
-			throw new InternalServerErrorException(
-					"Something has been wrong when converting the file.");
-		}
-
-		return uuid;
+	private String buildUpdateEvents() {
+		return "update evento set organizador=ifnull(?, organizador), ganador=ifnull(?, ganador), mejorvuelta=if(?, mejorvuelta),  where nombre=?;";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	

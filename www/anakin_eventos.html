@@ -145,6 +145,7 @@
 								</div>
 				
 							</div>
+
 						</div>		
 					</div>
 					<a class="navbar-brand" href="#d9534f"> <h1>ANAKIN KARTS <h1> </a>				
@@ -302,11 +303,11 @@
 							<div class="modal-body">
 							<div class="input-group input-group-sm">
 									<span class="input-group-addon">Nombre del Evento</span>
-									<input type="text" class="form-control input-sm" id="nombre" placeholder="Nombre de tu evento">
+									<input type="text" class="form-control input-sm" id="nombreevento" placeholder="Nombre de tu evento">
 								</div>
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Organizador</span>
-									<input type="text" class="form-control input-sm" id="organizator" placeholder="Quien ha organizado el evento">
+									<input type="text" class="form-control input-sm" id="organizatorevento" placeholder="Quien ha organizado el evento">
 								</div>
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Ganador</span>
@@ -437,15 +438,14 @@
 						<p></p>
 					<div class="btn-group">
   <button type="button" class="btn btn-default dropdown-toggle"
-          data-toggle="dropdown">
-    Modificar Evento <span class="caret"></span>
+          data-toggle="dropdown" id=button_get_invitaciones>
+    Invitaciones Pendientes <span class="caret"></span>
   </button>
  
   <ul class="dropdown-menu" role="menu">
-    <li><a href="#">Despedida</a></li>
-    <li><a href="#">Fiesta</a></li>
-    <li><a href="#">Empresa</a></li>
+    <li><a href="#" id="get_invitaciones"></a></li>
    
+  
   </ul>
 </div>
 						

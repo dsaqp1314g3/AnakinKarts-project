@@ -59,3 +59,11 @@ create table user_roles (
 	foreign key(username) references users(username) on delete cascade,
 	primary key (username, rolename)
 );
+
+
+create table images (
+	imageid	varchar(36) not null primary key,
+	title	char(50) not null,
+	eventoid int,
+	foreign key(eventoid) references evento(eventoid) 
+);

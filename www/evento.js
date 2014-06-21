@@ -1,4 +1,5 @@
 var API_BASE_URL = "http://localhost:8080/AnakinKarts-api";
+var lastFilename;
 
 
 
@@ -23,41 +24,14 @@ $("#button_register").click(function(e) {//Incompleto
 });
 
 
-$("#uploadButton").click(function(e) {//Subir Fotos
+
+$("#button_get_invitaciones").click(function(e) {
 	e.preventDefault();
-	$('progress').toggle();
-
-	var formData = new FormData($('form')[0]);
-
-	$.ajax({
-		url: URL,
-		type: 'PUT',
-		xhr: function() {  
-	    	var myXhr = $.ajaxSettings.xhr();
-	        if(myXhr.upload){ 
-	            myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-	        }
-	        return myXhr;
-        },
-		crossDomain : true,
-		data: formData,
-		cache: false,
-		contentType: 'application/vnd.AnakinKarts.api.evento+json',
-        processData: false
-	})
-	.done(function (data, status, jqxhr) {
-		var response = $.parseJSON(jqxhr.responseText);
-		lastFilename = response.filename;
-		$('#uploadedImage').attr('src', response.imageURL);
-		$('progress').toggle();
-		$('form')[0].reset();
-	})
-    .fail(function (jqXHR, textStatus) {
-    	alert("KO");
-		console.log(textStatus);
-	});
-
+	getInvitaciones();
+	console.log("Dintrissim");
 });
+
+
 
 
 
@@ -109,14 +83,29 @@ $("#button_create").click(function(e) {//No funciona el create
 $("#button_modify").click(function(e) {
 	e.preventDefault();
 	var modEvent= {
-			"nombre":$("#nombre").val(),
-		"organizador":$("#organizator").val(),
+			
+			"nombre":$("#nombreevento").val(),
+		"organizador":$("#organizatorevento").val(),
 		"ganador":$("#ganador").val(),
 		"mejorvuelta":$("#mejorvuelta").val()
-		
-		
-		
 	}
+	
+	var nom = $("#nombreevento").val();
+	console.log(modEvent);
+	console.log(nom);
+	modifyEvent(modEvent, nom);
+
+		
+		
+		
+		
+		
+
+
+	
+
+		
+	
 
 });
 
@@ -300,9 +289,67 @@ function createInvite6(newInvite, inv6){
 		alert("("+textStatus+")"+"Fallo al invitar"); 
 	});
 	
+
+}
+
+
+function modifyEvent(modEvent, nom){//No Funciona el create
 	
+	var url= API_BASE_URL+'/events/' + nom;
+	var data = JSON.stringify(modEvent);
 	
+	$.ajax({
+		url:url,
+		type:'PUT',
+		crossDomain: true,
+		contentType:'application/vnd.AnakinKarts.api.evento+json',
+		data: data,
+	}).done(function(data, status, jqxhr) {
+				var info= data;
+		alert("Evento Modificado!!!!");  
+		
+	}).fail(function(jqXHR, textStatus) {
+		alert("("+textStatus+")"+"Fallo al modificar Evento"); 
+	});
+
+
+}
+
+
+
+
+function getInvitaciones() {
 	
+	var url= API_BASE_URL+'/events/invitacion';
+
+	$("#get_invitaciones_result").text('');
 	
+	$.ajax({
+		url : url,
+		type : 'GET',
+		crossDomain : true,
+		contentType:'application/vnd.AnakinKarts.api.invitacion+json',
+		dataType : 'json',
+	}).done(function(data, status, jqxhr) {
+				var invitacion = data;
+				$.each(invitacion, function(i, v) {
+					var invitacion = v;
+
+					
+					//$("#get_invitaciones").append(invitacion.nombreevento + '<br>');
+					//$("#get_invitaciones").append(invitacion.nombre + '<br>');
+					//$("#get_invitaciones").append(invitacion.invitacion + '<br>');
+					$("#get_invitaciones").append(invitacion.username + '<br>');
+					$('<div class="alert alert-danger"> <strong>PUUUUUUM!</strong> Everybody fucking jump!!!!! </div>').appendTo($("#get_invitaciones_result"));
+				
+				});
+				
+				
+				
+
+			}).fail(function() {
+				$('<div class="alert alert-danger"> <strong>Oh!</strong> No tienes invitaciones pendientes </div>').appendTo($("#get_invitaciones_result"));
+	});
+
 
 }
