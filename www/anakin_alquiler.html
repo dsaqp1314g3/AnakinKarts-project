@@ -245,10 +245,25 @@
 									
 								</form>	
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary btn-lg" id="button_alquiler">Alquilar</button>
+									<button type="submit" class="btn btn-primary btn-lg" id="button_alquiler"data-toggle="modal" data-target="#myModal">Alquilar</button>
 								</div>
-								
-								
+								<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+												<h4 class="modal-title" id="myModalLabel">Factura</h4>
+											</div>
+											<div class="modal-body">
+												<span id="factura_result">
+													
+												<a onclick = "location='prueba.html'" href='javascript:window.print(); void 0;'>Imprimir</a> 
+
+												</span>								
+											</div>
+										</div>
+									</div>
+								</div>
 			</div>
 			<!-- COLUMNA-3 ( foto ) -->
 			<div class="col-md-4">	
@@ -272,6 +287,6 @@
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
 	      <!-- Event and AJAX functions -->
-      <script type="text/javascript" src="alquiler.js"></script>
+      <script type="text/javascript" src="./js/alquiler.js"></script>
   </body>
 </html>

@@ -212,6 +212,7 @@ public class EventoResource {
 				evento.setPista(rs.getInt("pista"));
 				evento.setGanador(rs.getString("ganador"));
 				evento.setMejorvuelta(rs.getInt("mejorvuelta"));
+				evento.setOrganizador(rs.getString("organizador"));
 				System.out.println("Evento cogido");
 				evento.addJugadores(rs.getString("username"));
 				while (rs.next()) {
@@ -359,7 +360,7 @@ public class EventoResource {
 	@GET
 	@Path ("/{username}/priv")
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
-	public EventoCollection getEventospriv(@QueryParam ("username") String username, @QueryParam("length") int length,
+	public EventoCollection getEventospriv(@PathParam ("username") String username, @QueryParam("length") int length,
 			@QueryParam("after") int after) {
 		
 	EventoCollection privados = new EventoCollection();
@@ -371,7 +372,9 @@ public class EventoResource {
 			throw new ServerErrorException("Could not connect to the database",
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
-
+		
+		System.out.println("Conexión establecida con  la BD");
+		
 		PreparedStatement stmt = null;
 
 		try {
@@ -390,13 +393,13 @@ public class EventoResource {
 			} else {
 
 				if (length == 0)
-					stmt.setInt(1, 5);
+					stmt.setString(1, username);
 				else
 					stmt.setInt(1, length);
 			}
 
 			ResultSet rs = stmt.executeQuery();
-			System.out.println("3");
+			System.out.println("Query: "+stmt);
 			while (rs.next()) {
 				Evento evento = new Evento();
 
@@ -407,8 +410,21 @@ public class EventoResource {
 				evento.setNumpersonas(rs.getInt("participantes"));
 				evento.setOrganizador(rs.getString("organizador"));
 				evento.setPista(rs.getInt("pista"));
-
 				
+				// Nos encargamos de ahora de los jugadores
+				PreparedStatement stmtr = null;
+				stmtr = conn.prepareStatement(buildGetPlayersFromEvent());
+				stmtr.setInt(1, evento.getEventoid());
+
+				ResultSet rsr = stmtr.executeQuery();
+
+				while (rsr.next()) {
+					System.out.println("Jugador recogido");
+					evento.addJugadores(rsr.getString("username"));
+					System.out.println("jugador añadido");
+				}
+
+				System.out.println("Evento: "+ evento);
 				privados.addEvento(evento);
 
 
@@ -433,9 +449,9 @@ public class EventoResource {
 	private String buildGetEventroprivQuery(boolean updateFromLast) {
 		
 		if (updateFromLast)
-			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado'";
+			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado';";
 		else
-			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado'";
+			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado';";
 	}
 	
 	@POST
