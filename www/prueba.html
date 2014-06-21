@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="http://www.wallsave.com/wallpapers/1024x768/karts/159687/karts-kartsportnews-karting-news-and-features-go-kart-racing-results-159687.jpg">
+
+    <title>ANAKIN KARTS</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Bootstrap theme -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	<script>
+			window.onload = function()
+				{
+					var recibiendoVariable = location.search.substr( location.search.indexOf("=") + 1 );
+					document.getElementById("factura_organizador").innerHTML = recibiendoVariable;
+				}
+
+	</script>
+  </head>
+
+  <body>
+
+		<label> Tendra que presentar esta factura al encargado de turno de AnakinKarts para coger la pista </label>
+		<div class="container">
+			<div class="row">	
+				<!-- COLUMNA-1 (Info ) -->
+				<div class="col-md-6">
+					<strong> Organizador: </strong> 
+					<input type="text" class="form-control" id="factura_organizador">
+					<p>-----------------------------------------</p>
+					<strong> Fecha: </strong> 
+					<input type="text" class="form-control" id="factura_fecha">
+					
+					<p></p>
+					<strong> Precio: </strong>
+					<input type="text" class="form-control" id="factura_precio">
+					<p></p>
+					<strong> ID: </strong>
+					<input type="text" class="form-control" id="factura_id">
+					</p>					
+					<img src="pista4.jpg">
+					<p>
+					<strong> Pista: </strong>
+					<input type="text" class="form-control" id="factura_pista">
+				</div>					
+			</div>	
+		</div>	
+			<label> <h6><h6>El pago se hara en metalico, no se admiten devluciones  </h6></h6> </label>
+<a href='javascript:window.print(); void 0;'>Imprimir</a> 
+												<form> 
+<input type='button' onclick='window.print();' value='Imprimir' /></form> 
+	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+		<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+	      <!-- Event and AJAX functions -->
+  </body>
+</html>
