@@ -16,6 +16,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.ServerErrorException;
+import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.EntityTag;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
 import com.mysql.jdbc.Statement;
@@ -58,10 +62,10 @@ public class InvitacionResource {
 			
 			while (rs.next()) {
 			
-				invitacion.setInvitado(rs.getString("username"));
+				//invitacion.setInvitado(rs.getString("username"));
 				invitacion.setNombre(rs.getString("nombreevento"));
-				invitacion.setIdevento(rs.getString("eventoid"));
-				invitacion.setEstado(rs.getString("invitacion"));
+				//invitacion.setIdevento(rs.getString("eventoid"));
+				//invitacion.setEstado(rs.getString("invitacion"));
 				
 				
 				
@@ -92,9 +96,81 @@ public class InvitacionResource {
 	private String buildGetInvitacionesQuery() {
 		
 		
-			return "SELECT * FROM relacion WHERE invitacion='pendiente';";
+			return "SELECT nombreevento FROM relacion WHERE invitacion='pendiente';";
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	@GET
+	// Finalizado
+	@Path("/invitacion/{username}")
+	@Produces(MediaType.ANAKINKARTS_API_EVENTO)
+	public Invitacion getInvUser(@PathParam("username") String username,
+			Invitacion invitacion) {
+
+		System.out.println("Estamos dentro del metodo getInvitacionesuser");
+
+	
+
+
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+
+		System.out.println("Connexion Base Datos establecida");
+		PreparedStatement stmt = null;
+		
+		try {
+
+			stmt = conn.prepareStatement(buildGetInvitacionByUsernameQuery());
+			System.out.println("Query escrita");
+			stmt.setString(1, username);
+			System.out.println("Query completa: " + stmt);
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Query ejecutada");
+			if (rs.next()) {
+				System.out.println("Cogiendo datos");
+				
+				//invitacion.setNombre(rs.getString("nombreevento"));
+				invitacion.setNombre(rs.getString("nombreevento"));
+				
+			}
+
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+
+		return invitacion;
+	}
+
+	private String buildGetInvitacionByUsernameQuery() {
+
+		return "SELECT nombreevento FROM relacion WHERE invitacion='pendiente' and username= ?;";
+	}
+
+	
+	
+	
+	
+	
+	
 	
 	
 	

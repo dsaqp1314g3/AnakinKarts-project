@@ -1,4 +1,5 @@
 var API_BASE_URL = "http://localhost:8080/AnakinKarts-api";
+var URL = 'http://localhost:8080/AnakinKarts-api/images';
 var lastFilename;
 
 
@@ -30,6 +31,112 @@ $("#button_get_invitaciones").click(function(e) {
 	getInvitaciones();
 	console.log("Dintrissim");
 });
+
+
+
+
+
+
+
+$('form').submit(function(e){
+	e.preventDefault();
+	$('progress').toggle();
+
+	var formData = new FormData($('form')[0]);
+
+	$.ajax({
+		url: URL,
+		type: 'POST',
+		xhr: function() {  
+	    	var myXhr = $.ajaxSettings.xhr();
+	        if(myXhr.upload){ 
+	            myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+	        }
+	        return myXhr;
+        },
+		crossDomain : true,
+		data: formData,
+		cache: false,
+		contentType: false,
+        processData: false
+	})
+	.done(function (data, status, jqxhr) {
+		var response = $.parseJSON(jqxhr.responseText);
+		lastFilename = response.filename;
+		$('#uploadedImage').attr('src', response.imageURL);
+		$('progress').toggle();
+		$('form')[0].reset();
+	})
+    .fail(function (jqXHR, textStatus) {
+    	alert("KO");
+		console.log(textStatus);
+	});
+});
+
+function progressHandlingFunction(e){
+    if(e.lengthComputable){
+        $('progress').attr({value:e.loaded,max:e.total});
+    }
+}
+
+$('#myCarousel').carousel({
+  interval:false // remove interval for manual sliding
+});
+
+$('#uploadedImage').click(function(e){
+	e.preventDefault();
+	$.ajax({
+		url: URL,
+		type: 'GET',
+		crossDomain : true
+	})
+	.done(function (data, status, jqxhr) {
+		var response = $.parseJSON(jqxhr.responseText);
+		$('.carousel-inner').empty();
+		$.each(response.images, function(k,v){
+			if(lastFilename == response.images[k].filename)
+				$('.carousel-inner').append('<div class="item active"><img class="imgcenter" src="'+response.images[k].imageURL+'" class="img-responsive"><div class="carousel-caption"><h2 align="center">'+response.images[k].title+'</h2></div></div>');
+			else
+				$('.carousel-inner').append('<div class="item"><img class="imgcenter" src="'+response.images[k].imageURL+'" class="img-responsive"><div class="carousel-caption"><h2 align="center">'+response.images[k].title+'</h2></div></div>');
+		});
+
+		$('#carousel-modal').modal('toggle');
+	})
+    .fail(function (jqXHR, textStatus) {
+    	alert("KO");
+		console.log(textStatus);
+	});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -168,7 +275,7 @@ function createInvite1(newInvite, inv1){
 		data: data,
 	}).done(function(data, status, jqxhr) {
 				var info= data;
-		alert("Evento creado!!!!");  
+		alert("Jugadores Invitados!!!!");  
 		
 	}).fail(function(jqXHR, textStatus) {
 		alert("("+textStatus+")"+"Fallo al invitar"); 
@@ -192,10 +299,10 @@ function createInvite2(newInvite, inv2){
 		data: data,
 	}).done(function(data, status, jqxhr) {
 				var info= data;
-		alert("Evento creado!!!!");  
+		
 		
 	}).fail(function(jqXHR, textStatus) {
-		alert("("+textStatus+")"+"Fallo al invitar"); 
+		 
 	});
 
 
@@ -215,10 +322,10 @@ function createInvite3(newInvite, inv3){
 		data: data,
 	}).done(function(data, status, jqxhr) {
 				var info= data;
-		alert("Evento creado!!!!");  
+		 
 		
 	}).fail(function(jqXHR, textStatus) {
-		alert("("+textStatus+")"+"Fallo al invitar"); 
+		
 	});
 
 
@@ -238,10 +345,10 @@ function createInvite4(newInvite, inv4){
 		data: data,
 	}).done(function(data, status, jqxhr) {
 				var info= data;
-		alert("Evento creado!!!!");  
+		
 		
 	}).fail(function(jqXHR, textStatus) {
-		alert("("+textStatus+")"+"Fallo al invitar"); 
+		
 	});
 
 
@@ -261,10 +368,10 @@ function createInvite5(newInvite, inv5){
 		data: data,
 	}).done(function(data, status, jqxhr) {
 				var info= data;
-		alert("Evento creado!!!!");  
+		  
 		
 	}).fail(function(jqXHR, textStatus) {
-		alert("("+textStatus+")"+"Fallo al invitar"); 
+		
 	});
 
 
@@ -283,10 +390,10 @@ function createInvite6(newInvite, inv6){
 		data: data,
 	}).done(function(data, status, jqxhr) {
 				var info= data;
-		alert("Evento creado!!!!");  
+		
 		
 	}).fail(function(jqXHR, textStatus) {
-		alert("("+textStatus+")"+"Fallo al invitar"); 
+		
 	});
 	
 
@@ -331,16 +438,28 @@ function getInvitaciones() {
 		contentType:'application/vnd.AnakinKarts.api.invitacion+json',
 		dataType : 'json',
 	}).done(function(data, status, jqxhr) {
-				var invitacion = data;
-				$.each(invitacion, function(i, v) {
+				var invitaciones = data;
+				$.each(invitaciones, function(i, v) {
 					var invitacion = v;
-
+					console.log(invitacion);
 					
-					//$("#get_invitaciones").append(invitacion.nombreevento + '<br>');
-					//$("#get_invitaciones").append(invitacion.nombre + '<br>');
+					
+					$("#get_invitaciones").append(invitacion + '<br>');
+					
+					
 					//$("#get_invitaciones").append(invitacion.invitacion + '<br>');
-					$("#get_invitaciones").append(invitacion.username + '<br>');
-					$('<div class="alert alert-danger"> <strong>PUUUUUUM!</strong> Everybody fucking jump!!!!! </div>').appendTo($("#get_invitaciones_result"));
+					//$("#get_invitaciones").append(invitacion.username + '<br>');
+					//$('<strong></strong> ' + invitacion.nombreevento+ '<br>').appendTo($('#get_invitaciones'));
+					//$('<strong></strong> ' + invitacion.nombre+ '<br>').appendTo($('#get_invitaciones'));
+					//$("#get_invitaciones").append('<div class="dropdown-menu">');
+					//$('<strong> Nombre evento: </strong>' + invitacion.nombreevento + '<br>').appendTo($('#get_invitaciones'));
+					//$('<strong> Nombre evento: </strong>' + invitacion.nombre + '<br>').appendTo($('#get_invitaciones'));
+					//$('<strong> Invitado: </strong>' + invitacion.username + '<br>').appendTo($('#get_invitaciones'));
+					//$('<strong> Invitado: </strong>' + invitacion.invitado + '<br>').appendTo($('#get_invitaciones'));
+					//$('<strong> Estado: </strong>' + invitacion.estado + '<br>').appendTo($('#get_invitaciones'));
+					//$('<strong> Estado: </strong>' + invitacion.invitacion + '<br>').appendTo($('#get_invitaciones'));
+					
+					//$('<div class="alert alert-danger"> <strong>PUUUUUUM!</strong> Everybody fucking jump!!!!! </div>').appendTo($("#get_invitaciones_result"));
 				
 				});
 				
