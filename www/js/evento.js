@@ -130,14 +130,6 @@ function getEventosPub(){//Aun no se puee comprobar el getEventos
 			});	
 		});	
 
-
-
-
-
-
-
-
-
 	})
     .fail(function (jqXHR, textStatus) {
 		console.log("Fallo al cargar eventosPUB");

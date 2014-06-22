@@ -12,7 +12,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-
 	
 	<!-- Bootstrap theme -->
     <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -47,7 +46,7 @@
 			<div class="form-group-right-side">
 				<label for="inputUsernamel3" class="col-xs-3 col-md-offset-7  control-label" href="#d9534f" >Username:</label>
 				<div class="col-xs-3 col-md-offset-10">
-					<input type="email" class="form-control input-sm" id="inputUsernamel3" placeholder="Enter Username">
+					<input type="text" class="form-control input-sm" id="inputUsernamel3" placeholder="Enter Username">
 				</div>
 			</div>
 		</div>
@@ -72,9 +71,9 @@
 				</div>			
 				<div class=" col-md-2 col-md-offset-10">
 					<button type="submit" class="btn btn-default input-sm" id="button_signin" href="#d9534f">Sign in</button>
-					<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" >
-						Register
-					</button>
+<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" >
+									Register
+								</button>
 								<div class="modal fade" id="Register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -162,112 +161,53 @@
         <div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li onclick = "location='anakin_home.html'" ><a href="#">Home</a></li>
-					<li onclick = "location='anakin_eventos.html'"><a href="#">Eventos</a></li>			
+					<li  onclick = "location='anakin_eventos.html'"><a href="#">Eventos</a></li>			
 					<li onclick = "location='anakin_alquiler.html'"><a href="#">Alquiler</a></li>
-					<li onclick = "location='anakin_horarios.html'"><a href="#">Horarios y tarifas</a></li>
+					<li  onclick = "location='anakin_horarios.html'"><a href="#">Horarios y tarifas</a></li>
 					<li onclick = "location='anakin_contact.html'"><a href="#contact">Contacto</a></li>
 				</ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-			
-	<div class="container">
-		<div class="row">	
-			<!-- COLUMNA-1 (Info ) -->
-			<div class="col-md-4">
-				<img src="lateralD.jpg">			
-			</div>	
-			 <!-- COLUMNA-2 ( Alquilar )  -->
-			<div class="col-md-4">
-					<h2>Alquila tu pista</h2>
-								<div class="input-group input-group-sm">
-									<span class="input-group-addon">Organizador</span>
-									<input type="text" class="form-control input-sm" id="organizator" placeholder="Tu nombre">
-								</div>
-								<div class="input-group input-group-sm">
-									<span class="input-group-addon">Fecha</span>
-									<input type="text" class="form-control input-sm" id="date" placeholder="aaaa-mm-dd">
-								</div>	
-								<div class="input-group input-group-sm">
-									<span class="input-group-addon">Num jugadores</span>
-									<input type="text" class="form-control input-sm" id="num_players" placeholder="1-6 players">
-								</div>
-					
-								<div class="input-group input-group-sm ">					
-									<span class="input-group-addon col-md-offset+10">Elegir pista</span> 							
-								</div>
-								<form name="pistas" id="pistas">
-								
-								    <div class="col-md-6">
-										<div class="radio">
 
-											<img src="pista1.jpg">
-											
-											<label>
-												<input type="radio" name="opciones" id="pista1" value="1" checked>
-												<H4> 40.00 E</H4>
-											</label>
-										</div>
-										<div class="radio">
-											
-											<img src="pista2.jpg">
-											
-											<label>
-												<input type="radio" name="opciones" id="pista2" value="2">
-												<H4> 45.00 E</H4>
-											</label>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="radio">
-											
-											<img src="pista3.jpg">
-							
-											<label>
-												<input type="radio" name="opciones" id="pista3" value="3">
-												<H4> 55.00 E</H4>
-											</label>
-										</div>
-										<div class="radio">
-											
-											<img src="pista4.jpg">
-											<label>
-												<input type="radio" name="opciones" id="pista4" value="4">
-												<H4> 35.00 E</H4>
-											</label>
-										</div>	
-									</div>
-									
-								</form>	
-								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary btn-lg" id="button_alquiler"data-toggle="modal" data-target="#myModal">Alquilar</button>
-								</div>
-								<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-												<h4 class="modal-title" id="myModalLabel">Factura</h4>
-											</div>
-											<div class="modal-body">
-												<span id="factura_result">
-													
-												<a onclick = "location='prueba.html'" href='javascript:window.print(); void 0;'>Imprimir</a> 
+	
 
-												</span>								
-											</div>
-										</div>
-									</div>
-								</div>
-			</div>
-			<!-- COLUMNA-3 ( foto ) -->
-			<div class="col-md-4">	
-				<img src="lateral.jpg"  >
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel panel-default" id="info_evento" >
+				<div class="col-md-6">
+					<span class="label label-default">Organizador:</span>
+              			<div class="form-group">
+                			<span id="organizador_evento"></span>	
+              			</div>
+              			<span class="label label-default">Fecha:</span>
+						<div class="form-group">
+							<span id="fecha_evento"></span>	
+						</div>
+						<span class="label label-default">Ganador:</span>
+						<div class="form-group">
+							<span id="ganador_evento"></span>	
+						</div>
+						<span class="label label-default">Mejoruelta:</span>
+						<div class="form-group">
+							<span id="mejorvuelta_evento"></span>	
+						</div>
+						<span class="label label-default">Numpersonas:</span>
+						<div class="form-group">
+							<span id="numpersonas_evento"></span>	
+						</div>
+
+				</div>
+				<div class="col-md-6">
+					<div class="thumbnail">
+						<span id="foto_pista_evento"></span>
+					</div>
+				</div>
+
 			</div>
 		</div>
-	</div>								
+	</div>
 
-			
 
     
 	
@@ -279,11 +219,12 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script type="text/javascript" src="./js/jquery.cookie.js"></script>
-    <script type="text/javascript" src="./js/jquery.base64.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
-	      <!-- Event and AJAX functions -->
-      <script type="text/javascript" src="./js/alquiler.js"></script>
+	  <script type="text/javascript" src="./js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="./js/jquery.base64.js"></script>
+   	<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>	      <!-- Event and AJAX functions -->
+    <script type="text/javascript" src="./js/info_evento.js"></script>
+  
   </body>
 </html>

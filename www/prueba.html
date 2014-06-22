@@ -37,39 +37,65 @@
 
   <body>
 
-		<label> Tendra que presentar esta factura al encargado de turno de AnakinKarts para coger la pista </label>
+		<label> Tendra que presentar esta factura al encargado de turno de AnakinKarts para coger la pista. Llame al 93 33 33 33 para acordar a la hora que quiere hacer la carrera. </label>
 		<div class="container">
 			<div class="row">	
 				<!-- COLUMNA-1 (Info ) -->
 				<div class="col-md-6">
-					<strong> Organizador: </strong> 
-					<input type="text" class="form-control" id="factura_organizador">
+					<strong> Organizador: </strong>
+				    <div class="form-group">
+                		<span id="organizador_alquiler"></span>	
+              		</div>
 					<p>-----------------------------------------</p>
+
 					<strong> Fecha: </strong> 
-					<input type="text" class="form-control" id="factura_fecha">
+					<div class="form-group">
+						<span id="fecha_alquiler"></span>	
+					</div>
 					
 					<p></p>
-					<strong> Precio: </strong>
-					<input type="text" class="form-control" id="factura_precio">
+
+					<strong> Numpersonas: </strong> 
+					<div class="form-group">
+						<span id="numpersonas_alquiler"></span>	
+					</div>
+					
 					<p></p>
+
+					<strong> Precio: </strong>
+					<div class="form-group">
+						<span id="precio_alquiler"></span>	
+					</div>
+
+					<p></p>
+
 					<strong> ID: </strong>
-					<input type="text" class="form-control" id="factura_id">
+					<div class="form-group">
+						<span id="id_alquiler"></span>	
+					</div>
 					</p>					
-					<img src="pista4.jpg">
+					<div class="thumbnail">
+						<span id="foto_pista_alquiler"></span>
+					</div>
 					<p>
 					<strong> Pista: </strong>
-					<input type="text" class="form-control" id="factura_pista">
+					<div class="form-group">
+						<span id="pista_alquiler"></span>	
+					</div>
 				</div>					
 			</div>	
 		</div>	
 			<label> <h6><h6>El pago se hara en metalico, no se admiten devluciones  </h6></h6> </label>
-<a href='javascript:window.print(); void 0;'>Imprimir</a> 
-												<form> 
-<input type='button' onclick='window.print();' value='Imprimir' /></form> 
+		<form> 
+			<input type='button' onclick='window.print();' value='Imprimir' />
+		</form> 
 	
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.cookie.js"></script>
+   		<script type="text/javascript" src="./js/jquery.base64.js"></script>
 		<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 		<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+		<script type="text/javascript" src="./js/alquiler.js"></script>
 	      <!-- Event and AJAX functions -->
   </body>
 </html>
