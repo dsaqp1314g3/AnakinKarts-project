@@ -63,6 +63,7 @@ function verEvento(eventoid){
 		var mejorvuelta = $.cookie('mejorvuelta', evento.mejorvuelta);
 		var numpersonas = $.cookie('numpersonas', evento.numpersonas);
 		var pista = $.cookie('pista', evento.pista);
+		var jugadores = $.cookie('jugadores', evento.jugadores);
 
 		console.log($.cookie());
 		console.log(valor);
@@ -73,6 +74,7 @@ function verEvento(eventoid){
 		console.log(mejorvuelta);
 		console.log(numpersonas);
 		console.log(pista);
+		console.log(jugadores);
 		console.log("Eventos CargdosPUB");
 
 

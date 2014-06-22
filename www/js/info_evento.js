@@ -19,6 +19,9 @@ function mostrarEvento(){// fecha_evento ganador_evento mejorvuelta_evento numpe
 	var numpersonas= $.cookie('numpersonas');
 	var pista= $.cookie('pista');
 	var foto = getPicture(pista);
+	var jugadores= $.cookie('jugadores');
+	var listajugadores= jugadores.split("%2C");
+	console.log (listajugadores);
 
 
 
@@ -29,6 +32,7 @@ function mostrarEvento(){// fecha_evento ganador_evento mejorvuelta_evento numpe
 	$("#mejorvuelta_evento").append('<strong>'+mejorvuelta+'</strong>');
 	$("#numpersonas_evento").append('<strong>'+numpersonas+'</strong>');
 	$("#foto_pista_evento").append('<img src="'+foto+'">');
+	$("#jugadores_evento").append('<strong>'+listajugadores+'</strong>');
 
 
 
