@@ -8,19 +8,6 @@ $(document).ready(function(){//Justo al cargarse la pagina
 });
 
 
-$("#button_signin").click(function(e) {//Incompleto
-	if($("#inputUsernamel3").val()=="" || $("#inputPassword3").val()==""){
-		alert("No has rellenado los campos para autenticarte"); 
-	}else{
-		console.log("Te logeas");
-	}
-
-});
-
-$("#button_register").click(function(e) {//Incompleto
-
-});
-
 
 
 $("#button_create").click(function(e) {//No funciona el create
@@ -48,8 +35,7 @@ function verEvento(eventoid){
 		type : 'GET',
 		crossDomain : true,
 		dataType: 'json'
-	})
-	.done(function (data, status, jqxhr) {//eventoid, fecha, ganador, jugadores[], mejor vuelta, numpersonas, pista
+	}).done(function (data, status, jqxhr) {//eventoid, fecha, ganador, jugadores[], mejor vuelta, numpersonas, pista
 		var evento = data;
 
 		
