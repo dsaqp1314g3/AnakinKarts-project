@@ -5,13 +5,20 @@ import java.util.List;
 
 public class Evento {
 	
-	int eventoid=0;
+	int eventoid =  0;
 	int numpersonas=0;
 	String fecha=null;
 	int pista=0;
 	int mejorvuelta=0;
 	String organizador=null;
 	String ganador=null;
+	String nombre =null;
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	List<String> jugadores=new ArrayList<String>();
 	
 
@@ -45,8 +52,7 @@ public class Evento {
 	public void setMejorvuelta(int mejorvuelta) {
 		this.mejorvuelta = mejorvuelta;
 	}
-	public String getGanador() {
-		return ganador;
+	public String getGanador() {		return ganador;
 	}
 	public void setGanador(String ganador) {
 		this.ganador = ganador;

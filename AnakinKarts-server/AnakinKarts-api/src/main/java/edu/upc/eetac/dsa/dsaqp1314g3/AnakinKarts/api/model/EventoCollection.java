@@ -7,6 +7,7 @@ public class EventoCollection {
 	
 
 	private List<Evento> eventos;
+	
 
 	public EventoCollection() {
 		super();
@@ -22,6 +23,12 @@ public class EventoCollection {
 	public void addEvento(Evento evento) {
 		eventos.add(evento);
 	}
+	
+	
+	
+	
+	
+	
 	
 
 }
