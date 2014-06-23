@@ -18,17 +18,19 @@ import android.widget.TextView;
 
 public class HomeActivity extends Activity
 {
+
 	String username= null;
 	private TextView text1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
-
+		
 		Bundle bundle = this.getIntent().getExtras();
 		username = bundle.getString("username");
-
+		
 		setTitle("Bienvenido " + username);
+
 		 text1 = (TextView) findViewById(R.id.nom);
 		text1.setText(username);
 		
@@ -63,6 +65,11 @@ public class HomeActivity extends Activity
 	
 	
 
+
+	}
+	
+	
+
  
 
-}
+

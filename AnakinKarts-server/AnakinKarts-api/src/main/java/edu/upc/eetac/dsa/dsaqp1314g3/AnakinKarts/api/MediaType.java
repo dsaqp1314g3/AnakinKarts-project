@@ -8,6 +8,7 @@ public class MediaType {
 	public final static String ANAKINKARTS_API_EVENTO_android = "application/vnd.AnakinKarts.api.evento.android+json";
 	public final static String ANAKINKARTS_API_EVENTO_COLLECTION_android = "application/vnd.AnakinKarts.api.evento.collection.android+json";
 	public final static String ANAKINKARTS_API_FACTURA = "application/vnd.AnakinKarts.api.factura+json";
+	public final static String ANAKINKARTS_API_ALQUILER = "application/vnd.AnakinKarts.api.alquiler+json";
 	public final static String ANAKINKARTS_API_INVITACION = "application/vnd.AnakinKarts.api.invitacion+json";
 	public final static String ANAKINKARTS_API_ERROR = "application/vnd.dsa.AnakinKarts.error+json";//Para el error
 	

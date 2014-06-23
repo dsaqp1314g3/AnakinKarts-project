@@ -203,13 +203,14 @@ public class UserResource {
 				//System.out.println(rs.getString("username"));
 				usuario.setUsername(rs.getString("username"));
 				usuario.setUserpass(rs.getString("userpass"));
-
 //				String username = usuario.getUsername();
 //				String userpass = usuario.getUserpass();
 //				if (user == username && pass == userpass) {
 
 					confirm = true;
 					System.out.println("autenticat");
+
+				
 
 				}
 
@@ -236,7 +237,68 @@ public class UserResource {
 		return "select username, userpass from users where username = ? and userpass = ?";
 	}
 
+	//login del usuario
+	// crear un nuevo usuario.
+	@POST
+	@Path("/login")
+	@Consumes (MediaType.ANAKINKARTS_API_USER)
+	@Produces (MediaType.ANAKINKARTS_API_USER)
+	public User loginUser(User usuario) throws Exception {
+
+		System.out.println("Entra en método login usuario");
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		
+		String userlogname=usuario.getUsername();
+		String userlogpass=usuario.getUserpass();
+		
+		PreparedStatement stmt = null;
+		try {
+			String sql = buildLoginUser();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, usuario.getUsername());				
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				//String username = rs.getString("username");
+				String userpass = rs.getString("userpass");
+				
+				if(userlogpass.equals(userpass))
+				{
+					System.out.println("Usuario y password son correctos.");
+				}
+				else
+				{
+					System.out.println("Usuario y/o password son incorrectos.");
+					throw new Exception("Erro de login.");
+				}
+			} else {
+				throw new Exception("Ningún usuario con ese username y password.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				throw new ServerErrorException(e.getMessage(),
+						Response.Status.INTERNAL_SERVER_ERROR);
+			}
+		}
+		return usuario;
+	}
 	
+	private String buildLoginUser()
+	{
+		return "select * from users where username=?";
+	}
 	
 	//Faltaría mirar si hay parametros obligatorios y opcionales
 	@POST

@@ -5,8 +5,6 @@ insert into users (userpass,email, username, name, phone, ciudad, calle, numero,
 insert into users (userpass,email, username, name, phone, ciudad, calle, numero, piso,puerta, cp) values ('pepito','pepito@anakinkarts.com','benito', 'benito camelas','648456432','Castelldefels','diagonal','12','5','1','08860');
 insert into users (userpass,email, username, name, phone, ciudad, calle, numero, piso,puerta, cp) values ('admin', 'admin@anakinkarts.com','admin', 'administrador','664567234','Barcelona','Muntaner','170','1','2','08021');
 
-
-
 insert into user_roles values ('david', 'registered');
 insert into user_roles values ('ivan', 'registered');
 insert into user_roles values ('edith', 'registered');
@@ -34,4 +32,11 @@ insert into relacion(username, eventoid,invitacion) values ('ivan', 3,'aceptada'
 insert into relacion(username, eventoid,invitacion) values ('david', 4,'aceptada');
 insert into relacion(username, eventoid,invitacion) values ('edith', 4,'aceptada');
 insert into relacion(username, eventoid,invitacion) values ('benito', 4,'esperando');
+
+insert into alquiler (organizador,fecha,pista, nplayers) values ('edith','2014-06-09',2,'3');
+insert into alquiler (organizador,fecha,pista, nplayers) values ('Tony','2014-06-10',1, '5');
+
+insert into factura (precio,alquilerid) values (50.00,1);
+insert into factura (precio,alquilerid) values (45.00,2);
+
 

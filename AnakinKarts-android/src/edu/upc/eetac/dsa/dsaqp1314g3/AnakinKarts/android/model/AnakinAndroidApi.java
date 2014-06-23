@@ -38,7 +38,7 @@ import android.util.Log;
 
 	public class AnakinAndroidApi {
 		private static String IP="localhost";
-		private static String IP2= "10.89.88.26";
+		private static String IP2= "10.89.88.129";
 		private static String IP3 = "192.168.1.139";
 		private static AnakinAndroidApi instance = null;
 		private URL url;

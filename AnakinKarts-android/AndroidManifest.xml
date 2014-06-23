@@ -29,6 +29,7 @@
                 android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
         </activity>
+
         <activity android:name="edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.android.RegisterActivity" />
         <activity android:name="edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.android.ContactActivity" />
          <activity android:name="edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.android.MiseventosActivity" />
@@ -39,7 +40,9 @@
             android:name="edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.android.HorariosActivity"
             android:label="@string/title_activity_horarios" >
         </activity>
+
     </application>
+
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -62,3 +65,4 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
 </manifest>
+
