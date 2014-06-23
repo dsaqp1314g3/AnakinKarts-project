@@ -7,7 +7,15 @@ public class Invitacion {
 	String idevento;
 	String invitado;
 	String anfitrion;
+String nombre;
 	
+	
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	
 	public String getEstado() {
 		return estado;

@@ -808,5 +808,86 @@ public class EventoResource {
 	private String buildCreateAlquiler() {
 		return "insert into alquiler (organizador,fecha,pista, nplayers) values (?,?,?,?);";
 	}
+	
+	
+	@PUT
+	@Path("/{nombreevento}")
+	@Consumes(MediaType.ANAKINKARTS_API_EVENTO)
+	@Produces(MediaType.ANAKINKARTS_API_EVENTO)
+	public Evento updateEvents(@QueryParam ("nombreevento") String nombreevento, Evento evento){
+		
+		System.out.println("Dentro de updateEvents");
+		
+
+		
+		
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		
+		System.out.println("BD establecida");
+		PreparedStatement stmt = null;
+		
+		try{
+			String sql = buildUpdateEvents();
+			System.out.println("Query escrita");
+			stmt = conn.prepareStatement(sql);
+			System.out.println("Query cargada");
+			stmt.setString(2, evento.getOrganizador());
+			stmt.setString(1, nombreevento);
+			stmt.setInt(3, evento.getMejorvuelta());
+			stmt.setString(4, evento.getGanador());
+			
+			
+			
+		
+			
+			System.out.println("Query completa");
+			System.out.println("La query es: " + stmt);
+			int row = stmt.executeUpdate();
+			
+			System.out.println("Query ejecutada");
+			if (row !=0 ) {
+				stmt.close();
+				System.out.println("se ha actualizado correctamente.");
+			}			
+			
+			else {
+				throw new BadRequestException("Can't update this event");
+			}
+			
+			
+			
+			
+		}catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		
+		
+		
+		
+		return evento;
+	}
+	
+
+	
+
+	private String buildUpdateEvents() {
+		return "update evento set organizador=ifnull(?, organizador), ganador=ifnull(?, ganador), mejorvuelta=if(?, mejorvuelta),  where nombre=?;";
+	}
+	
+	
 
 }
