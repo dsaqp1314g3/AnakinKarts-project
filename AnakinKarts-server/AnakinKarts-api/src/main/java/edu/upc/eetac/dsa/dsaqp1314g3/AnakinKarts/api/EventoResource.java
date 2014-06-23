@@ -1,31 +1,20 @@
 package edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.sql.Statement;
 import java.util.Date;
-import java.util.UUID;
 
-import javax.imageio.ImageIO;
 import javax.sql.DataSource;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
-
-
-import javax.sql.DataSource;
-
-
 import javax.sql.DataSource;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -34,7 +23,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.ServerErrorException;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
@@ -42,14 +30,22 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
-
-
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.DataSourceSPA;
+import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Alquiler;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Evento;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollection;
+import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Factura;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
+
+
+
+
+
+
+
+
+import javax.ws.rs.core.Application;
 
 
 @Path("/events")
@@ -58,9 +54,8 @@ public class EventoResource {
 
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 	@Context
-	private SecurityContext security;
+	private SecurityContext security;// Variable
 	private Application app;// Variable
-
 	@GET
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
 	public EventoCollection getEventosPub(@QueryParam("length") int length,
@@ -228,6 +223,7 @@ public class EventoResource {
 				evento.setPista(rs.getInt("pista"));
 				evento.setGanador(rs.getString("ganador"));
 				evento.setMejorvuelta(rs.getInt("mejorvuelta"));
+				evento.setOrganizador(rs.getString("organizador"));
 				System.out.println("Evento cogido");
 				evento.addJugadores(rs.getString("username"));
 				while (rs.next()) {
@@ -282,13 +278,12 @@ public class EventoResource {
 			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setInt(1, evento.getNumpersonas());
-
 			stmt.setString(2,evento.getFecha());
 			stmt.setInt(3, evento.getPista());
 			stmt.setString(4, evento.getOrganizador());
-			stmt.setString(5, evento.getNombre());
 
 			System.out.println("hemos llegado aqui: stmt"+stmt);
+
 			stmt.executeUpdate();
 
 			System.out.println("Miramos contestacion query jajaldjfla");
@@ -296,10 +291,14 @@ public class EventoResource {
 
 			if (rs.next()) {
 				System.out.println("Evento creado correctamente");
+				int alquilerid = rs.getInt(1);
 
 			} else {
 				throw new BadRequestException("No se ha podido crear el evento");
 			}
+			
+
+			
 
 		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
@@ -319,7 +318,7 @@ public class EventoResource {
 
 	private String buildInsertEvent() {
 		System.out.println("insertamos");
-		return "insert into evento (participantes, fecha, pista, organizador, privacidad, nombre ) values (?, ?, ?, ?, 'privado', ?) ;";
+		return "insert into evento (participantes, fecha, pista, organizador, privacidad ) values (?, ?, ?, ?, 'privado') ;";
 
 	}
 
@@ -369,11 +368,10 @@ public class EventoResource {
 	}
 	
 	
-
 	@GET
 	@Path ("/{username}/priv")
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
-	public EventoCollection getEventospriv(@QueryParam ("username") String username, @QueryParam("length") int length,
+	public EventoCollection getEventospriv(@PathParam ("username") String username, @QueryParam("length") int length,
 			@QueryParam("after") int after) {
 		
 	EventoCollection privados = new EventoCollection();
@@ -385,7 +383,9 @@ public class EventoResource {
 			throw new ServerErrorException("Could not connect to the database",
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
-
+		
+		System.out.println("Conexión establecida con  la BD");
+		
 		PreparedStatement stmt = null;
 
 		try {
@@ -404,13 +404,13 @@ public class EventoResource {
 			} else {
 
 				if (length == 0)
-					stmt.setInt(1, 5);
+					stmt.setString(1, username);
 				else
 					stmt.setInt(1, length);
 			}
 
 			ResultSet rs = stmt.executeQuery();
-			System.out.println("3");
+			System.out.println("Query: "+stmt);
 			while (rs.next()) {
 				Evento evento = new Evento();
 
@@ -421,8 +421,21 @@ public class EventoResource {
 				evento.setNumpersonas(rs.getInt("participantes"));
 				evento.setOrganizador(rs.getString("organizador"));
 				evento.setPista(rs.getInt("pista"));
-
 				
+				// Nos encargamos de ahora de los jugadores
+				PreparedStatement stmtr = null;
+				stmtr = conn.prepareStatement(buildGetPlayersFromEvent());
+				stmtr.setInt(1, evento.getEventoid());
+
+				ResultSet rsr = stmtr.executeQuery();
+
+				while (rsr.next()) {
+					System.out.println("Jugador recogido");
+					evento.addJugadores(rsr.getString("username"));
+					System.out.println("jugador añadido");
+				}
+
+				System.out.println("Evento: "+ evento);
 				privados.addEvento(evento);
 
 
@@ -447,28 +460,151 @@ public class EventoResource {
 	private String buildGetEventroprivQuery(boolean updateFromLast) {
 		
 		if (updateFromLast)
-			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado'";
+			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado';";
 		else
-			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado'";
+			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado';";
 	}
 	
-	
-	
-	
+	@POST
+	@Path ("/alquiler")
+	@Consumes(MediaType.ANAKINKARTS_API_ALQUILER)
+	@Produces(MediaType.ANAKINKARTS_API_FACTURA)
+	public Factura createAlquiler (Alquiler alquiler){
+		
+		System.out.println("Alquilamos");
+		Factura factura = new Factura();
+		 int alquilerid=0;
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();// Conectamos con la base de datos
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
 
-	
+		PreparedStatement stmt = null;
+		PreparedStatement stmt2 = null;		
+		try{
+			stmt = conn.prepareStatement(buildCreateAlquiler());
+			stmt.setString(1, alquiler.getOrganizador());
+			stmt.setString(2, alquiler.getFecha());
+			stmt.setInt(3, alquiler.getPista());
+			stmt.setInt(4, alquiler.getNumplayers());
+			
+			System.out.println("Query: "+ stmt);
+			
+			int row=stmt.executeUpdate();
+			if(row!=0)
+				System.out.println("Evento creado");
+			else
+				throw new BadRequestException("No se ha podido crear el alquiler");
+			
+			System.out.println(" query ejecutada");
+			
+			if ( alquiler.getPista()==1)
+				factura.setPrecio(40.00);
+			if ( alquiler.getPista()==2)
+				factura.setPrecio(45.00);
+			if ( alquiler.getPista()==3)
+				factura.setPrecio(55.00);
+			if ( alquiler.getPista()==4)
+				factura.setPrecio(35.00);
+			
+			System.out.println("Pista: "+ alquiler.getPista()+" Precio: "+factura.getPrecio());
+			
+			alquilerid= searchAlquilerID(alquiler.getOrganizador(),alquiler.getFecha(),alquiler.getPista(), alquiler.getNumplayers());
+			
+			factura.setAlquilerid(alquilerid);
+			factura.setOrganizador(alquiler.getOrganizador());
+			
+			
+			stmt2 = conn.prepareStatement(buildCreateFactura());
+			stmt2.setDouble(1, factura.getPrecio());
+			stmt2.setInt(2 , factura.getAlquilerid());
+			
+			System.out.println("Query: "+ stmt2);
+			int row2=stmt2.executeUpdate();
+			if(row2!=0)
+				System.out.println("Evento creado");
+			else{
+				throw new BadRequestException("No se ha podido crear la factura");
+			}
+			
+			System.out.println(" query ejecutada");
+			
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		
+		return factura;
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	private int searchAlquilerID(String organizador, String fecha, int pista,
+			int numplayers) {
+		int alquilerid=0;
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();// Conectamos con la base de datos
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		
+		PreparedStatement stmt = null;	
+		try{
+			stmt = conn.prepareStatement(buildSearchAlquiler());
+			stmt.setString(1, organizador);
+			stmt.setString(2, fecha);
+			stmt.setInt(3, pista);
+			stmt.setInt(4, numplayers);
+			
+			System.out.println("Query: "+ stmt);
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Query ejecutada");
+			if(rs.next()){
+				
+				alquilerid = rs.getInt("alquilerid");
+				
+			}else {
+				throw new BadRequestException("No se ha podido crear el evento");
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+
+		return alquilerid;
+	}
+
+	private String buildSearchAlquiler() {
+		return "select alquilerid from alquiler where organizador=? and fecha=? and pista=? and nplayers=?;";
+	}
+
+	private String buildCreateFactura() {
+		return "insert into factura (precio,alquilerid) values (?,?); ";
+	}
+
+	private String buildCreateAlquiler() {
+		return "insert into alquiler (organizador,fecha,pista, nplayers) values (?,?,?,?);";
+	}
 	
 	
 	
@@ -573,26 +709,4 @@ public class EventoResource {
 	
 	
 	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-
 }

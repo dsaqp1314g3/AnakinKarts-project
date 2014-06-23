@@ -15,19 +15,20 @@ import android.widget.EditText;
 
 public class HomeActivity extends Activity
 {
+
 	String username= null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
-
+		
 		Bundle bundle = this.getIntent().getExtras();
 		username = bundle.getString("username");
-
+		
 		setTitle("Bienvenido " + username);
 	}
-
-
+	
+	
  
 
 }

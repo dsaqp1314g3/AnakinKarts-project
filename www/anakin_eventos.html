@@ -10,14 +10,10 @@
 
     <title>ANAKIN KARTS</title>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/bootstrap-2.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/bootstrap-2.3.2/css/docs.css">
-    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
-    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/assets/app.css">
-    
 	
 	<!-- Bootstrap theme -->
     <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -30,6 +26,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
   </head>
 
   <body>
@@ -74,7 +71,9 @@
 						</div>
 						<div class="form-group-right-side">
 							<div class=" col-md-2 col-md-offset-10">
-								<button type="submit" class="btn btn-default input-sm" id="button_signin" href="#d9534f">Sign in</button>
+								<button type="submit" class="btn btn-default input-sm" id="button_signin" href="#d9534f">
+									Sign in
+								</button>
 								<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" >
 									Register
 								</button>
@@ -143,9 +142,11 @@
 										</div>
 									</div>
 								</div>
+								<button class="btn btn-default input-sm"class="btn btn-default input-sm" id="button_signout" href="#d9534f" >
+									Signout
+								</button>
 				
 							</div>
-
 						</div>		
 					</div>
 					<a class="navbar-brand" href="#d9534f"> <h1>ANAKIN KARTS <h1> </a>				
@@ -165,8 +166,8 @@
 				<ul class="nav navbar-nav">
 					<li onclick = "location='anakin_home.html'" ><a href="#">Home</a></li>
 					<li class="active" onclick = "location='anakin_eventos.html'"><a href="#">Eventos</a></li>			
-					<li><a href="#">Alquiler</a></li>
-					<li  onclick = "location='anakin_horarios.html'"><a href="#">Horarios y tarifas</a></li>
+					<li onclick = "location='anakin_alquiler.html'"><a href="#">Alquiler</a></li>
+					<li onclick = "location='anakin_horarios.html'"><a href="#">Horarios y tarifas</a></li>
 					<li onclick = "location='anakin_contact.html'"><a href="#contact">Contacto</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
@@ -182,7 +183,6 @@
 			 <!-- COLUMNA-1  -->
 			<div class="col-md-4">
 				<h2>CREA TU EVENTO</h2>
-				
 				<p>Personaliza tu propio eventos eligiendo las personas que quieres invitar y el circuito.</p>
 				<p class="highlight2"> - Bienvenida y registro de pilotos + briefing </p>
 				<p class="highlight2">- Warm Up (sesión de 10 minutos) </p>
@@ -223,7 +223,7 @@
 									<input type="text" class="form-control input-sm" id="num_players" placeholder="1-6 players">
 								</div>
 								
-								<div class="input-group input-group-sm">
+									<div class="input-group input-group-sm">
 									<span class="input-group-addon">Invitar jugador 1</span>
 									<input type="text" data-role="tagsinput" class="form-control input-sm" id="invite1" placeholder="Nombre del los jugadores que queremos invitar" >
 									<span class="input-group-addon">Invitar jugador 2</span>
@@ -241,7 +241,6 @@
 									<span class="input-group-addon">Invitar jugador 6</span>
 									<input type="text" data-role="tagsinput" class="form-control input-sm" id="invite6" placeholder="Nombre del los jugadores que queremos invitar" >
 								</div>
-								
 					
 								<div class="input-group input-group-sm ">					
 									<span class="input-group-addon col-md-offset+10">Elegir pista</span> 							
@@ -287,9 +286,7 @@
 					</div>
 				</div>
 				
-				
-				
-					<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modificar">
+				<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modificar">
 					Modificar Evento
 				</button>
 	
@@ -376,15 +373,9 @@
 				
 				
 				
-				
-				
-				
 			</div>
 			<!-- FIN COLUMNA -->
 			
-			
-			
-		
 			<!-- COLUMNA-2 -->
 			<div class="col-md-4">   
 				
@@ -394,68 +385,8 @@
 						<p>Aqui puedes apuntarte en los siguientes eventos públicos, esta modalidad es idónea si quieres conocer a nueva gente y demostrar tus habilidades</p>
 						<div class="col-sm-12">
 							<div class="panel panel-default">
-								<div class="panel-body">
-									<form id="get_events_pub">
-										
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel panel-default">										
-													<div class="col-md-6">
-														Fecha: 2014-08-08
-														Numpersonas: 3
-													</div>
-													<div class="col-md-6">
-													<img src="pista1.jpg">
-											
-													</div>											
-												</div>
-											</div>
-										</div>
-			
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel panel-default">										
-													<div class="col-md-6">
-														Fecha: 2014-04-08
-														Numpersonas: 5
-													</div>
-													<div class="col-md-6">
-													<img src="pista2.jpg">
-											
-													</div>											
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel panel-default">										
-													<div class="col-md-6">
-														Fecha: 2014-08-08
-														Numpersonas: 4
-													</div>
-													<div class="col-md-6">
-													<img src="pista3.jpg">
-											
-													</div>											
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel panel-default">										
-													<div class="col-md-6">
-														Fecha: 2014-08-08
-														Numpersonas: 2
-													</div>
-													<div class="col-md-6">
-													<img src="pista4.jpg">
-											
-													</div>											
-												</div>
-											</div>
-										</div>
-										
-									</form>
+								<div class="panel-body">										
+									<span id="get_events_pub"></span>										
 								</div>
 							</div>						
 						</div>
@@ -470,7 +401,7 @@
 						<h2>Mis Eventos</h2>
 						<p>Estos son los eventos que has creado o bien estas apuntado para participar.</p>    
 						<p></p>
-					<div class="btn-group">
+							<div class="btn-group">
   <button type="button" class="btn btn-default dropdown-toggle"
           data-toggle="dropdown" id=button_get_invitaciones>
     Invitaciones Pendientes <span class="caret"></span>
@@ -486,67 +417,9 @@
 						<div class="col-sm-12">
 							<div class="panel panel-default">
 								<div class="panel-body">
-									<form id="get_events_pub">
-										
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel panel-default">										
-													<div class="col-md-6">
-														Fecha: 2014-08-08
-														Numpersonas: 3
-													</div>
-													<div class="col-md-6">
-													<img src="pista1.jpg">
-											
-													</div>											
-												</div>
-											</div>
-										</div>
-			
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel panel-default">										
-													<div class="col-md-6">
-														Fecha: 2014-04-08
-														Numpersonas: 5
-													</div>
-													<div class="col-md-6">
-													<img src="pista2.jpg">
-											
-													</div>											
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel panel-default">										
-													<div class="col-md-6">
-														Fecha: 2014-08-08
-														Numpersonas: 4
-													</div>
-													<div class="col-md-6">
-													<img src="pista3.jpg">
-											
-													</div>											
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel panel-default">										
-													<div class="col-md-6">
-														Fecha: 2014-08-08
-														Numpersonas: 2
-													</div>
-													<div class="col-md-6">
-													<img src="pista4.jpg">
-											
-													</div>											
-												</div>
-											</div>
-										</div>
-										
-									</form>
+								<div class="panel-body">										
+									<span id="get_events_priv"></span>										
+								</div>
 								</div>
 							</div>						
 						</div>						
@@ -561,9 +434,13 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="./js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="./js/jquery.base64.js"></script>
+   	<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
-	<script type="text/javascript" src="evento.js"></script>
+	<script type="text/javascript" src="./js/evento.js"></script>
+		<script type="text/javascript" src="./js/user.js"></script>
+
   </body>
 </html>

@@ -12,15 +12,9 @@
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="jumbotron.css" rel="stylesheet">
 	
 	<!-- Bootstrap theme -->
     <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="theme.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -52,7 +46,7 @@
 			<div class="form-group-right-side">
 				<label for="inputUsernamel3" class="col-xs-3 col-md-offset-7  control-label" href="#d9534f" >Username:</label>
 				<div class="col-xs-3 col-md-offset-10">
-					<input type="email" class="form-control input-sm" id="inputUsernamel3" placeholder="Enter Username">
+					<input type="text" class="form-control input-sm" id="inputUsernamel3" placeholder="Enter Username">
 				</div>
 			</div>
 		</div>
@@ -175,93 +169,50 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="pasateloengrande.jpg" alt="First slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Pasatelo en grande!</h1>
-              <p>Tenemos 4 circuitos diferentes para que puedas pasartelo en grande, sientete como  Anakin Skywalker cuando corria a toda velocidad!!</p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="lasmejorescarreras.jpg" alt="Second slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Las mejores carreras!</h1>
-              <p>Vente a AnakinKarts a correr, nota como en cada curva te sube la adrenalina! Se el primero entre todos tus amigos. Que la fuerza te acompañe!</p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="losmejoresprecios.jpg" alt="Third slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Los mejores precios!!</h1>
-              <p>De los pocos circuitos que dara igual en que dia estes, solo pagas por la pista! Y vaya que pistas!! Apuntate con tus amigos! </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
-    </div><!-- /.carousel -->
 
-
-          <!-- START THE FEATURETTES -->
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Alquila una pista! <span class="text-muted">Enfrentate a tus aigos.</span></h2>
-          <p class="lead">Ves a la pestaña de alquilar, pillate una pista para ti y tus amigos y pasatelo genial! Imprime el cupon y entregalo en el lugar! Te esperamos!!!</p>
-        </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="alquila.jpg" alt="Generic placeholder image">
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="crearevento.jpg" alt="Generic placeholder image">
-        </div>
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Crea un Evento! <span class="text-muted">Registrate y a por ello!</span></h2>
-          <p class="lead">Crea tu propio evento y invita a gente de nuestra gran comunidad para hacer lo que mas os gusta! Preparad motores!!</p>
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Chafardea un Evento!<span class="text-muted">Registrate y mira nuestros eventos.</span></h2>
-          <p class="lead">Mira todos nuestros eventos, puedes ver el ganador, la mejor vuelta y mucho mas. Pasate por la galeria de fotos!</p>
-        </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="chafardeaevento.jpg" alt="Generic placeholder image">
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <!-- /END THE FEATURETTES -->
 	
 
-			
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel panel-default" id="info_evento" >
+				<div class="col-md-6">
+						<span class="label label-default">Organizador:</span>
+              			<div class="form-group">
+                			<span id="organizador_evento"></span>	
+              			</div>
+              			<span class="label label-default">Fecha:</span>
+						<div class="form-group">
+							<span id="fecha_evento"></span>	
+						</div>
+						<span class="label label-default">Ganador:</span>
+						<div class="form-group">
+							<span id="ganador_evento"></span>	
+						</div>
+						<span class="label label-default">Mejoruelta:</span>
+						<div class="form-group">
+							<span id="mejorvuelta_evento"></span>	
+						</div>
+						<span class="label label-default">Jugadores:</span>
+						<div class="form-group">
+							<span id="jugadores_evento"></span>	
+						</div>
+						<span class="label label-default">Numpersonas:</span>
+						<div class="form-group">
+							<span id="numpersonas_evento"></span>	
+						</div>
+
+
+				</div>
+				<div class="col-md-6">
+					<div class="thumbnail">
+						<span id="foto_pista_evento"></span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 
     
 	
@@ -275,7 +226,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
-	      <!-- Event and AJAX functions -->
-      <script type="text/javascript" src="./js/home.js"></script>
+	  <script type="text/javascript" src="./js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="./js/jquery.base64.js"></script>
+   	<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>	      <!-- Event and AJAX functions -->
+    <script type="text/javascript" src="./js/info_evento.js"></script>
+	<script type="text/javascript" src="./js/user.js"></script>
+  
   </body>
 </html>

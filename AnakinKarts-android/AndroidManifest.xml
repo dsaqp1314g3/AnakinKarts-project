@@ -24,7 +24,9 @@
                 android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity android:name="RegisterActivity" />
+
     </application>
+
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19"/>
  <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

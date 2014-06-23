@@ -13,14 +13,9 @@
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="jumbotron.css" rel="stylesheet">
 	
 	<!-- Bootstrap theme -->
     <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="theme.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -77,9 +72,9 @@
 				</div>			
 				<div class=" col-md-2 col-md-offset-10">
 					<button type="submit" class="btn btn-default input-sm" id="button_signin" href="#d9534f">Sign in</button>
-<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" >
-									Register
-								</button>
+					<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" >
+						Register
+					</button>
 								<div class="modal fade" id="Register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -167,99 +162,93 @@
         <div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li onclick = "location='anakin_home.html'" ><a href="#">Home</a></li>
-					<li  onclick = "location='anakin_eventos.html'"><a href="#">Eventos</a></li>			
+					<li onclick = "location='anakin_eventos.html'"><a href="#">Eventos</a></li>			
 					<li onclick = "location='anakin_alquiler.html'"><a href="#">Alquiler</a></li>
-					<li  onclick = "location='anakin_horarios.html'"><a href="#">Horarios y tarifas</a></li>
+					<li onclick = "location='anakin_horarios.html'"><a href="#">Horarios y tarifas</a></li>
 					<li onclick = "location='anakin_contact.html'"><a href="#contact">Contacto</a></li>
 				</ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="pasateloengrande.jpg" alt="First slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Pasatelo en grande!</h1>
-              <p>Tenemos 4 circuitos diferentes para que puedas pasartelo en grande, sientete como  Anakin Skywalker cuando corria a toda velocidad!!</p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="lasmejorescarreras.jpg" alt="Second slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Las mejores carreras!</h1>
-              <p>Vente a AnakinKarts a correr, nota como en cada curva te sube la adrenalina! Se el primero entre todos tus amigos. Que la fuerza te acompañe!</p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="losmejoresprecios.jpg" alt="Third slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Los mejores precios!!</h1>
-              <p>De los pocos circuitos que dara igual en que dia estes, solo pagas por la pista! Y vaya que pistas!! Apuntate con tus amigos! </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
-    </div><!-- /.carousel -->
+			
+	<div class="container">
+		<div class="row">	
+			<!-- COLUMNA-1 (Info ) -->
+			<div class="col-md-4">
+				<img src="lateralD.jpg">			
+			</div>	
+			 <!-- COLUMNA-2 ( Alquilar )  -->
+			<div class="col-md-4">
+					<h2>Alquila tu pista</h2>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Organizador</span>
+									<input type="text" class="form-control input-sm" id="organizator" placeholder="Tu nombre">
+								</div>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Fecha</span>
+									<input type="text" class="form-control input-sm" id="date" placeholder="aaaa-mm-dd">
+								</div>	
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Num jugadores</span>
+									<input type="text" class="form-control input-sm" id="num_players" placeholder="1-6 players">
+								</div>
+					
+								<div class="input-group input-group-sm ">					
+									<span class="input-group-addon col-md-offset+10">Elegir pista</span> 							
+								</div>
+								<form name="pistas" id="pistas">
+								
+								    <div class="col-md-6">
+										<div class="radio">
 
-
-          <!-- START THE FEATURETTES -->
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Alquila una pista! <span class="text-muted">Enfrentate a tus aigos.</span></h2>
-          <p class="lead">Ves a la pestaña de alquilar, pillate una pista para ti y tus amigos y pasatelo genial! Imprime el cupon y entregalo en el lugar! Te esperamos!!!</p>
-        </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="alquila.jpg" alt="Generic placeholder image">
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="crearevento.jpg" alt="Generic placeholder image">
-        </div>
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Crea un Evento! <span class="text-muted">Registrate y a por ello!</span></h2>
-          <p class="lead">Crea tu propio evento y invita a gente de nuestra gran comunidad para hacer lo que mas os gusta! Preparad motores!!</p>
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Chafardea un Evento!<span class="text-muted">Registrate y mira nuestros eventos.</span></h2>
-          <p class="lead">Mira todos nuestros eventos, puedes ver el ganador, la mejor vuelta y mucho mas. Pasate por la galeria de fotos!</p>
-        </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="chafardeaevento.jpg" alt="Generic placeholder image">
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <!-- /END THE FEATURETTES -->
-	
+											<img src="pista1.jpg">
+											
+											<label>
+												<input type="radio" name="opciones" id="pista1" value="1" checked>
+												<H4> 40.00 E</H4>
+											</label>
+										</div>
+										<div class="radio">
+											
+											<img src="pista2.jpg">
+											
+											<label>
+												<input type="radio" name="opciones" id="pista2" value="2">
+												<H4> 45.00 E</H4>
+											</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="radio">
+											
+											<img src="pista3.jpg">
+							
+											<label>
+												<input type="radio" name="opciones" id="pista3" value="3">
+												<H4> 55.00 E</H4>
+											</label>
+										</div>
+										<div class="radio">
+											
+											<img src="pista4.jpg">
+											<label>
+												<input type="radio" name="opciones" id="pista4" value="4">
+												<H4> 35.00 E</H4>
+											</label>
+										</div>	
+									</div>
+									
+								</form>	
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-primary btn-lg" id="button_alquiler"data-toggle="modal">Alquilar</button>
+								</div>
+			</div>
+			<!-- COLUMNA-3 ( foto ) -->
+			<div class="col-md-4">	
+				<img src="lateral.jpg"  >
+			</div>
+		</div>
+	</div>								
 
 			
 
@@ -273,9 +262,11 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="./js/jquery.base64.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
 	      <!-- Event and AJAX functions -->
-      <script type="text/javascript" src="./js/home.js"></script>
+      <script type="text/javascript" src="./js/alquiler.js"></script>
   </body>
 </html>
