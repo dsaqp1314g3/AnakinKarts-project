@@ -372,9 +372,6 @@ public class UserResource {
 		return "insert into users (name, username, userpass, email,   phone, ciudad, cp, calle, numero, piso, puerta) value (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 		
 	}
-	
-	
-	
 
 	//Falta poner las restricciones de quien puede borrar
 	@DELETE

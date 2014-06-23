@@ -40,7 +40,6 @@ import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
 @Path("/events")
 @Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
 public class EventoResource {
-
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 	@Context
 	private SecurityContext security;// Variable
@@ -149,7 +148,6 @@ public class EventoResource {
 			@Context Request request) {
 
 		System.out.println("Estamos dentro del metodo getEvento");
-
 		// Create CacheControl
 		CacheControl cc = new CacheControl();
 
@@ -159,7 +157,6 @@ public class EventoResource {
 		// Creamos un String para poder hascerleuna funcion de hash
 		String funcion = evento.getEventoid() + evento.getFecha();
 		System.out.println("String cogido");
-
 		// Calculate the ETag on last modified date of user resource
 		EntityTag eTag = new EntityTag(Long.toString(funcion.hashCode()));
 		System.out.println("Hash creado");
@@ -184,7 +181,6 @@ public class EventoResource {
 
 		System.out.println("Dentro del getEvenoFromDataBase");
 		Evento evento = new Evento();
-
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -192,7 +188,6 @@ public class EventoResource {
 			throw new ServerErrorException("Could not connect to the database",
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
-
 		System.out.println("Connexion Base Datos establecida");
 		PreparedStatement stmt = null;
 		PreparedStatement stmt2 = null;
@@ -204,6 +199,7 @@ public class EventoResource {
 			System.out.println("Query completa: " + stmt);
 			ResultSet rs = stmt.executeQuery();
 			System.out.println("Query ejecutada");
+
 			if (rs.next()) {
 				System.out.println("Cogiendo datos");
 				evento.setEventoid(rs.getInt("eventoid"));
@@ -220,6 +216,7 @@ public class EventoResource {
 					User user = new User();
 					user.setUsername(rs.getString("username"));
 					System.out.println("Jugador visto: " + user.getUsername());
+
 					evento.addJugadores(user.getUsername());
 					System.out.println("Jugador metido");
 				}
@@ -238,6 +235,15 @@ public class EventoResource {
 		}
 		return evento;
 	}
+
+	/*private String buildGetOnlyPlayers() {
+		return "select * from relacion where eventoid = ? ;";
+	}
+
+	private String buildGetOnlyEvent() {
+		return "select * from evento where eventoid = ? ;";
+	}*/
+	
 
 	private String buildGetEventogByIdQuery() {
 
