@@ -20,8 +20,7 @@
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
-        <!-- Header ends -->
-        <!-- Login form -->
+   
  
         <LinearLayout
             android:layout_width="fill_parent"
@@ -31,49 +30,44 @@
             android:padding="30dip" >
  
             <TextView
-                android:id="@+id/lUsername"
+                android:id="@+id/nombretit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Username" />
+                android:text="Nombre" />
+             <TextView
+                android:id="@+id/nombrevalue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
  
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dip"
-                android:layout_marginTop="5dip"
-                android:inputType="text"
-                android:singleLine="true" />
+           
  
             <TextView
-                android:id="@+id/lPassword"
+                android:id="@+id/fechatit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Password" />
+                android:text="Fecha" />
+ 				 <TextView
+                android:id="@+id/fechavalue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+           
+            <TextView
+                android:id="@+id/idtitulo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="ID" />
+            <TextView
+                android:id="@+id/idvalue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
  
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:inputType="textPassword"
-                android:singleLine="true" />
- 
-            <Button
-                android:id="@+id/login"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dip"
-                android:onClick="startHomeActivity"
-                android:text="LOG IN" />
+           
             
- 			   <Button
-                android:id="@+id/register"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dip"
-			    android:onClick="startRegisterActivity"
-                android:text="REGISTER" />
+            
+ 			   
            
         </LinearLayout>
     </RelativeLayout>

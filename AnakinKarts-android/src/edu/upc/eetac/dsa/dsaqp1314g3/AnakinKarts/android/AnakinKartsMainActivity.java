@@ -3,6 +3,9 @@ package edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.android;
 
 
 
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +25,7 @@ import android.widget.Toast;
 public class AnakinKartsMainActivity extends Activity
 {
 
+	String username;
 	private class logintask extends AsyncTask <String, Void, JSONObject> {
 
 
@@ -31,10 +35,12 @@ public class AnakinKartsMainActivity extends Activity
 		AnakinAndroidApi api = new AnakinAndroidApi();
 			String result = params[0];
 			System.out.println(result);
-
-			//String resposta = api.provaapi(params[0]);
+			
+			
 			try {
+				
 				user = api.LoginUser(params[0], params[1]);
+				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -48,9 +54,23 @@ public class AnakinKartsMainActivity extends Activity
 
 		@Override
 		protected void onPostExecute(JSONObject result) {
+		
+			
 			String name = null;
+			
+			if (result==null)
+			{
+
+				Toast toast = Toast.makeText(getApplicationContext(),"El nombre o la contraseña son incorrectos", 
+						   Toast.LENGTH_LONG);
+				toast.show();
+			}
+			else{
 			try {
 				name = result.getString("username");
+				
+				
+				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -58,7 +78,7 @@ public class AnakinKartsMainActivity extends Activity
 
 
 
-			if (name!=null)
+			if (name.equals(username))
 			{
 				Toast toast = Toast.makeText(getApplicationContext()," Bienvenido " + name, 
 						   Toast.LENGTH_LONG);
@@ -70,8 +90,14 @@ public class AnakinKartsMainActivity extends Activity
 
 
 			}
+			else 
+			{
+				Toast toast = Toast.makeText(getApplicationContext(),"El nombre o la contraseña son incorrectos", 
+						   Toast.LENGTH_LONG);
+				toast.show();
+			}
 		}
-
+		}
 	}
 
 	private final static String TAG = AnakinKartsMainActivity.class.getName();
@@ -85,25 +111,35 @@ public class AnakinKartsMainActivity extends Activity
 				Context.MODE_PRIVATE);
 
 		setContentView(R.layout.main);
-	}
+		
+		}
  
 	public void startHomeActivity(View v) {
 		EditText etUsername = (EditText) findViewById(R.id.username);
 		EditText etPassword = (EditText) findViewById(R.id.password);
- 
-		String username = etUsername.getText().toString();
-		String password = etPassword.getText().toString();
-		(new logintask()).execute(username, password);
- 
+		
+	 username = etUsername.getText().toString();
+	String password = etPassword.getText().toString();
+		
+		//String password = "edith";
+		
+		if (username.equals("")|| password.equals("") )
+		{
+
+			Toast toast = Toast.makeText(getApplicationContext(),"Debe rellenar todos los campos", 
+					   Toast.LENGTH_LONG);
+			toast.show();
+
+		}
+		else
+		{
+		(new logintask()).execute(username, password);}
+		
 
 
 	}
  
-	private void startHome() {
-		Intent intent = new Intent(this, HomeActivity.class);
-		startActivity(intent);
-		finish();
-	}
+	
 	public void startRegisterActivity(View v){
 		Intent intent = new Intent(this, RegisterActivity.class);
 		startActivity(intent);

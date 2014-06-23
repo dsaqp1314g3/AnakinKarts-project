@@ -16,7 +16,6 @@ import javax.sql.DataSource;
 
 
 import javax.sql.DataSource;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
@@ -34,9 +33,13 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import com.google.gson.Gson;
+
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.DataSourceSPA;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Evento;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollection;
+import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollectionAndroid;
+import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Eventoandroid;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
 
@@ -90,7 +93,7 @@ public class EventoResource {
 			while (rs.next()) {
 				System.out.println("Evento cogido");
 				Evento evento = new Evento();
-
+				evento.setNombre(rs.getString("nombre"));
 				evento.setEventoid(rs.getInt("eventoid"));
 				evento.setFecha(rs.getString("fecha"));
 				evento.setGanador(rs.getString("ganador"));
@@ -209,10 +212,12 @@ public class EventoResource {
 			System.out.println("Query ejecutada");
 			if (rs.next()) {
 				System.out.println("Cogiendo datos");
+				evento.setNombre(rs.getString("nombre"));
 				evento.setEventoid(rs.getInt("eventoid"));
 				evento.setNumpersonas(rs.getInt("participantes"));
 				evento.setFecha(rs.getString("fecha"));
 				evento.setPista(rs.getInt("pista"));
+				evento.setOrganizador(rs.getString("organizador"));
 				evento.setGanador(rs.getString("ganador"));
 				evento.setMejorvuelta(rs.getInt("mejorvuelta"));
 				System.out.println("Evento cogido");
@@ -355,15 +360,13 @@ public class EventoResource {
 	}
 	
 	
-
 	@GET
 	@Path ("/{username}/priv")
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION)
-	public EventoCollection getEventospriv(@QueryParam ("username") String username, @QueryParam("length") int length,
+	public EventoCollection getEventospriv(@PathParam ("username") String username, @QueryParam("length") int length,
 			@QueryParam("after") int after) {
 		
 	EventoCollection privados = new EventoCollection();
-
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();// Conectamos con la base de datos
@@ -371,9 +374,10 @@ public class EventoResource {
 			throw new ServerErrorException("Could not connect to the database",
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
-
+		
+		System.out.println("Conexión establecida con  la BD");
+		
 		PreparedStatement stmt = null;
-
 		try {
 			boolean updateFromLast = after > 0;
 			System.out.println("1");
@@ -388,18 +392,15 @@ public class EventoResource {
 					stmt.setInt(2, length);
 				}
 			} else {
-
 				if (length == 0)
-					stmt.setInt(1, 5);
+					stmt.setString(1, username);
 				else
 					stmt.setInt(1, length);
 			}
-
 			ResultSet rs = stmt.executeQuery();
-			System.out.println("3");
+			System.out.println("Query: "+stmt);
 			while (rs.next()) {
 				Evento evento = new Evento();
-
 				evento.setEventoid(rs.getInt("eventoid"));
 				evento.setFecha(rs.getString("fecha"));
 				evento.setGanador(rs.getString("ganador"));
@@ -407,11 +408,19 @@ public class EventoResource {
 				evento.setNumpersonas(rs.getInt("participantes"));
 				evento.setOrganizador(rs.getString("organizador"));
 				evento.setPista(rs.getInt("pista"));
-
 				
+				// Nos encargamos de ahora de los jugadores
+				PreparedStatement stmtr = null;
+				stmtr = conn.prepareStatement(buildGetPlayersFromEvent());
+				stmtr.setInt(1, evento.getEventoid());
+				ResultSet rsr = stmtr.executeQuery();
+				while (rsr.next()) {
+					System.out.println("Jugador recogido");
+					evento.addJugadores(rsr.getString("username"));
+					System.out.println("jugador añadido");
+				}
+				System.out.println("Evento: "+ evento);
 				privados.addEvento(evento);
-
-
 			}
 			
 			
@@ -426,16 +435,176 @@ public class EventoResource {
 			} catch (SQLException e) {
 			}
 		}
-
 		return privados;
 	}
-
 	private String buildGetEventroprivQuery(boolean updateFromLast) {
 		
 		if (updateFromLast)
-			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado'";
+			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado';";
 		else
-			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado'";
+			return "select e.* from evento e, relacion r where r.eventoid = e.eventoid and r.username = ? and e.privacidad = 'privado';";
+	}
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@GET
+	@Path("/android")
+	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION_android)
+	public EventoCollectionAndroid getEventosPublicoAndroid(@QueryParam("length") int length,
+			@QueryParam("after") int after) {
+
+		System.out.println("Dentro de getEventosub");
+		EventoCollectionAndroid eventos = new EventoCollectionAndroid();
+
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();// Conectamos con la base de datos
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		System.out.println("BD establecida");
+
+		PreparedStatement stmt = null;
+		try {
+			boolean updateFromLast = after > 0;
+			stmt = conn.prepareStatement(buildGetEventsQuery(updateFromLast));
+			if (updateFromLast) {
+				if (length == 0) {
+					stmt.setInt(1, after);
+					stmt.setInt(2, 3);
+				} else {
+					stmt.setInt(1, after);
+					stmt.setInt(2, length);
+				}
+			} else {
+
+				if (length == 0)
+					stmt.setInt(1, 3);
+				else
+					stmt.setInt(1, length);
+			}
+
+			System.out.println("La query es: " + stmt);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				System.out.println("Evento cogido");
+				Eventoandroid evento = new Eventoandroid();
+				evento.setNombre(rs.getString("nombre"));
+				evento.setEventoid(rs.getInt("eventoid"));
+				evento.setFecha(rs.getString("fecha"));
+				evento.setGanador(rs.getString("ganador"));
+				evento.setMejorvuelta(rs.getInt("mejorvuelta"));
+				evento.setNumpersonas(rs.getInt("participantes"));
+				evento.setOrganizador(rs.getString("organizador"));
+				evento.setPista(rs.getInt("pista"));
+
+				System.out.println("Evento cogido todo");
+
+
+				eventos.addEventoandroid(evento);
+				
+				System.out.println("evento añadido");
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+//		Gson gson = new Gson();
+//		String a = gson.toJson(eventos);
+
+		return eventos;
+	}
+	
+	
+	
+	
+	@GET
+	@Path ("/android/{username}")
+	@Produces(MediaType.ANAKINKARTS_API_EVENTO_COLLECTION_android)
+	public EventoCollectionAndroid getEventosPrivadosAndroid(@PathParam ("username") String username, @QueryParam("length") int length,
+			@QueryParam("after") int after) {
+		
+	EventoCollectionAndroid privados = new EventoCollectionAndroid();
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();// Conectamos con la base de datos
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		
+		System.out.println("Conexión establecida con  la BD");
+		
+		PreparedStatement stmt = null;
+		try {
+			boolean updateFromLast = after > 0;
+			System.out.println("1");
+			stmt = conn.prepareStatement(buildGetEventroprivQuery(updateFromLast));
+			System.out.println("2");
+			if (updateFromLast) {
+				if (length == 0) {
+					stmt.setInt(1, after);
+					stmt.setInt(2, 5);
+				} else {
+					stmt.setInt(1, after);
+					stmt.setInt(2, length);
+				}
+			} else {
+				if (length == 0)
+					stmt.setString(1, username);
+				else
+					stmt.setInt(1, length);
+			}
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Query: "+stmt);
+			while (rs.next()) {
+				Eventoandroid evento = new Eventoandroid();
+				evento.setEventoid(rs.getInt("eventoid"));
+				evento.setFecha(rs.getString("fecha"));
+				evento.setGanador(rs.getString("ganador"));
+				evento.setMejorvuelta(rs.getInt("mejorvuelta"));
+				evento.setNumpersonas(rs.getInt("participantes"));
+				evento.setOrganizador(rs.getString("organizador"));
+				evento.setNombre(rs.getString("nombre"));
+				evento.setPista(rs.getInt("pista"));
+				
+				
+				
+				System.out.println("Evento: "+ evento);
+				privados.addEventoandroid(evento);
+			}
+			
+			
+		} catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		return privados;
 	}
 
 }

@@ -20,6 +20,7 @@ create table users (
  
 
 create table evento (
+	nombre varchar (40) not null,
 	eventoid int not null auto_increment primary key,
 	organizador varchar(40) not null,
 	participantes int not null,

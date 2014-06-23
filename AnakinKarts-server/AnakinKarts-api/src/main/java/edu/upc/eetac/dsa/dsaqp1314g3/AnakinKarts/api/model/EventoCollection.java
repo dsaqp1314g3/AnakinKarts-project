@@ -7,12 +7,13 @@ public class EventoCollection {
 	
 
 	private List<Evento> eventos;
+	
 
 	public EventoCollection() {
 		super();
 		eventos = new ArrayList<Evento>();
 	}
-	public List<Evento> getUsers() {
+	public List<Evento> getEventos() {
 		return eventos;
 	}
 
@@ -22,6 +23,12 @@ public class EventoCollection {
 	public void addEvento(Evento evento) {
 		eventos.add(evento);
 	}
+	
+	
+	
+	
+	
+	
 	
 
 }
