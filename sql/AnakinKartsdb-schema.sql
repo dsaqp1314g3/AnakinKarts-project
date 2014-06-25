@@ -41,6 +41,7 @@ create table relacion (
 username varchar(40) not null,
 eventoid int,
 invitacion varchar(20),
+nombreevento varchar(40),
 foreign key(username) references users(username), 
 foreign key(eventoid) references evento(eventoid) 
 );
@@ -70,10 +71,10 @@ alquilerid int not null,
 	foreign key(alquilerid) references alquiler(alquilerid) 
 );
 create table images (
-	imageid	varchar(36) not null primary key,
-	title	char(50) not null,
-	eventoid int,
-	foreign key(eventoid) references evento(eventoid) 
+	imageid	varchar(100) not null primary key,
+	title	char(50) not null
+	
+
 
 );
 

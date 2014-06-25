@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 
 import com.mysql.jdbc.Statement;
 
+import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollection;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Invitacion;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 
@@ -90,7 +91,7 @@ public class InvitacionResource {
 	private String buildGetInvitacionesQuery() {
 		
 		
-			return "SELECT nombreevento FROM relacion WHERE invitacion='pendiente';";
+			return "SELECT nombreevento FROM relacion WHERE invitacion='esperando';";
 		
 	}
 	
@@ -101,16 +102,15 @@ public class InvitacionResource {
 	
 	
 	@GET
-	// Finalizado
 	@Path("/invitacion/{username}")
-	@Produces(MediaType.ANAKINKARTS_API_EVENTO)
-	public Invitacion getInvUser(@PathParam("username") String username,
-			Invitacion invitacion) {
+	@Produces(MediaType.ANAKINKARTS_API_INVITACION)
+	public Invitacion getInvUser(@PathParam("username") String username
+			) {
 
 		System.out.println("Estamos dentro del metodo getInvitacionesuser");
 
 	
-
+		Invitacion invitacion = new Invitacion();
 
 		Connection conn = null;
 		try {
@@ -156,7 +156,7 @@ public class InvitacionResource {
 
 	private String buildGetInvitacionByUsernameQuery() {
 
-		return "SELECT nombreevento FROM relacion WHERE invitacion='pendiente' and username= ?;";
+		return "SELECT nombreevento FROM relacion WHERE invitacion='esperando' and username= ?;";
 	}
 
 	
@@ -171,10 +171,10 @@ public class InvitacionResource {
 	
 	
 	@PUT
-	@Path("/invitacion/{nombreevento}/{username}")
+	@Path("/invitacion/{nombreevento}/{username}/{invitacion}")
 	@Consumes(MediaType.ANAKINKARTS_API_INVITACION)
 	@Produces(MediaType.ANAKINKARTS_API_INVITACION)
-	public Invitacion updateInvitacion(@QueryParam ("nombreevento") String nombreevento, @QueryParam ("username") String username, Invitacion invitacion){
+	public Invitacion updateInvitacion(@QueryParam ("nombreevento") String nombreevento, @QueryParam ("username") String username, @QueryParam ("invitacion") String estado, Invitacion invitacion){
 		
 		System.out.println("Dentro de Cambiar Estado invitacion");
 		
@@ -203,7 +203,9 @@ public class InvitacionResource {
 			stmt.setString(1, invitacion.getEstado());
 			stmt.setString(2, invitacion.getNombre());
 			stmt.setString(3, invitacion.getInvitado());
-			
+			System.out.println("el estado es: " + estado);
+			System.out.println("evento: " + nombreevento);
+			System.out.println("usuario: " + username);
 			
 		
 			
@@ -245,7 +247,7 @@ public class InvitacionResource {
 	
 
 	private String buildUpdateInvitacion() {
-		return "update relacion set invitacion=ifnull(?, pendiente),  where username=? and nombreevento=?;";
+		return "update relacion set invitacion=ifnull(?, pendiente)  where username=? and nombreevento=?;";
 	}
 	
 	
@@ -325,7 +327,7 @@ public class InvitacionResource {
 	private String buildInvitar() {
 
 		
-		return "insert into relacion (username, nombreevento, invitacion ) value (?, ?, 'pendiente') ";
+		return "insert into relacion (username, nombreevento, invitacion ) value (?, ?, 'pendiente')  ";
 		
 	}
 	

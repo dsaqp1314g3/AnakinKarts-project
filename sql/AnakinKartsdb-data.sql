@@ -20,16 +20,16 @@ insert into evento (nombre, organizador,participantes,fecha,pista,ganador,mejorv
 insert into evento (nombre, organizador,participantes,fecha,pista,ganador,mejorvuelta,privacidad,fotos) values ('Despedida Ivan','ivan', 2,'2014-03-29', 2,'edith','164','publico','http://10.189.135.123/imgs/weah3');
 insert into evento (nombre, organizador,participantes,fecha,pista,privacidad, ganador) values ('David Wise DJ','david', 3,'2014-03-29', 2,'publico','david');
 
-insert into relacion(username, eventoid,invitacion) values ('david', 1,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('edith', 1,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('ivan', 1,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('edith', 2,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('ivan', 2,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('edith', 3,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('ivan', 3,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('david', 4,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('edith', 4,'aceptada');
-insert into relacion(username, eventoid,invitacion) values ('benito', 4,'esperando');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('david', 1,'aceptada', 'Cumple Ana');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('edith', 1,'aceptada', 'Cumple Ana');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('ivan', 1,'aceptada', 'Cumple Ana');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('edith', 2,'aceptada', 'Racing');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('ivan', 2,'aceptada', 'Racing');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('edith', 3,'aceptada', 'Despedida Ivan');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('ivan', 3,'aceptada', 'Despedida Ivan');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('david', 4,'aceptada', 'David Wise DJ');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('edith', 4,'aceptada', 'David Wise DJ');
+insert into relacion(username, eventoid,invitacion, nombreevento) values ('benito', 4,'esperando', 'David Wise DJ');
 
 
 insert into alquiler (organizador,fecha,pista, nplayers) values ('edith','2014-06-09',2,'3');

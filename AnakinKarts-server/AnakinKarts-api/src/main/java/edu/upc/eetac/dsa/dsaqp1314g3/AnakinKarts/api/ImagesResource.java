@@ -34,6 +34,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 
 
 
+
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.ImageData;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.ImageDataCollection;
 
@@ -44,13 +45,15 @@ public class ImagesResource {
 	@Context
 	private Application app;
 
+	
+	
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public ImageData uploadImage(@FormDataParam("title") String title,
 			@FormDataParam("image") InputStream image,
 			@FormDataParam("image") FormDataContentDisposition fileDisposition) {
 		UUID uuid = writeAndConvertImage(image);
-		System.out.println("venga que estamos a punto de subir");
+		System.out.println("Dentro de uploadImagenes");
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -59,12 +62,13 @@ public class ImagesResource {
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
 		PreparedStatement stmt = null;
+		System.out.println("base de datos");
 		try {
-			stmt = conn.prepareStatement("insert into images values (?,?)");
+			stmt = conn.prepareStatement("insert into images values (?,?);");
 			stmt.setString(1, uuid.toString());
 			stmt.setString(2, title);
+			System.out.println("consulta:" + stmt);
 			stmt.executeUpdate();
-		
 		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
 					Response.Status.INTERNAL_SERVER_ERROR);
@@ -81,15 +85,16 @@ public class ImagesResource {
 		imageData.setTitle(title);
 		imageData.setImageURL(app.getProperties().get("imgBaseURL")
 				+ imageData.getFilename());
-	
 
 		return imageData;
 	}
-
+	
+	
+	
 	@GET
 	public ImageDataCollection getImages() {
 		ImageDataCollection images = new ImageDataCollection();
-
+		System.out.println("Dentro de getImagenes");
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -97,7 +102,7 @@ public class ImagesResource {
 			throw new ServerErrorException("Could not connect to the database",
 					Response.Status.SERVICE_UNAVAILABLE);
 		}
-
+		System.out.println("Conectados a la base de datos");
 		PreparedStatement stmt = null;
 		try {
 			stmt = conn.prepareStatement("select * from images");
@@ -111,6 +116,7 @@ public class ImagesResource {
 				image.setImageURL(app.getProperties().get("imgBaseURL")
 						+ image.getFilename());
 				images.addImage(image);
+				System.out.println("mostramos la imageeeen");
 			}
 		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
@@ -151,10 +157,6 @@ public class ImagesResource {
 
 		return uuid;
 	}
-	
-	
-	
-	
 	
 	
 	

@@ -409,12 +409,28 @@
   </button>
  
   <ul class="dropdown-menu" role="menu">
-    <li><a href="#" id="get_invitaciones"></a></li>
-   
-  
+  	<span id="listamod"></span>
+    <li><a href="#" id="get_invitaciones"  class="icon-remove"></a></li>
+    <div class="modal-body">
+								
   </ul>
+ 
+  
+
+  
+  
+  
+  
 </div>
-						
+						  <div class="input-group input-group-sm">
+									<span class="input-group-addon">Nombre del Evento</span>
+									<input type="text" class="form-control input-sm" id="nombreeventoinv" placeholder="Al que quieres aceptar o rechazar">
+								</div>
+    <div class="modal-footer">
+	<button type="button" class="btn btn-default" data-dismiss="modal" id="button_aceptar">Aceptar</button>
+	<button type="button" class="btn btn-primary" id="button_rechazar">Rechazar</button>
+	</div>
+  
 
 						<div class="col-sm-12">
 							<div class="panel panel-default">

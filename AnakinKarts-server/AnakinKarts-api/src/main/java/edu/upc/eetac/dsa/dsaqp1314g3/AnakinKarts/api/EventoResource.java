@@ -37,7 +37,13 @@ import javax.ws.rs.core.SecurityContext;
 
 
 
+
+
+
 import com.google.gson.Gson;
+
+
+
 
 
 
@@ -50,8 +56,12 @@ import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollection;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollectionAndroid;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Eventoandroid;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Factura;
+import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Invitacion;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
+
+
+
 
 
 
@@ -811,14 +821,14 @@ public class EventoResource {
 	
 	
 	@PUT
-	@Path("/{nombreevento}")
+	@Path("/{nombre}")
 	@Consumes(MediaType.ANAKINKARTS_API_EVENTO)
 	@Produces(MediaType.ANAKINKARTS_API_EVENTO)
-	public Evento updateEvents(@QueryParam ("nombreevento") String nombreevento, Evento evento){
+	public Evento updateEvents(@QueryParam ("nombre") String nombre, Evento evento){
 		
 		System.out.println("Dentro de updateEvents");
 		
-
+		Evento eventoquery = new Evento();
 		
 		
 		Connection conn = null;
@@ -837,10 +847,10 @@ public class EventoResource {
 			System.out.println("Query escrita");
 			stmt = conn.prepareStatement(sql);
 			System.out.println("Query cargada");
-			stmt.setString(2, evento.getOrganizador());
-			stmt.setString(1, nombreevento);
+			stmt.setString(1, evento.getOrganizador());
+			stmt.setString(4, evento.getNombre());
 			stmt.setInt(3, evento.getMejorvuelta());
-			stmt.setString(4, evento.getGanador());
+			stmt.setString(2, evento.getGanador());
 			
 			
 			
@@ -854,7 +864,29 @@ public class EventoResource {
 			if (row !=0 ) {
 				stmt.close();
 				System.out.println("se ha actualizado correctamente.");
-			}			
+			}	System.out.println("Creando la segunda query");
+			stmt = conn.prepareStatement(buildSelectEventos());
+			System.out.println("Query cargada");
+			stmt.setString(1, evento.getNombre());
+			//stmt.setString(1, security.getUserPrincipal().getName());
+			System.out.println("Query 2 completa");
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Query 2 ejecutada");
+
+			
+			if (rs.next()) {
+				System.out.println("Miramos contestacion query");
+
+				eventoquery.setOrganizador(rs.getString("organizador"));
+				
+					System.out.println("Organizador: "+eventoquery.getOrganizador());
+					eventoquery.setGanador(rs.getString("ganador"));
+					
+					System.out.println("Ganador: "+eventoquery.getGanador());
+					eventoquery.setMejorvuelta(rs.getInt("mejorvuelta"));
+					
+					System.out.println("Mejor vuelta: "+eventoquery.getMejorvuelta());
+			}		
 			
 			else {
 				throw new BadRequestException("Can't update this event");
@@ -885,8 +917,12 @@ public class EventoResource {
 	
 
 	private String buildUpdateEvents() {
-		return "update evento set organizador=ifnull(?, organizador), ganador=ifnull(?, ganador), mejorvuelta=if(?, mejorvuelta),  where nombre=?;";
+		return "update evento set organizador=ifnull(?, organizador), ganador=ifnull(?, ganador), mejorvuelta=if(?, mejorvuelta) where nombre=?;";
 	}
+	private String buildSelectEventos() {
+		return "select nombreevento, ganador, mejorvuelta from evento where nombre=?;";
+	}
+
 	
 	
 
