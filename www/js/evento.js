@@ -97,14 +97,14 @@ $("#button_create").click(function(e) {//No funciona el create
 	//var newEvent ='{"organizador":'+'"'+$("#organizator").val()+'"'+',"pista":'+'"'+$('input:radio[name=opciones]:checked').val()+'"'+',"fecha":'+'"'+$("#date").val()+'"'+',"numpersonas":'+'"'+$("#num_players").val()+'"'+'}';
 	
 	var newEvent= {
-			"nombre":$("nombre").val(),
+			"nombre":$("#nombre").val(),
 		"organizador":$("#organizator").val(),
 		"pista":$('input:radio[name=opciones]:checked').val(),
 		"fecha":$("#date").val(),
 		"numpersonas":$("#num_players").val() 
 	}
 	var newInvite= {
-			"nombre":$("nombre").val(),
+			"nombre":$("#nombre").val(),
 			"invitacion1":$("#invite1").val(),
 			"invitacion2":$("#invite2").val(),
 			"invitacion3":$("#invite3").val(),

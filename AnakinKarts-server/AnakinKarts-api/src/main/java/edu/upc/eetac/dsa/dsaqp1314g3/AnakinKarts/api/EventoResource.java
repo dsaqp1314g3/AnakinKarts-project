@@ -319,9 +319,10 @@ public class EventoResource {
 			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setInt(1, evento.getNumpersonas());
-			stmt.setString(2,evento.getFecha());
+			stmt.setString(2, evento.getFecha());
 			stmt.setInt(3, evento.getPista());
 			stmt.setString(4, evento.getOrganizador());
+			stmt.setString(5, evento.getNombre());
 
 			System.out.println("hemos llegado aqui: stmt"+stmt);
 
@@ -329,10 +330,10 @@ public class EventoResource {
 
 			System.out.println("Miramos contestacion query jajaldjfla");
 			ResultSet rs = stmt.getGeneratedKeys();
-
+			System.out.println(rs);
 			if (rs.next()) {
 				System.out.println("Evento creado correctamente");
-				int alquilerid = rs.getInt(1);
+				//int alquilerid = rs.getInt(1);
 
 			} else {
 				throw new BadRequestException("No se ha podido crear el evento");
@@ -359,7 +360,7 @@ public class EventoResource {
 
 	private String buildInsertEvent() {
 		System.out.println("insertamos");
-		return "insert into evento (participantes, fecha, pista, organizador, privacidad ) values (?, ?, ?, ?, 'privado') ;";
+		return "insert into evento (participantes, fecha, pista, organizador, privacidad, nombre ) values (?, ?, ?, ?, 'privado', ?) ;";
 
 	}
 
