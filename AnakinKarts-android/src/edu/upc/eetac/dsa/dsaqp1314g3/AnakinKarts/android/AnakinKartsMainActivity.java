@@ -7,7 +7,6 @@ package edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.android;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
->>>>>>> refs/remotes/origin/dsadevelopers
 import org.json.JSONException;
 import org.json.JSONObject;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.android.model.AnakinAndroidApi;
@@ -55,7 +54,7 @@ public class AnakinKartsMainActivity extends Activity
 			
 			
 			System.out.println("3");
-			//System.out.println(resposta);
+			
 			return user;
 		}
 
@@ -139,7 +138,7 @@ public class AnakinKartsMainActivity extends Activity
 	 username = etUsername.getText().toString();
 	 String password = etPassword.getText().toString();
 		
-		//String password = "edith";
+		
 		
 		if (username.equals("")|| password.equals("") )
 		{
@@ -163,7 +162,7 @@ public class AnakinKartsMainActivity extends Activity
 	public void startRegisterActivity(View v){
 		Intent intent = new Intent(this, RegisterActivity.class);
 		startActivity(intent);
-		finish();
+		
 	}
  
 

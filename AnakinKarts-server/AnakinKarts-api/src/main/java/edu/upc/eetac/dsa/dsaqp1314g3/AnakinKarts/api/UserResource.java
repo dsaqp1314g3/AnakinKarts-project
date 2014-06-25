@@ -178,6 +178,7 @@ public class UserResource {
 	@Produces (MediaType.ANAKINKARTS_API_USER)
 	public User Login(@QueryParam("user") String user,
 			@QueryParam("pass") String pass) {
+		System.out.println("login" + user + pass);
 
 		Connection conn = null;
 		try {
@@ -200,7 +201,7 @@ public class UserResource {
 
 //				User usuario = new User();
 //				// not necessary(?)
-				//System.out.println(rs.getString("username"));
+				System.out.println(rs.getString("username"));
 				usuario.setUsername(rs.getString("username"));
 				usuario.setUserpass(rs.getString("userpass"));
 //				String username = usuario.getUsername();
@@ -232,7 +233,7 @@ public class UserResource {
 
 		return usuario;
 	}
-
+	
 	private String buildLoginQuery() {
 		return "select username, userpass from users where username = ? and userpass = ?";
 	}

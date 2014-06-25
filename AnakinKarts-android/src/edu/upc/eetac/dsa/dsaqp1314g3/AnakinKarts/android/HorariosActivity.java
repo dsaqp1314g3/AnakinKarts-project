@@ -29,7 +29,7 @@ public class HorariosActivity extends Activity
 	public void starthomesActivity(View v){
 		
 		finish();
-		//super.onBackPressed();
+		
 		
 		
 	}

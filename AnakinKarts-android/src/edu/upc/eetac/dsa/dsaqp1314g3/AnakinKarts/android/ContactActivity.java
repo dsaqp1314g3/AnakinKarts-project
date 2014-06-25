@@ -41,8 +41,8 @@ public class ContactActivity extends Activity {
 	    }
 
 	    private void setUpMap() {
-	        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-	        mMap.addMarker(new MarkerOptions().position(new LatLng(42.1086181, 3.1236142)).title("Anakin"));
+	       
+	        mMap.addMarker(new MarkerOptions().position(new LatLng(42.1086181, 3.1236142)).title("Anakin Karts"));
 	    }
 
 	    @Override

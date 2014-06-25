@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/karts"
     android:fillViewport="true"
-    tools:context=".HomeActivity" >
+    tools:context=".HomeActivity"
+     >
  
   <RelativeLayout
         android:layout_width="fill_parent"
@@ -22,11 +24,13 @@
 
  		     <TextView
  		         android:id="@+id/header"
- 		         android:layout_width="fill_parent"
+ 		         android:layout_width="wrap_content"
  		         android:layout_height="wrap_content"
+ 		         android:background="#000000"
  		         android:gravity="center_vertical"
  		         android:text="ANAKIN KARTS HOME"
  		         android:textAppearance="?android:attr/textAppearanceLarge"
+ 		         android:textColor="#ffffff"
  		         android:textStyle="bold" />
 			
  		      <TextView
@@ -60,7 +64,7 @@
  		         android:layout_height="wrap_content"
  		         android:layout_marginTop="25dip"
  		         android:onClick="startContactoActivity"
- 		         android:text="Contact" />
+ 		         android:text="Ubication" />
 
  		     <Button
  		         android:id="@+id/horario"

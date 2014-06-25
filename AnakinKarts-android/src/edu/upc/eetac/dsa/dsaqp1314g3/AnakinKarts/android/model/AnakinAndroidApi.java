@@ -38,14 +38,14 @@ import android.util.Log;
 
 	public class AnakinAndroidApi {
 		private static String IP="localhost";
-		private static String IP2= "10.89.88.129";
-		private static String IP3 = "192.168.1.139";
+		private static String IP2= "10.89.89.42";
+		private static String IP3 = "192.168.1.138";
 		private static AnakinAndroidApi instance = null;
 		private URL url;
 		 
 		
 		
-		private final static String BASE_URL = "http://"+IP3+":8080/AnakinKarts-api/";
+		private final static String BASE_URL = "http://"+IP2+":8080/AnakinKarts-api/";
 		
 //		private AnakinAndroidApi(Context context) throws IOException,
 //		AnakinKartsAndroidException {
@@ -219,9 +219,14 @@ import android.util.Log;
 
 			HttpResponse response = null;
 			try {
+				
 				response = httpclient.execute(httppost);
 				System.out.println("guay");
 				System.out.println(response);
+				if (response.getStatusLine().getStatusCode() != 200)
+				 return null ;
+				else
+				return "okey";
 			} catch (ClientProtocolException e) {
 				System.out.println("noguay");
 				// TODO Auto-generated catch block
@@ -230,9 +235,9 @@ import android.util.Log;
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 			
-			return"okey" ;
+			
+			return null;
 			
 		
 		}
@@ -285,6 +290,7 @@ try {
 					eventos.getEventosa().add(event);
 					
 				}
+				//return eventos;//********
 			
 				
 				
@@ -302,69 +308,18 @@ try {
 				e.printStackTrace();
 			}
 System.out.println(eventos.getEventosa().get(0).getNombre() + eventos.getEventosa().get(1).getNombre());
-return eventos ;
+
+			
+		return eventos ;
 			
 			
 			
-			
-			
-			
-			
-			
-			
-//			try {
-//				response = httpclient.execute(httpget);
-//				System.out.println(response.toString());
-//			//	reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-//				reader = new BufferedReader(new InputStreamReader((InputStream) response));
-//				System.out.println(reader.toString());
-//				StringBuilder sb = new StringBuilder();
-//				String line = null;
-//				while ((line = reader.readLine()) != null) {
-//					sb.append(line);
-//				}
-//				System.out.println(sb.toString());
-//				JSONObject jsonObject = new JSONObject(sb.toString());
-//				System.out.println(jsonObject);
-//				//JSONArray jsonLinks = jsonObject.getJSONArray("links");//atributoss
-//				//parseLinks(jsonLinks, books.getLinks());
-//	 
-//				
-//				JSONArray jsonEventos = jsonObject.getJSONArray("events");
-//				for (int i = 0; i < jsonEventos.length(); i++) {
-//					Evento evento = new Evento();
-//					JSONObject jsonEvento = jsonEventos.getJSONObject(i);// le doy valor a traves del array y lo añado a la coleccion qe es lo qe lo devuelves
-//					//evento.setEventoid(jsonEvento.optLong("eventoid"));
-//					evento.setNombre(jsonEvento.getString ("nombre"));
-//					evento.setFecha(jsonEvento.getString("fecha"));
-//					
-//					System.out.println("hola1");
-//					eventos.getEventos().add(evento);
-//
-//					System.out.println("hola2");
-//				}
-//			} catch (IOException e) {
-//				throw new AnakinKartsAndroidException(
-//						"Can't get response from Anakin API Web Service");
-//			} catch (JSONException e) {
-//				throw new AnakinKartsAndroidException("Error parsing");
-//			}
-//			
-//			return eventos;
 			
 		
+			
+			
+			
 		}
-//		public final static AnakinAndroidApi getInstance(Context context)
-//				throws AnakinKartsAndroidException {
-//			if (instance == null)
-//				try {
-//					instance = new AnakinAndroidApi(context);//context es la actividad, para recuperar valores del fichero conf.
-//				} catch (IOException e) {
-//					throw new AnakinKartsAndroidException(
-//							"Can't load configuration file");
-//				}
-//			return instance;
-//		}
 		
 		public EventoCollectionAndroid ListMyEvents (String username) throws AnakinKartsAndroidException, JSONException {
 			System.out.println("api");
@@ -422,7 +377,7 @@ try {
 				}
 			
 				
-				
+				return eventos;
 				
 				
 				
@@ -437,6 +392,6 @@ try {
 				e.printStackTrace();
 			}
 			System.out.println(eventos.getEventosa().get(0).getNombre() + eventos.getEventosa().get(1).getNombre());
-return eventos ;
+return null ;
 		
 }}

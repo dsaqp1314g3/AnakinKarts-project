@@ -31,13 +31,13 @@ public class HomeActivity extends Activity
 		
 		setTitle("Bienvenido " + username);
 
-	}
+	
 	
 	
 
 
 		 text1 = (TextView) findViewById(R.id.nom);
-		text1.setText(username);
+		 text1.setText(username);
 		
 	
 	}
@@ -75,5 +75,5 @@ public class HomeActivity extends Activity
 	
 	
 
-}
+
 

@@ -23,20 +23,15 @@
           android:orientation="vertical"
           android:padding="30dip" >
 
-          <TextView
-              android:id="@+id/header"
-              android:layout_width="234dp"
-              android:layout_height="wrap_content"
-              android:layout_marginRight="14dp"
-              android:layout_marginTop="18dp"
-              android:gravity="center_vertical"
-              android:text="ANAKIN KARTS Schedule and Tariff
-              
-              
-              "
-              android:textAppearance="?android:attr/textAppearanceLarge"
-              android:textStyle="bold" />
-
+              <TextView
+         		 android:id="@+id/header2"
+         		 android:layout_width="234dp"
+         		 android:layout_height="wrap_content"
+         		 android:layout_below="@+id/linearLayout1"
+         		 android:layout_centerHorizontal="true"
+         		 android:gravity="center_vertical"
+         		 android:text="Horarios"
+         		 android:textAppearance="?android:attr/textAppearanceLarge" />
 			<TextView
                 android:id="@+id/lUsername"
                 android:layout_width="fill_parent"
@@ -68,6 +63,29 @@
          		 android:gravity="center_vertical"
          		 android:text="Tarifas:"
          		 android:textAppearance="?android:attr/textAppearanceLarge" />
+      		  
+      		  <TextView
+                android:id="@+id/lUsername1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Precios por persona: 10-15€" />          	
+		
+
+     		 <TextView
+      		    android:id="@+id/header1"
+       		    android:layout_width="fill_parent"
+         		android:layout_height="wrap_content"
+        		  android:text="Aquiler de pistas 35-55€" /> 
+          		
+      		 <TextView
+         		 android:id="@+id/headers1"
+         		 android:layout_width="fill_parent"
+         		 android:layout_height="wrap_content"
+         		
+         		
+         		
+         		 android:text="Más información: anakinkarts@anakinkarts.com" />
+      		  
       
 
      
@@ -80,6 +98,18 @@
  		         android:text="back home" />
        
    </LinearLayout>
+
+      <TextView
+          android:id="@+id/header"
+          android:layout_width="234dp"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:layout_centerHorizontal="true"
+          android:gravity="center_vertical"
+          android:text="ANAKIN KARTS Información:"
+          android:textAppearance="?android:attr/textAppearanceLarge"
+          android:textStyle="bold" />
+
   </RelativeLayout>
  
 </ScrollView>

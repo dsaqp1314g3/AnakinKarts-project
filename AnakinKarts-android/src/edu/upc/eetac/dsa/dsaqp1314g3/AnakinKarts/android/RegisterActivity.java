@@ -22,13 +22,13 @@ public class RegisterActivity extends Activity
 {
 private class registertask extends AsyncTask <String, Void, String> {
 	
-	String name1;
+	String username1;
 		@Override
 		protected String doInBackground(String... params) {
 		
 		AnakinAndroidApi api = new AnakinAndroidApi();
-			 name1 = params[0];
-			String username1 = params[1];
+			String name1 = params[0];
+			username1 = params[1];
 			String password1 = params[2];
 			String email1 = params[3];
 			
@@ -57,20 +57,30 @@ private class registertask extends AsyncTask <String, Void, String> {
 		protected void onPostExecute(String result) {
 			
 			
+			System.out.println("RESULTADO REGISTERRRRRRRRRR   :" + result);
+		   if (result == null)
+		    {
+			   System.out.println("register result null");
+				Toast toast = Toast.makeText(getApplicationContext(),"Usuario ya registrado", 
+							   Toast.LENGTH_LONG);
+				toast.show();
+			}
 			
-			
-			if (result.equals("okey"))
+			//if (result.equals("okey"))
+		   else
 			{
-				Toast toast = Toast.makeText(getApplicationContext()," Bienvenido " + name1, 
+				Toast toast = Toast.makeText(getApplicationContext()," Bienvenido " + username1, 
 						   Toast.LENGTH_LONG);
 				toast.show();
 				Intent intent = new Intent (getApplicationContext(), HomeActivity.class);
-				intent.putExtra("username", name1);
+				intent.putExtra("username", username1);
 				
 				startActivity(intent);
-				
-				
+					
 			}
+
+			
+			
 		}
 		
 	}

@@ -258,50 +258,6 @@ public class EventosListActivity extends Activity {
 		getMenuInflater().inflate(R.menu.list_events, menu);
 		return true;
 	}
-	
-	
-	
-	
-
-	
-//	private void showList() {
-//		listview = (ListView) findViewById(R.id.eventslist);//***************
-//
-//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//				android.R.layout.simple_list_item_1, android.R.id.text1, values);
-//
-//		// Assign adapter to ListView
-//		listview.setAdapter(adapter);
-//
-//	}
-	
-	
-	
-	// detecta click en la pantalla
-//	protected void onListItemClick (ListView l, int position) {
-//		Eventoandroid evento = eventolist.get(position);
-//		//Log.d(TAG, sting.getLinks().get("self").getTarget());
-//
-//		//Intent intent = new Intent(this, EventosActivity.class);
-//		String nom = eventos[position].getNombre();
-//		//String event= eventos[position].getGanador();
-//		String fech= eventos[position].getFecha();
-//		//String gana = eventos[position].getString("ganador");
-//
-//		Intent i = new Intent(getApplicationContext(), EventosActivity.class);
-//		i.putExtra("nom", nom );
-//		//i.putExtra("ID", event);
-//		i.putExtra("data", fech);
-//		//i.putExtra("ganador", gana);
-////		
-////
-////		startActivity(i);
-//		//intent.putExtra("url", sting.getLinks().get("self").getTarget());
-//		startActivity(i);
-//	}
-
-	
-
 
 
 	}

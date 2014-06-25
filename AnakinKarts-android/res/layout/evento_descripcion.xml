@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
            
             android:gravity="center_vertical"
-            android:text="@string/app_name"
+            android:text="Anakin Event Description"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
    
@@ -33,7 +33,8 @@
                 android:id="@+id/nombretit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre" />
+                android:text="Nombre:"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
              <TextView
                 android:id="@+id/nombrevalue"
                 android:layout_width="fill_parent"
@@ -46,7 +47,8 @@
                 android:id="@+id/fechatit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Fecha" />
+                android:text="Fecha:"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
  				 <TextView
                 android:id="@+id/fechavalue"
                 android:layout_width="fill_parent"
@@ -57,17 +59,31 @@
                 android:id="@+id/idtitulo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="ID" />
+                android:text="ID: " 
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
             <TextView
                 android:id="@+id/idvalue"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="" />
- 
-           
-            
-            
- 			   
+            <TextView
+                android:id="@+id/ganatitulo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Ganador:" 
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+            <TextView
+                android:id="@+id/ganavalue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/fotito"
+                android:layout_width="258dp"
+                android:layout_height="129dp"
+                android:drawableLeft="@drawable/vainas"
+                android:text="" />
            
         </LinearLayout>
     </RelativeLayout>

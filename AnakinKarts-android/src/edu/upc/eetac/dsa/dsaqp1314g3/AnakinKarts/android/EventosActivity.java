@@ -60,7 +60,13 @@ public class EventosActivity extends Activity {
 		
 		String id= bundle.get("ID").toString();
 		TextView textid= (TextView) findViewById(R.id.idvalue);
-		textfecha.setText(id);
+		textid.setText(id);
+		
+		String ganador= bundle.get("ganador").toString();
+		TextView textganador= (TextView) findViewById(R.id.ganavalue);
+		textganador.setText(ganador);
+		
+		
 		
 	}
 

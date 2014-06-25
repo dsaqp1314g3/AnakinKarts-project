@@ -91,8 +91,10 @@ public class MiseventosActivity extends Activity {
 		System.out.println("HOLAAAAAAAAAAA");
 		
 		try {
+			
 			AnakinAndroidApi api = new AnakinAndroidApi();
 			array = api.ListMyEvents(params[0]);
+			
 		} catch (AnakinKartsAndroidException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -114,16 +116,26 @@ public class MiseventosActivity extends Activity {
 		@Override
 		protected void onPostExecute(EventoCollectionAndroid result) {
 			
-
-	
+			
+				
+				
+			
+			
 			addeventos(result);
 			if (pd != null) {
 				pd.dismiss();
 			}
+			if (result.getEventosa().isEmpty())
+			{
+				
+				Toast toast = Toast.makeText(getApplicationContext(),"No tienes eventos propios", 
+						   Toast.LENGTH_LONG);
+				toast.show();
+			}
 
 			lv.setOnItemClickListener(new OnItemClickListener() {  
 				
-				//cuando pulsen sobre un user se mostrara su perfil
+				//cuando pulsen sobre un evento mostrara perfil evento
 			    @Override
 			    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 //			    	
@@ -161,6 +173,7 @@ public class MiseventosActivity extends Activity {
 		}
 
 		private void addeventos(EventoCollectionAndroid result) {
+			
 			eventolist.addAll(result.getEventosa());
 			adapter.notifyDataSetChanged(); 
 			
@@ -199,7 +212,7 @@ public class MiseventosActivity extends Activity {
 		Bundle bundle = this.getIntent().getExtras();
 		username = bundle.getString("nom");
 		
-		setTitle("tus eventos" +username);
+		setTitle("Tus eventos " +username);
 	
 	eventolist = new ArrayList<>();
 	adapter = new AnakinAdapter(this, eventolist);
@@ -231,42 +244,6 @@ public class MiseventosActivity extends Activity {
 		getMenuInflater().inflate(R.menu.list_events, menu);
 		return true;
 	}
-	
-//	private void showList() {
-//		listview = (ListView) findViewById(R.id.eventslist);//***************
-//
-//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//				android.R.layout.simple_list_item_1, android.R.id.text1, values);
-//
-//		// Assign adapter to ListView
-//		listview.setAdapter(adapter);
-//
-//	}
-	
-	
-	
-	// detecta click en la pantalla
-//	protected void onListItemClick (ListView l, int position) {
-//		Eventoandroid evento = eventolist.get(position);
-//		//Log.d(TAG, sting.getLinks().get("self").getTarget());
-//
-//		//Intent intent = new Intent(this, EventosActivity.class);
-//		String nom = eventos[position].getNombre();
-//		//String event= eventos[position].getGanador();
-//		String fech= eventos[position].getFecha();
-//		//String gana = eventos[position].getString("ganador");
-//
-//		Intent i = new Intent(getApplicationContext(), EventosActivity.class);
-//		i.putExtra("nom", nom );
-//		//i.putExtra("ID", event);
-//		i.putExtra("data", fech);
-//		//i.putExtra("ganador", gana);
-////		
-////
-////		startActivity(i);
-//		//intent.putExtra("url", sting.getLinks().get("self").getTarget());
-//		startActivity(i);
-//	}
 
 	
 
