@@ -11,20 +11,22 @@ $(document).ready(function(){//Justo al cargarse la pagina
 
 $("#button_get_invitaciones").click(function(e) {//No funciona el create
 	e.preventDefault();
+
 	getInvitaciones();
 	console.log("Dentro");
 });
 
 
-$('form').submit(function(e){
+$('form#imageForm').submit(function(e){
 	e.preventDefault();
 	$('progress').toggle();
 
-	var formData = new FormData($('form')[0]);
+	var formData = new FormData($('form#imageForm')[0]);
 
 	$.ajax({
 		url: URL,
 		type: 'POST',
+		
 		xhr: function() {  
 	    	var myXhr = $.ajaxSettings.xhr();
 	        if(myXhr.upload){ 
@@ -95,14 +97,14 @@ $("#button_create").click(function(e) {//No funciona el create
 	//var newEvent ='{"organizador":'+'"'+$("#organizator").val()+'"'+',"pista":'+'"'+$('input:radio[name=opciones]:checked').val()+'"'+',"fecha":'+'"'+$("#date").val()+'"'+',"numpersonas":'+'"'+$("#num_players").val()+'"'+'}';
 	
 	var newEvent= {
-			"nombre":$("nombre").val(),
+			"nombre":$("#nombre").val(),
 		"organizador":$("#organizator").val(),
 		"pista":$('input:radio[name=opciones]:checked').val(),
 		"fecha":$("#date").val(),
 		"numpersonas":$("#num_players").val() 
 	}
 	var newInvite= {
-			"nombre":$("nombre").val(),
+			"nombre":$("#nombre").val(),
 			"invitacion1":$("#invite1").val(),
 			"invitacion2":$("#invite2").val(),
 			"invitacion3":$("#invite3").val(),
@@ -133,10 +135,10 @@ $("#button_modify").click(function(e) {//No funciona el create
 	
 	
 	var modEvent= {
-			"nombre":$("nombreevento").val(),
+			"nombre":$("#nombreevento").val(),
 		"organizador":$("#organizatorevento").val(),
-		"ganador":$("ganador").val(),
-		"mejorvuelta":$("#mejorvuelta").val(),
+		"ganador":$("#ganador").val(),
+		"mejorvuelta":$("#mejorvuelta").val()
 		
 	}
 	var nom = $("#nombreevento").val();
@@ -146,6 +148,48 @@ $("#button_modify").click(function(e) {//No funciona el create
 	modifyEvent(modEvent, nom);
 	
 });
+
+$("#button_aceptar").click(function(e) {
+	e.preventDefault();
+	
+	
+	var acpInv= {
+			"nombre":$("#nombreeventoinv").val()
+			
+		
+		
+	}
+	var inf={
+			"nombre":$("#nombreeventoinv").val(),
+			"user":$.cookie('username'),
+	        "estado":$('aceptada')
+			
+	}
+	
+	console.log(acpInv);
+	
+	aceptarInv(acpInv, inf);
+	
+});
+
+$("#button_rechazar").click(function(e) {
+	e.preventDefault();
+	
+	
+	var rechInv= {
+			"nombre":$("#nombreeventoinv").val()
+		
+		
+		
+	}
+	
+	
+	console.log(rechInv);
+	
+	rechazarInv(rechInv);
+	
+});
+
 
 function verEvento(eventoid){
 	var url= API_BASE_URL+'/events/'+eventoid;
@@ -498,10 +542,12 @@ function modifyEvent(modEvent, nom){//No Funciona el create
 
 }
 
-function getInvitaciones(){//No Funciona el create
-	
-	var url= API_BASE_URL+'/events/invitacion';
-	$("#get_invitaciones_result").Text('');
+function getInvitaciones(){
+	var usernamecok=$.cookie('username');
+	console.log(usernamecok);
+	var url= API_BASE_URL+'/events/invitacion/'+ usernamecok;
+	console.log(url);
+	//$("#get_invitaciones_result").Text('');
 	
 	
 	$.ajax({
@@ -512,10 +558,12 @@ function getInvitaciones(){//No Funciona el create
 		dataType: 'json',
 	}).done(function(data, status, jqxhr) {
 				var invitaciones= data;
-				$.each(invitaciones, function(i, v)){
+				$.each(invitaciones, function(i, v){
 					var invitacion = v;
 					console.log(invitacion);
-					$("#get_invitaciones").append(invitacion + '<br>');
+					$("#listamod").append(' <li><a href="#" id="get_invitaciones" class="icon-ok" class="icon-remove"></a><i class="icon-ok"></i><i class="icon-remove"></i>'+invitacion+'</li>') ;
+					//$("#get_invitaciones").append(invitacion + '<button type="button" class="btn btn-primary" id=button_pub onClick="verEvento('+info.eventoid+')" >Ver</button>');
+					//$("#get_invitaciones").append('<button type="button" class="btn btn-primary" id=button_pub onClick="verEvento('+info.eventoid+')" >Ver</button>');
 					
 					
 				});
@@ -528,4 +576,70 @@ function getInvitaciones(){//No Funciona el create
 
 
 }
+
+function aceptarInv(acpInv){
+	var usernamecok=$.cookie('username');
+	console.log(usernamecok);
+	console.log(acpInv);
+	var url= API_BASE_URL+'/events/invitacion/'+ acpInv + '/' + usernamecok + '/aceptada';
+	console.log(url);
+	
+	
+	
+	
+	var data = JSON.stringify(acpInv);
+	
+	$.ajax({
+		url:url,
+		type:'PUT',
+		crossDomain: true,
+		contentType:'application/vnd.AnakinKarts.api.invitacion+json',		
+		data: data,
+	}).done(function(data, status, jqxhr) {
+				var info= data;
+		alert("Invitacion Aceptada!!!!");  
+		
+	}).fail(function(jqXHR, textStatus) {
+		alert("("+textStatus+")"+"Fallo al aceptar la invitacion"); 
+	});
+	
+	
+	
+	
+	
+	
+}
+function rechazarInv(rechInv, inf){
+	var usernamecok=$.cookie('username');
+	console.log(usernamecok);
+	//var url= API_BASE_URL+'/events/invitacion/'+ rechInv + '/' + usernamecok + '/rechazada';
+	var url= API_BASE_URL+'/events/invitacion/DavidWiseDJ/' + usernamecok + '/rechazada';
+	console.log(url);
+	
+	
+	
+	
+	var data = JSON.stringify(inf);
+	
+	$.ajax({
+		url:url,
+		type:'PUT',
+		crossDomain: true,
+		contentType:'application/vnd.AnakinKarts.api.invitacion+json',		
+		data: data,
+	}).done(function(data, status, jqxhr) {
+				var info= data;
+		alert("Invitacion Rechazada!!!!");  
+		
+	}).fail(function(jqXHR, textStatus) {
+		alert("("+textStatus+")"+"Fallo al rechazar la invitacion"); 
+	});
+	
+	
+	
+	
+	
+	
+}
+
 

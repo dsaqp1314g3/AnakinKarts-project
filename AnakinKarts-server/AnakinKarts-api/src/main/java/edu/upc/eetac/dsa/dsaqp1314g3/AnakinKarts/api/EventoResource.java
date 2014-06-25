@@ -37,7 +37,13 @@ import javax.ws.rs.core.SecurityContext;
 
 
 
+
+
+
 import com.google.gson.Gson;
+
+
+
 
 
 
@@ -50,8 +56,12 @@ import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollection;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.EventoCollectionAndroid;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Eventoandroid;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Factura;
+import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.Invitacion;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.model.User;
 import edu.upc.eetac.dsa.dsaqp1314g3.AnakinKarts.api.MediaType;
+
+
+
 
 
 
@@ -309,9 +319,10 @@ public class EventoResource {
 			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setInt(1, evento.getNumpersonas());
-			stmt.setString(2,evento.getFecha());
+			stmt.setString(2, evento.getFecha());
 			stmt.setInt(3, evento.getPista());
 			stmt.setString(4, evento.getOrganizador());
+			stmt.setString(5, evento.getNombre());
 
 			System.out.println("hemos llegado aqui: stmt"+stmt);
 
@@ -319,10 +330,10 @@ public class EventoResource {
 
 			System.out.println("Miramos contestacion query jajaldjfla");
 			ResultSet rs = stmt.getGeneratedKeys();
-
+			System.out.println(rs);
 			if (rs.next()) {
 				System.out.println("Evento creado correctamente");
-				int alquilerid = rs.getInt(1);
+				//int alquilerid = rs.getInt(1);
 
 			} else {
 				throw new BadRequestException("No se ha podido crear el evento");
@@ -349,7 +360,7 @@ public class EventoResource {
 
 	private String buildInsertEvent() {
 		System.out.println("insertamos");
-		return "insert into evento (participantes, fecha, pista, organizador, privacidad ) values (?, ?, ?, ?, 'privado') ;";
+		return "insert into evento (participantes, fecha, pista, organizador, privacidad, nombre ) values (?, ?, ?, ?, 'privado', ?) ;";
 
 	}
 
@@ -808,6 +819,113 @@ public class EventoResource {
 	private String buildCreateAlquiler() {
 		return "insert into alquiler (organizador,fecha,pista, nplayers) values (?,?,?,?);";
 	}
+	
+	
+	@PUT
+	@Path("/{nombre}")
+	@Consumes(MediaType.ANAKINKARTS_API_EVENTO)
+	@Produces(MediaType.ANAKINKARTS_API_EVENTO)
+	public Evento updateEvents(@QueryParam ("nombre") String nombre, Evento evento){
+		
+		System.out.println("Dentro de updateEvents");
+		
+		Evento eventoquery = new Evento();
+		
+		
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			throw new ServerErrorException("Could not connect to the database",
+					Response.Status.SERVICE_UNAVAILABLE);
+		}
+		
+		System.out.println("BD establecida");
+		PreparedStatement stmt = null;
+		
+		try{
+			String sql = buildUpdateEvents();
+			System.out.println("Query escrita");
+			stmt = conn.prepareStatement(sql);
+			System.out.println("Query cargada");
+			stmt.setString(1, evento.getOrganizador());
+			stmt.setString(4, evento.getNombre());
+			stmt.setInt(3, evento.getMejorvuelta());
+			stmt.setString(2, evento.getGanador());
+			
+			
+			
+		
+			
+			System.out.println("Query completa");
+			System.out.println("La query es: " + stmt);
+			int row = stmt.executeUpdate();
+			
+			System.out.println("Query ejecutada");
+			if (row !=0 ) {
+				stmt.close();
+				System.out.println("se ha actualizado correctamente.");
+			}	System.out.println("Creando la segunda query");
+			stmt = conn.prepareStatement(buildSelectEventos());
+			System.out.println("Query cargada");
+			stmt.setString(1, evento.getNombre());
+			//stmt.setString(1, security.getUserPrincipal().getName());
+			System.out.println("Query 2 completa");
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Query 2 ejecutada");
+
+			
+			if (rs.next()) {
+				System.out.println("Miramos contestacion query");
+
+				eventoquery.setOrganizador(rs.getString("organizador"));
+				
+					System.out.println("Organizador: "+eventoquery.getOrganizador());
+					eventoquery.setGanador(rs.getString("ganador"));
+					
+					System.out.println("Ganador: "+eventoquery.getGanador());
+					eventoquery.setMejorvuelta(rs.getInt("mejorvuelta"));
+					
+					System.out.println("Mejor vuelta: "+eventoquery.getMejorvuelta());
+			}		
+			
+			else {
+				throw new BadRequestException("Can't update this event");
+			}
+			
+			
+			
+			
+		}catch (SQLException e) {
+			throw new ServerErrorException(e.getMessage(),
+					Response.Status.INTERNAL_SERVER_ERROR);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+			}
+		}
+		
+		
+		
+		
+		return evento;
+	}
+	
+
+	
+
+	private String buildUpdateEvents() {
+		return "update evento set organizador=ifnull(?, organizador), ganador=ifnull(?, ganador), mejorvuelta=if(?, mejorvuelta) where nombre=?;";
+	}
+	private String buildSelectEventos() {
+		return "select nombreevento, ganador, mejorvuelta from evento where nombre=?;";
+	}
+
+	
+	
 
 }
 
