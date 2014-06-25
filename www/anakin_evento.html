@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="http://www.wallsave.com/wallpapers/1024x768/karts/159687/karts-kartsportnews-karting-news-and-features-go-kart-racing-results-159687.jpg">
-
+    <link rel="shortcut icon" href="icono.ico">
     <title>ANAKIN KARTS</title>
 
     <!-- Bootstrap core CSS -->
@@ -44,7 +43,6 @@
 		
 		<div class = "row">
 			<div class="form-group-right-side">
-				<label for="inputUsernamel3" class="col-xs-3 col-md-offset-7  control-label" href="#d9534f" >Username:</label>
 				<div class="col-xs-3 col-md-offset-10">
 					<input type="text" class="form-control input-sm" id="inputUsernamel3" placeholder="Enter Username">
 				</div>
@@ -54,7 +52,6 @@
 		<div class = "row">
 		  
 		  <div class="form-group-right-side">
-				<label for="inputPassword3" class="col-xs-3 col-md-offset-7 control-label" href="#d9534f ">Password:</label>
 			<div class="col-xs-3 col-md-offset-10">
 			<input type="password" class="form-control input-sm" id="inputPassword3" placeholder="Enter your Password">
             </div>
@@ -65,15 +62,13 @@
 		<div class = "row">
 			<div class="form-group-right-side">
 				<div class="col-md-2 col-md-offset-10">
-					<div class="checkbox">
-						<label> <input type="checkbox" href="#d9534f"> Remember me </label>
-					</div>
+					<span id="saludo"></span>
 				</div>			
 				<div class=" col-md-2 col-md-offset-10">
 					<button type="submit" class="btn btn-default input-sm" id="button_signin" href="#d9534f">Sign in</button>
-<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" >
-									Register
-								</button>
+					<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" id="button_register_modal">
+						Register
+					</button>
 								<div class="modal fade" id="Register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -83,7 +78,7 @@
 											</div>
 											<div class="modal-body">
 												<div class="input-group input-group-sm">
-													<label for="username">*Username (required, at least 2 characters)</label>
+													<label for="username">*Username en minusculas, sin espacios)</label>
 													<input type="text" class="form-control input-sm" id="username" placeholder="Username">
 												</div>
 												<div class="input-group input-group-sm">
@@ -139,6 +134,9 @@
 										</div>
 									</div>
 								</div>
+								<button class="btn btn-default input-sm"class="btn btn-default input-sm" id="button_signout" href="#d9534f" >
+									Signout
+								</button>								
 				</div>
 
 			</div>
@@ -212,6 +210,16 @@
 			</div>
 		</div>
 	</div>
+	
+<div class="row">
+  <div class="col-sm-6 ">
+    <a href="#" class="thumbnail">
+      <span id="fotos_evento"></span>
+    </a>
+  </div>
+</div>
+	
+	
 
 
     
@@ -230,6 +238,7 @@
     <script type="text/javascript" src="./js/jquery.base64.js"></script>
    	<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>	      <!-- Event and AJAX functions -->
     <script type="text/javascript" src="./js/info_evento.js"></script>
+	<script type="text/javascript" src="./js/user.js"></script>
 	<script type="text/javascript" src="./js/user.js"></script>
   
   </body>

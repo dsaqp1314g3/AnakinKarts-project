@@ -40,114 +40,15 @@ import android.util.Log;
 		private static String IP="localhost";
 		private static String IP2= "10.89.89.42";
 		private static String IP3 = "192.168.1.138";
+		private static String IP4 = "147.83.7.157";
 		private static AnakinAndroidApi instance = null;
 		private URL url;
 		 
 		
 		
-		private final static String BASE_URL = "http://"+IP2+":8080/AnakinKarts-api/";
+		private final static String BASE_URL = "http://"+IP4+":8080/AnakinKarts-api/";
 		
-//		private AnakinAndroidApi(Context context) throws IOException,
-//		AnakinKartsAndroidException {
-//			super();
-//
-//			AssetManager assetManager = context.getAssets();
-//			Properties config = new Properties();
-//			config.load(assetManager.open("config.properties"));//carga fichero configuracion 
-//			String serverAddress = config.getProperty("server.address");//obtiene los valores de es fichero
-//			String serverPort = config.getProperty("server.port");
-//			url = new URL("http://" + serverAddress + ":" + serverPort
-//			+ "/AnakinKarts-api/"); //se qeda cn la base url esta si utilizamos hateoas nunca cambia
-//
-//	Log.d("LINKS", url.toString());
-//	getRootAPI();
-//}
-//		
-		
-//private void getRootAPI() throws AnakinKartsAndroidException { //rea un modelo y ataka al servicio
-//		//Log.d(TAG, "getRootAPI()");
-//		rootAPI = new EventoRootAPI();
-//		HttpURLConnection urlConnection = null;
-//		try {
-//			urlConnection = (HttpURLConnection) url.openConnection();
-//			urlConnection.setRequestMethod("GET");
-//			urlConnection.setDoInput(true);// true por defecto, significa que qiero leer
-//			urlConnection.connect();
-//		} catch (IOException e) {
-//			throw new BookAndroidException(
-//					"Can't connect to Beeter API Web Service");
-//		}
-// 
-//		BufferedReader reader;
-//		try {//lee json que le devuelve htps://localhost:8080/beeterapi
-//			reader = new BufferedReader(new InputStreamReader(
-//					urlConnection.getInputStream()));
-//			StringBuilder sb = new StringBuilder();
-//			String line = null;
-//			while ((line = reader.readLine()) != null) {
-//				sb.append(line);
-//			}
-// 
-//			JSONObject jsonObject = new JSONObject(sb.toString());// aparti de un string y objeto json lo convierte
-//			JSONArray jsonLinks = jsonObject.getJSONArray("links");//asi poder manipular y obtener get, arrays.. 
-//			parseLinks(jsonLinks, rootAPI.getLinks());//lo proceso con el metodo priado de esta clase y lo guardas en el modelo rootAPI
-//		} catch (IOException e) {
-//			throw new BookAndroidException(
-//					"Can't get response from Beeter API Web Service");
-//		} catch (JSONException e) {
-//			throw new BookAndroidException("Error parsing Beeter Root API");
-//		}
-// 
-//	}
-// 
 
-
-		//		public String provaapi(String a) {
-//			System.out.println("----------------API"+a);
-//			
-//			HttpClient httpclient = new DefaultHttpClient();
-//			System.out.println(BASE_URL + "prova/"+a);
-//			HttpGet httpget = new HttpGet(BASE_URL + "prova/"+a);
-//			System.out.println(httpget);
-//			httpget.setHeader("Content-Type", "application/json");
-//		
-//			try {
-//				
-//				HttpResponse response = httpclient.execute(httpget);
-//				
-//				BufferedReader reader = new BufferedReader(new InputStreamReader(
-//						response.getEntity().getContent()));
-//				String line = null;
-//				StringBuilder sb = new StringBuilder();
-//				System.out.println("13");
-//				while ((line = reader.readLine()) != null)
-//					sb.append(line);
-//				
-//				System.out.println("14");
-//				String respuesta = sb.toString();
-//				System.out.println("----------------hello");
-//				System.out.println("----------------"+respuesta);
-//				return respuesta;
-//			
-//			} catch (ClientProtocolException e) {
-//				System.out.println("problema");
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//			
-//			
-//			
-//			
-//			
-//			
-//			return null;
-//			
-//		}
-	//	
 		public JSONObject LoginUser(String username, String password) throws JSONException
 		{
 			

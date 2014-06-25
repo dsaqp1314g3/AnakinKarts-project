@@ -28,7 +28,8 @@
                 android:id="@+id/lUsername"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Username" />
+                android:text="Username" 
+                 android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/username"
@@ -46,7 +47,8 @@
                 android:id="@+id/lPassword"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Password" />
+                android:text="Password" 
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/password"

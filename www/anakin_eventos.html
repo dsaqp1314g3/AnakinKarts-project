@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="http://www.wallsave.com/wallpapers/1024x768/karts/159687/karts-kartsportnews-karting-news-and-features-go-kart-racing-results-159687.jpg">
-
+    <link rel="shortcut icon" href="icono.ico">
     <title>ANAKIN KARTS</title>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!-- Bootstrap theme -->
     <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    
+
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -45,7 +45,6 @@
 			<div class = "container-right-side">			
 					<div class = "row">
 						<div class="form-group-right-side">
-							<label for="inputUsernamel3" class="col-xs-3 col-md-offset-7  control-label" href="#d9534f" >Username:</label>
 							<div class="col-xs-3 col-md-offset-10">
 								<input type="text" class="form-control input-sm" id="inputUsernamel3" placeholder="Enter Username">
 							</div>
@@ -54,7 +53,6 @@
 			
 					<div class = "row">		  
 						<div class="form-group-right-side">
-							<label for="inputPassword3" class="col-xs-3 col-md-offset-7 control-label" href="#d9534f ">Password:</label>
 							<div class="col-xs-3 col-md-offset-10">
 								<input type="password" class="form-control input-sm" id="inputPassword3" placeholder="Enter your Password">
 							</div>
@@ -64,9 +62,7 @@
 					<div class = "row">
 						<div class="form-group-right-side">
 							<div class="col-md-2 col-md-offset-10">
-								<div class="checkbox">
-									<label> <input type="checkbox" href="#d9534f"> Remember me </label>
-								</div>
+								<span id="saludo"></span>
 							</div>
 						</div>
 						<div class="form-group-right-side">
@@ -74,7 +70,7 @@
 								<button type="submit" class="btn btn-default input-sm" id="button_signin" href="#d9534f">
 									Sign in
 								</button>
-								<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" >
+								<button class="btn btn-default input-sm" data-toggle="modal" data-target="#Register" id="button_register_modal" >
 									Register
 								</button>
 								<div class="modal fade" id="Register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -86,7 +82,7 @@
 											</div>
 											<div class="modal-body">
 												<div class="input-group input-group-sm">
-													<label for="username">*Username (required, at least 2 characters)</label>
+													<label for="username">*Username (ren minusculas, sin espacios)</label>
 													<input type="text" class="form-control input-sm" id="username" placeholder="Username">
 												</div>
 												<div class="input-group input-group-sm">
@@ -186,15 +182,14 @@
 				<p>Personaliza tu propio eventos eligiendo las personas que quieres invitar y el circuito.</p>
 				<p class="highlight2"> - Bienvenida y registro de pilotos + briefing </p>
 				<p class="highlight2">- Warm Up (sesión de 10 minutos) </p>
-				<p class="highlight2">- Clasificatorias (sesión de 10 minutos) </p>
 				<p class="highlight2">- Super Final con parrilla de salida  (sesión de 10 <br />minutos) </p>
 				<ul>
-					<li>Para grupos entre 10 y 60 personas.</li>
-					<li>Máximo de 15 pilotos a la vez en pista.</li>
-					<li>Válido para todos los días de la semana. </li> 
+					<li>Para grupos entre 10 a 60</li>
+					<li>Máximo de 6 pilotos a la vez en pista.</li>
 				</ul>
+				<p class="highlight2">- Registrate y crea tu Evento! </p>
 				
-				<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+				<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="crear_evento">
 					Crear Evento
 				</button>
 	
@@ -289,7 +284,7 @@
 				</div>
 
 				
-				<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modificar">
+				<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modificar" id="modificar_evento">
 					Modificar Evento
 				</button>
 	
@@ -317,7 +312,7 @@
 									<span class="input-group-addon">Mejor Vuelta</span>
 									<input type="text" class="form-control input-sm" id="mejorvuelta" placeholder="Introduce la mejor vuelta en segundos">
 								</div>
-								
+							
 						<div class="container">
 			<form  id="imageForm" class="form-horizontal col-md-6" role="form" >
 					
@@ -336,37 +331,33 @@
 					<progress style="display: none;"></progress>
 			</form>
 
-			<div class="col-md-6">
-				<a>
-					<img id="uploadedImage" class="img-responsive">
-				</a>
+									<div class="col-md-6">
+										<a>
+											<img id="uploadedImage" class="img-responsive">
+										</a>
 
-			</div>
-		</div>
+									</div>
+								</div>
 
-		<div id="carousel-modal" class="modal fade">
- 			<div class="modal-dialog">
-				<div class="modal-content">
-			 		<div class="modal-header">
-			 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4>Image Carousel</h4>
-			 		</div>
-					<div class="modal-body">
-			 			<div id="myCarousel" class="carousel">
-			 				<div class="carousel-inner">
-			 				</div>
-			 				<a class="carousel-control left" href="#myCarousel" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span></a>
-    						<a class="carousel-control right" href="#myCarousel" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span></a>
-			 			</div>
-			 		</div>
-			 	</div><!-- /.modal-content -->
-			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-								
-								
-								
-								
-																		
+								<div id="carousel-modal" class="modal fade">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+												<h4>Image Carousel</h4>
+											</div>
+											<div class="modal-body">
+												<div id="myCarousel" class="carousel">
+													<div class="carousel-inner">
+													</div>
+													<a class="carousel-control left" href="#myCarousel" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span></a>
+													<a class="carousel-control right" href="#myCarousel" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span></a>
+												</div>
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->
+																									
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -404,16 +395,15 @@
     <!-- FIN COLUMNA--> 
 	
     <!-- COLUMNA-3 -->
-			<div class="col-md-4">
+			<div class="col-md-4" id="eventos_priv">
 						<h2>Mis Eventos</h2>
 						<p>Estos son los eventos que has creado o bien estas apuntado para participar.</p>    
 						<p></p>
 
-							<div class="btn-group">
-  <button type="button" class="btn btn-default dropdown-toggle"
-          data-toggle="dropdown" id=button_get_invitaciones>
-    Invitaciones Pendientes <span class="caret"></span>
-  </button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id=button_get_invitaciones>
+								Invitaciones Pendientes <span class="caret"></span>
+							</button>
  
   <ul class="dropdown-menu" role="menu">
   	<span id="listamod"></span>
@@ -460,12 +450,13 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
-    <script type="text/javascript" src="./js/jquery.cookie.js"></script>
-    <script type="text/javascript" src="./js/jquery.base64.js"></script>
+	<script type="text/javascript" src="./js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="./js/jquery.base64.js"></script>
    	<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
 	<script type="text/javascript" src="./js/evento.js"></script>
-		<script type="text/javascript" src="./js/user.js"></script>
+	<script type="text/javascript" src="./js/user.js"></script>
+	 
 
   </body>
 </html>

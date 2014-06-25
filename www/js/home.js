@@ -1,4 +1,4 @@
-var API_BASE_URL = "http://localhost:8080/dsagrades-api/";
+var API_BASE_URL = "http://147.83.7.157:8080/dsagrades-api/";
 
 $("#button_signin").click(function(e) {
 	e.preventDefault();

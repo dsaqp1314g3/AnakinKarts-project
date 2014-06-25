@@ -1,21 +1,37 @@
 
-var API_BASE_URL = "http://localhost:8080/AnakinKarts-api";
-var URL = 'http://localhost:8080/AnakinKarts-api/images';
+var API_BASE_URL = "http://147.83.7.157:8080/AnakinKarts-api";
+var URL = 'http://147.83.7.157:8080/AnakinKarts-api/images';
 var lastFilename;
 
 $(document).ready(function(){//Justo al cargarse la pagina
+	
+	var usernamecok=$.cookie('username');
+	var userpasscok=$.cookie('userpass');
+	
+	console.log("Miramos cookie: "+usernamecok);
+
 	console.log("HOLA, Aqui tines un evento!");
-	getEventosPub();
-	getEventosPriv();
+	getEventosPub();	
+	
+	
+	if(usernamecok ==null && userpasscok ==null){
+	
+		document.getElementById('eventos_priv').style.display = 'none';
+		document.getElementById('crear_evento').style.display = 'none';
+		document.getElementById('modificar_evento').style.display = 'none';
+	}else{
+		document.getElementById('eventos_priv').style.display = 'block';
+		document.getElementById('crear_evento').style.display = 'block';
+		document.getElementById('modificar_evento').style.display = 'block';
+		getEventosPriv(usernamecok);
+	}
 });
 
 $("#button_get_invitaciones").click(function(e) {//No funciona el create
 	e.preventDefault();
-
 	getInvitaciones();
 	console.log("Dentro");
 });
-
 
 $('form#imageForm').submit(function(e){
 	e.preventDefault();
@@ -96,56 +112,83 @@ $("#button_create").click(function(e) {//No funciona el create
 	
 	//var newEvent ='{"organizador":'+'"'+$("#organizator").val()+'"'+',"pista":'+'"'+$('input:radio[name=opciones]:checked').val()+'"'+',"fecha":'+'"'+$("#date").val()+'"'+',"numpersonas":'+'"'+$("#num_players").val()+'"'+'}';
 	
-	var newEvent= {
-			"nombre":$("#nombre").val(),
-		"organizador":$("#organizator").val(),
-		"pista":$('input:radio[name=opciones]:checked').val(),
-		"fecha":$("#date").val(),
-		"numpersonas":$("#num_players").val() 
+	var numplayers=$("#num_players").val();
+	
+	if(isNaN(numplayers)==true || isNaN($("#num_players").val())==true ){
+		alert("El valor metido en el numplayers no es un numero!");
+	}else{	
+		var RegExPatternDate = /^\d{2,4}\-\d{1,2}\-\d{1,2}$/; //2007-01-01
+		if(date.value.match(RegExPatternDate)){
+			if(numplayers <= 6){
+				if($("#nombre").val()!="" || $("#organizator").val()!="" || $("#date").val()!="" || $("#num_players").val()!=""){
+						
+						console.log("Nombre del evento: "+$("#nombre").val());
+						var newEvent= {
+							
+							"nombre":$("#nombre").val(),
+							"organizador":$("#organizator").val(),
+							"pista":$('input:radio[name=opciones]:checked').val(),
+							"fecha":$("#date").val(),
+							"numpersonas":$("#num_players").val() 
+						}
+						var newInvite= {
+								"nombre":$("#nombre").val(),
+								"invitacion1":$("#invite1").val(),
+								"invitacion2":$("#invite2").val(),
+								"invitacion3":$("#invite3").val(),
+								"invitacion4":$("#invite4").val(),
+								"invitacion5":$("#invite5").val(),
+								"invitacion6":$("#invite6").val()
+							
+						}
+						var inv1 = $("#invite1").val();
+						var inv2 = $("#invite2").val();
+						var inv3 = $("#invite3").val();
+						var inv4 = $("#invite4").val();
+						var inv5 = $("#invite5").val();
+						var inv6 = $("#invite6").val();
+						console.log(newEvent);
+						console.log(newInvite);
+						createEvent(newEvent);
+						createInvite1(newInvite, inv1);
+						createInvite2(newInvite, inv2);
+						createInvite3(newInvite, inv3);
+						createInvite4(newInvite, inv4);
+						createInvite5(newInvite, inv5);
+						createInvite6(newInvite, inv6);
+				}else{
+					alert("Rellena todos los campos");
+				}
+			}else{
+				alert("Demasiadas personas, como maximo 6");
+			}
+		}else{
+			alert("Formato de Fecha incorrecta");
+			date.focus();
+		}
 	}
-	var newInvite= {
-			"nombre":$("#nombre").val(),
-			"invitacion1":$("#invite1").val(),
-			"invitacion2":$("#invite2").val(),
-			"invitacion3":$("#invite3").val(),
-			"invitacion4":$("#invite4").val(),
-			"invitacion5":$("#invite5").val(),
-			"invitacion6":$("#invite6").val()
-			
-	}
-	var inv1 = $("#invite1").val();
-	var inv2 = $("#invite2").val();
-	var inv3 = $("#invite3").val();
-	var inv4 = $("#invite4").val();
-	var inv5 = $("#invite5").val();
-	var inv6 = $("#invite6").val();
-	console.log(newEvent);
-	console.log(newInvite);
-	createEvent(newEvent);
-	createInvite1(newInvite, inv1);
-	createInvite2(newInvite, inv2);
-	createInvite3(newInvite, inv3);
-	createInvite4(newInvite, inv4);
-	createInvite5(newInvite, inv5);
-	createInvite6(newInvite, inv6);
 });
 
 $("#button_modify").click(function(e) {//No funciona el create
 	e.preventDefault();
 	
-	
-	var modEvent= {
-			"nombre":$("#nombreevento").val(),
-		"organizador":$("#organizatorevento").val(),
-		"ganador":$("#ganador").val(),
-		"mejorvuelta":$("#mejorvuelta").val()
+	if($("#nombreevento").val()=="" || $("#organizatorevento").val()=="" || $("#mejorvuelta").val()==""){
+		alert("Rellena todos los campos para modificar evento.");
+	}else{
+		var modEvent= {
 		
+			"nombre":$("#nombreevento").val(),
+			"organizador":$("#organizatorevento").val(),
+			"ganador":$("#ganador").val(),
+			"mejorvuelta":$("#mejorvuelta").val()
+			
+		}
+		var nom = $("#nombreevento").val();
+		
+		console.log(modEvent);
+		console.log(nom);
+		modifyEvent(modEvent, nom);
 	}
-	var nom = $("#nombreevento").val();
-	
-	console.log(modEvent);
-	console.log(nom);
-	modifyEvent(modEvent, nom);
 	
 });
 
@@ -201,10 +244,6 @@ function verEvento(eventoid){
 		dataType: 'json'
 	}).done(function (data, status, jqxhr) {//eventoid, fecha, ganador, jugadores[], mejor vuelta, numpersonas, pista
 		var evento = data;
-
-		
-
-
 		var valor  = $.cookie("name", "valor");
 		var organizador=$.cookie('organizador', evento.organizador);
 		var eventoid = $.cookie('eventoid', evento.eventoid);
@@ -214,6 +253,7 @@ function verEvento(eventoid){
 		var numpersonas = $.cookie('numpersonas', evento.numpersonas);
 		var pista = $.cookie('pista', evento.pista);
 		var jugadores = $.cookie('jugadores', evento.jugadores);
+		var nombreevento=$.cookie('nombreevento',evento.nombre);
 
 		console.log($.cookie());
 		console.log(valor);
@@ -225,9 +265,8 @@ function verEvento(eventoid){
 		console.log(numpersonas);
 		console.log(pista);
 		console.log(jugadores);
+		console.log(nombreevento);
 		console.log("Eventos CargdosPUB");
-
-
 		console.log("Se puede ver el evento");
 
 		window.location.replace("/anakin_evento.html");
@@ -290,8 +329,9 @@ function getEventosPub(){//Aun no se puee comprobar el getEventos
 
 }
 
-function getEventosPriv(){//Aun no se puee comprobar el getEventos
-	var url= API_BASE_URL+'/events/ivan/priv';
+function getEventosPriv(usernamecok){//Aun no se puee comprobar el getEventos
+	var url= API_BASE_URL+'/events/'+usernamecok+'/priv';
+	console.log(url);
 	
 	$.ajax({
 		url : url,

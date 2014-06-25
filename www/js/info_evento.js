@@ -1,4 +1,4 @@
-
+var URL = 'http://147.83.7.157:8080/AnakinKarts-api/images';
 
 
 $(document).ready(function(){//Justo al cargarse la pagina
@@ -21,7 +21,9 @@ function mostrarEvento(){// fecha_evento ganador_evento mejorvuelta_evento numpe
 	var foto = getPicture(pista);
 	var jugadores= $.cookie('jugadores');
 	var listajugadores= jugadores.split("%2C");
+	var nombreevento=$.cookie('nombreevento');
 	console.log (listajugadores);
+	console.log(nombreevento);
 
 
 
@@ -34,6 +36,7 @@ function mostrarEvento(){// fecha_evento ganador_evento mejorvuelta_evento numpe
 	$("#foto_pista_evento").append('<img src="'+foto+'">');
 	$("#jugadores_evento").append('<strong>'+listajugadores+'</strong>');
 
+	getPicturesByEvent(nombreevento);
 
 
 }
@@ -57,6 +60,44 @@ function getPicture(pista){
 	
 	return foto;
 		
+}
+
+function getPicturesByEvent(nombreevento){
+	var url= URL + '/'+ nombreevento;
 	
+	$.ajax({
+		url : url,
+		type : 'GET',
+		crossDomain : true,
+		dataType: 'json'
+	}).done(function (data, status, jqxhr) {
+		console.log("Recivimos: ");
+		console.log(data);
+		
+		$.each(data, function (y,w){
+			var foto= w;
+			console.log("Seccionamos: ");
+			console.log(foto);
+			$.each(foto, function (i,s){
+					var elemento = s;
+					console.log("Miramos más");
+					console.log(elemento);
+					console.log("Pillamos el nombre: "+elemento.filename);
+					
+
+					$("#fotos_evento").append('<a href="#" class="thumbnail" >');					
+					$("#fotos_evento").append('<a href="'+elemento.imageURL+'">');
+					$("#fotos_evento").append('<img src="'+elemento.filename+'" height="200" width="200">');
+					$("#fotos_evento").append('</a>');
+					$("#fotos_evento").append('</a>');					
+			});
+		});	
+		
+	})
+    .fail(function (jqXHR, textStatus) {
+		alert("Fallo al cargar las fotos");
+	});
+	
+
 
 }

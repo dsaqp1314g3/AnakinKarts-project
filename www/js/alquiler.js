@@ -1,4 +1,4 @@
-var API_BASE_URL = "http://localhost:8080/AnakinKarts-api";
+var API_BASE_URL = "http://147.83.7.157:8080/AnakinKarts-api";
 
 
 $(document).ready(function(){//Justo al cargarse la pagina
@@ -35,35 +35,54 @@ $("#button_alquiler").click(function(e) {//Incompleto
 
 
 
-	if($("#organizator").val()=="" || $("#date").val()=="" || $("#num_players").val()==""){
+	if($("#organizator").val()=="" || $("#date").val()=="" || $("#num_players").val()==""){//Comprovamos que los campos no estén vacíos
 		alert("No has rellenado los campos para alquilar"); 
 	}else{
-		console.log("Alquilas");
+	
+		var RegExPatternDate = /^\d{2,4}\-\d{1,2}\-\d{1,2}$/; //2007-01-01
+		var errorMessage = 'Fecha Incorrecta.';
+		if ((date.value.match(RegExPatternDate)) && (date.value!='')) {//Comprovamos que el formato de fecha sea correcto
+			console.log("Alquilas");
+			var numpersonas= $("#num_players").val();
+			var RegExPatternNum = /^(?:\+|-)?\d+$/; //Numero entero
+			if(isNaN(numpersonas)==true && num_players.value.match(RegExPatternNum)){//comprovamos que el valor del campo numperdsonas se un numero
+				alert("Formato en numpersonas no numerico");
+			}else{
+				
+				if(numpersonas <=6){
+					//Rellenando la variable
+					var newAlquiler= {
+						"organizador":$("#organizator").val(),
+						"pista":$('input:radio[name=opciones]:checked').val(),
+						"fecha":$("#date").val(),
+						"numpersonas":$("#num_players").val() 
+					}
+	
+					var pista= $('input:radio[name=opciones]:checked').val();
 
-		//Rellenando la variable
-		var newAlquiler= {
-			"organizador":$("#organizator").val(),
-			"pista":$('input:radio[name=opciones]:checked').val(),
-			"fecha":$("#date").val(),
-			"numpersonas":$("#num_players").val() 
-		}
+					//rellenando cookies
+					var organizador=$.cookie('alquiler_organizador', $("#organizator").val());
+					var pistac=$.cookie('alquiler_pista', pista);
+					var fecha=$.cookie('alquiler_fecha', $("#date").val());
+					var numpersonas=$.cookie('alquiler_numpersonas', $("#num_players").val());
+					var precio= $.cookie('alquiler_precio', getPrice(pista));
+	
+					console.log(organizador);
+					console.log(pista);
+					console.log(fecha);
+					console.log(numpersonas);
+					console.log(precio);
 
-		var pista= $('input:radio[name=opciones]:checked').val();
-
-		//rellenando cookies
-		var organizador=$.cookie('alquiler_organizador', $("#organizator").val());
-		var pistac=$.cookie('alquiler_pista', pista);
-		var fecha=$.cookie('alquiler_fecha', $("#date").val());
-		var numpersonas=$.cookie('alquiler_numpersonas', $("#num_players").val());
-		var precio= $.cookie('alquiler_precio', getPrice(pista));
-
-		console.log(organizador);
-		console.log(pista);
-		console.log(fecha);
-		console.log(numpersonas);
-		console.log(precio);
-
-		Alquilar(newAlquiler);
+					Alquilar(newAlquiler);
+				}else{
+				alert("Demasiadas personas, tiene que ser menor o igual a 6");
+				}
+			}
+		} else {
+			alert(errorMessage);
+			date.focus();
+		} 
+		
 	}
 
 
@@ -138,4 +157,17 @@ function getPrice(pista){
 	
 	return price;
 		
+}
+
+function validarFecha(fecha){
+
+    var RegExPattern = /^\d{2,4}\-\d{1,2}\-\d{1,2}$/; //2007-01-01
+    var errorMessage = 'Fecha Incorrecta.';
+    if ((date.value.match(RegExPattern)) && (date.value!='')) {
+        alert('Fecha Correcta'); 
+    } else {
+        alert(errorMessage);
+        date.focus();
+    } 
+
 }
